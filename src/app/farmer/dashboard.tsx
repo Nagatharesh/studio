@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -27,7 +28,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import { getCropSuggestions } from '@/lib/actions';
 import type { Batch } from '@/lib/types';
-import { PlusCircle, Cpu, Loader2, Sparkles, Download, QrCode } from 'lucide-react';
+import { PlusCircle, Cpu, Loader2, Sparkles, Download, QrCode, DollarSign } from 'lucide-react';
 import Image from 'next/image';
 import { DiseaseDetectionCard } from './components/disease-detection-card';
 import { WarehouseAvailabilityCard } from './components/warehouse-availability-card';
@@ -39,6 +40,7 @@ const addCropSchema = z.object({
   cropType: z.string().min(2, { message: 'Crop type is required.' }),
   location: z.string().min(3, { message: 'Location is required.' }),
   soilProperties: z.string().min(10, { message: 'Soil properties are required.' }),
+  price: z.string().min(1, { message: 'Price is required.'}),
 });
 
 export default function FarmerDashboard() {
@@ -50,7 +52,7 @@ export default function FarmerDashboard() {
 
   const form = useForm<z.infer<typeof addCropSchema>>({
     resolver: zodResolver(addCropSchema),
-    defaultValues: { cropType: '', location: '', soilProperties: '' },
+    defaultValues: { cropType: '', location: '', soilProperties: '', price: '' },
   });
 
   const handleGetSuggestions = async () => {
@@ -80,6 +82,7 @@ export default function FarmerDashboard() {
       cropType: values.cropType,
       location: values.location,
       soilProperties: values.soilProperties,
+      price: values.price,
       farmer: 'Simulated Tamil Farmer',
       dateFarmed: new Date().toISOString().split('T')[0],
       status: 'FARMED',
@@ -205,20 +208,35 @@ export default function FarmerDashboard() {
                         )}
                     </CardContent>
                     </Card>
-
-                    <FormField
-                    control={form.control}
-                    name="cropType"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormLabel>Crop Type</FormLabel>
-                        <FormControl>
-                            <Input placeholder="e.g., Turmeric, Rice, Sugarcane" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                    />
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <FormField
+                      control={form.control}
+                      name="cropType"
+                      render={({ field }) => (
+                          <FormItem>
+                          <FormLabel>Crop Type</FormLabel>
+                          <FormControl>
+                              <Input placeholder="e.g., Turmeric, Rice" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                          </FormItem>
+                      )}
+                      />
+                      <FormField
+                          control={form.control}
+                          name="price"
+                          render={({ field }) => (
+                          <FormItem>
+                              <FormLabel>Asking Price (per kg)</FormLabel>
+                              <FormControl>
+                              <Input placeholder="e.g., Rs.80 / kg" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                          </FormItem>
+                          )}
+                      />
+                    </div>
                     
                     <DialogFooter>
                     <Button type="submit">Submit Batch</Button>
@@ -239,7 +257,7 @@ export default function FarmerDashboard() {
                         <CardTitle className="font-headline">{batch.cropType}</CardTitle>
                         <CardDescription>{batch.id}</CardDescription>
                     </div>
-                    <span className="text-xs font-semibold px-2 py-1 rounded-full bg-green-100 text-green-800 border border-green-200">{batch.status}</span>
+                    <span className="text-xs font-semibold px-2 py-1 rounded-full bg-primary/10 text-primary-focus border border-primary/20">{batch.status}</span>
                     </div>
                 </CardHeader>
                 <CardContent className="space-y-4 flex-grow">
@@ -255,6 +273,7 @@ export default function FarmerDashboard() {
                     <div className="text-sm space-y-1">
                         <p><strong>Location:</strong> {batch.location}</p>
                         <p><strong>Farmed:</strong> {batch.dateFarmed}</p>
+                        {batch.price && <p><strong>Asking Price:</strong> {batch.price}</p>}
                     </div>
                 </CardContent>
                 <div className="p-6 pt-0">

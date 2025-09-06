@@ -97,9 +97,9 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
   ];
 
   const priceHistory = [
-    { label: "Price from Farmer", value: events[1].data['Price Sold by Farmer'] },
-    { label: "Price from Agent", value: events[1].data['Price Sold by Agent'] },
-    { label: "Price from Retailer", value: events[2].data['Price Sold by Retailer'] },
+    { label: "Price from Farmer", value: events[0].data['Price from Farmer'] },
+    { label: "Price from Agent", value: events[1].data['Price from Agent'] },
+    { label: "Price from Retailer", value: events[2].data['Price from Retailer'] },
   ]
 
   return (
@@ -189,7 +189,7 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
             <Card className="bg-muted/50">
                 <CardContent className="p-4 space-y-3">
                     {priceHistory.map((item, index) => (
-                        <div key={index} className="flex justify-between items-center text-sm">
+                       item.value && <div key={index} className="flex justify-between items-center text-sm">
                             <span className="text-muted-foreground">{item.label}:</span>
                             <span className="font-semibold">{item.value}</span>
                         </div>

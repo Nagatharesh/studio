@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import type { Batch } from '@/lib/types';
-import { CheckCircle, Truck, Building, FilePenLine, MapPin } from 'lucide-react';
+import { CheckCircle, Truck, Building, FilePenLine, MapPin, DollarSign } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { SingleBatchMapView } from '../components/single-batch-map-view';
@@ -22,6 +22,7 @@ const MOCK_BATCHES: Batch[] = [
     farmer: 'Tamil Farms',
     dateFarmed: '2023-03-15',
     status: 'IN_WAREHOUSE',
+    price: 'Rs.81 / kg', // Farmer's asking price
     transactionHash: '0x1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f',
   },
   {
@@ -32,6 +33,7 @@ const MOCK_BATCHES: Batch[] = [
     farmer: 'Cauvery Delta Farmers',
     dateFarmed: '2023-03-16',
     status: 'IN_WAREHOUSE',
+    price: 'Rs.52 / kg', // Farmer's asking price
     transactionHash: '0x4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f',
   },
   {
@@ -56,6 +58,7 @@ export default function AgentDashboardPage() {
   const { toast } = useToast();
   const [selectedBatch, setSelectedBatch] = useState<Batch | null>(null);
   const [isMapOpen, setMapOpen] = useState(false);
+  const [agentPrices, setAgentPrices] = useState<{[key: string]: string}>({});
 
   useEffect(() => {
     // Simulate fetching data
@@ -70,11 +73,13 @@ export default function AgentDashboardPage() {
   
   const handleApprove = (batchId: string) => {
     const batch = batches.find(b => b.id === batchId);
-    if (!batch?.quality || !batch?.price || !batch?.warehouseConditions) {
+    const agentPrice = agentPrices[batchId];
+
+    if (!batch?.quality || !agentPrice || !batch?.warehouseConditions) {
       toast({
         variant: 'destructive',
         title: 'Missing Information',
-        description: 'Please fill all fields before approving.',
+        description: 'Please fill all fields, including agent price, before approving.',
       });
       return;
     }
@@ -83,6 +88,7 @@ export default function AgentDashboardPage() {
         b.id === batchId ? {
             ...b,
             status: 'VERIFIED',
+            price: agentPrice, // Set the batch price to the agent's price upon approval
             agent: 'Simulated Agent Rajan',
             dateVerified: new Date().toISOString().split('T')[0],
             transactionHash: `0x${[...Array(64)].map(() => Math.floor(Math.random() * 16).toString(16)).join('')}`,
@@ -124,6 +130,7 @@ export default function AgentDashboardPage() {
                     <p><strong>Farmer:</strong> {batch.farmer}</p>
                     <p><strong>Location:</strong> {batch.location}</p>
                     <p><strong>Farmed Date:</strong> {batch.dateFarmed}</p>
+                    {batch.status === 'IN_WAREHOUSE' && batch.price && <p><strong>Farmer's Price:</strong> {batch.price}</p>}
                 </div>
                 <div className="space-y-4 pt-4 border-t">
                     <h4 className="font-semibold flex items-center gap-2"><FilePenLine className="w-4 h-4 text-accent"/>Verification Details</h4>
@@ -132,8 +139,8 @@ export default function AgentDashboardPage() {
                         <Input id={`quality-${batch.id}`} value={batch.quality || ''} onChange={(e) => handleUpdate(batch.id, 'quality', e.target.value)} placeholder="e.g., Grade A" disabled={batch.status === 'VERIFIED'} />
                     </div>
                     <div className="space-y-2">
-                        <Label htmlFor={`price-${batch.id}`}>Pricing (Tamil Nadu Market)</Label>
-                        <Input id={`price-${batch.id}`} value={batch.price || ''} onChange={(e) => handleUpdate(batch.id, 'price', e.target.value)} placeholder="e.g., Rs.80 / kg" disabled={batch.status === 'VERIFIED'} />
+                        <Label htmlFor={`price-${batch.id}`}>Set Agent Price (per kg)</Label>
+                        <Input id={`price-${batch.id}`} value={agentPrices[batch.id] || ''} onChange={(e) => setAgentPrices({...agentPrices, [batch.id]: e.target.value})} placeholder="e.g., Rs.85 / kg" disabled={batch.status === 'VERIFIED'} />
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor={`warehouse-${batch.id}`}>Warehouse Conditions</Label>
@@ -150,9 +157,9 @@ export default function AgentDashboardPage() {
                         <CheckCircle className="mr-2 h-4 w-4" /> Approve & Sign
                     </Button>
                 ) : (
-                    <Button className="w-full" disabled>
-                        <Truck className="mr-2 h-4 w-4" /> Forwarded to Retail
-                    </Button>
+                    <div className="text-center p-2 bg-muted rounded-md">
+                        <p className="font-semibold">Forwarded to Retail at {batch.price}</p>
+                    </div>
                 )}
               </CardFooter>
             </Card>

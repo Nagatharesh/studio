@@ -79,6 +79,7 @@ const MOCK_PRODUCT_HISTORY: TimelineEvent[] = [
             'Batch ID': 'BATCH-1678886400000',
             'Origin': 'Erode, Tamil Nadu',
             'Soil Info': 'Red Loam, pH 6.5',
+            'Price from Farmer': 'Rs.81 / kg',
         },
         hash: '0x1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f'
     },
@@ -91,8 +92,7 @@ const MOCK_PRODUCT_HISTORY: TimelineEvent[] = [
         color: 'bg-accent',
         data: {
             'Quality': 'Grade A',
-            'Price Sold by Farmer': 'Rs.81 / kg',
-            'Price Sold by Agent': 'Rs.85 / kg',
+            'Price from Agent': 'Rs.85 / kg',
         },
         hash: '0x7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f1a2b3c4d5e6f'
     },
@@ -104,7 +104,7 @@ const MOCK_PRODUCT_HISTORY: TimelineEvent[] = [
         icon: 'Consumer',
         color: 'bg-consumer',
         data: {
-            'Price Sold by Retailer': 'Rs.90 / kg',
+            'Price from Retailer': 'Rs.90 / kg',
             'Final Consumer Price': 'Rs.95 / kg',
             'Status': 'Available in stores',
         },
