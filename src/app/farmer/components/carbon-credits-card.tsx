@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -20,7 +21,7 @@ interface CarbonCreditsCardProps {
 
 export function CarbonCreditsCard({ batches }: CarbonCreditsCardProps) {
     const [info, setInfo] = useState<CarbonInfo | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const { toast } = useToast();
 
     const fetchCarbonInfo = async () => {
@@ -35,11 +36,6 @@ export function CarbonCreditsCard({ batches }: CarbonCreditsCardProps) {
             setInfo(result.info);
         }
     }
-
-    useEffect(() => {
-        fetchCarbonInfo();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [batches]);
     
     return (
         <Card>
@@ -75,12 +71,16 @@ export function CarbonCreditsCard({ batches }: CarbonCreditsCardProps) {
                         </Alert>
                         
                         <Button variant="outline" size="sm" onClick={fetchCarbonInfo} className="w-full">
-                           <RefreshCw className="mr-2 h-4 w-4"/> Refresh
+                           <RefreshCw className="mr-2 h-4 w-4"/> Recalculate
                         </Button>
                     </div>
                 ) : (
-                    <div className="text-center text-muted-foreground p-4">
-                        <p>No credit information available.</p>
+                    <div className="text-center text-muted-foreground p-4 flex flex-col items-center gap-4">
+                        <p>Calculate your carbon credits based on your logged crop batches.</p>
+                         <Button onClick={fetchCarbonInfo} disabled={isLoading} className="w-full">
+                            {isLoading ? <Loader2 className="animate-spin" /> : <Sparkles />}
+                            Calculate Credits
+                        </Button>
                     </div>
                 )}
             </CardContent>
