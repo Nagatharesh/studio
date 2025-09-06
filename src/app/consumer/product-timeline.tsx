@@ -3,7 +3,7 @@
 import type { TimelineEvent, ProductDetails } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ClipboardCopy, Check, RefreshCw, Star, Leaf, MessageSquare } from 'lucide-react';
+import { ClipboardCopy, Check, RefreshCw, Star, Leaf, MessageSquare, ShoppingCart } from 'lucide-react';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
@@ -60,7 +60,7 @@ function TimelineItem({ event, isLast }: { event: TimelineEvent, isLast: boolean
 const similarProducts = [
     {
       name: 'Himalayan Potatoes',
-      image: 'https://picsum.photos/seed/potato/600/400',
+      image: 'https://picsum.photos/seed/potato-bunch/600/400',
       price: '₹30 / kg',
       farmer: 'Nilgiri Growers',
       rating: 4.6,
@@ -68,7 +68,7 @@ const similarProducts = [
     },
     {
       name: 'Fresh Cauliflower',
-      image: 'https://picsum.photos/seed/cauliflower-head/600/400',
+      image: 'https://picsum.photos/seed/cauliflower-fresh/600/400',
       price: '₹25 / piece',
       farmer: 'Ooty Farms',
       rating: 4.8,
@@ -76,7 +76,7 @@ const similarProducts = [
     },
     {
       name: 'Organic Spinach Greens',
-      image: 'https://picsum.photos/seed/greens/600/400',
+      image: 'https://picsum.photos/seed/spinach-leaves/600/400',
       price: '₹20 / bunch',
       farmer: 'Cauvery Delta Farmers',
       rating: 4.9,
@@ -85,6 +85,14 @@ const similarProducts = [
   ];
 
 export function ProductTimeline({ product, events, onReset }: { product: ProductDetails, events: TimelineEvent[], onReset: () => void }) {
+  const { toast } = useToast();
+
+  const handleBuyNow = () => {
+    toast({
+        title: "Purchase Successful!",
+        description: `You have purchased ${product.name}. Thank you for your trust in AgriChain.`,
+    });
+  }
   
   const getProductHint = (name: string) => {
     const lowerCaseName = name.toLowerCase();
@@ -158,7 +166,10 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
                             <p className="font-semibold">Quality Grade: <span className="font-normal text-muted-foreground">{product.quality} (Verified by Agent)</span></p>
                             <p className="font-semibold">Origin: <span className="font-normal text-muted-foreground">{events[0].data['Origin']}</span></p>
                         </div>
-                         <Button size="lg" className="w-full bg-consumer hover:bg-consumer/90">
+                        <Button size="lg" className="w-full bg-consumer hover:bg-consumer/90" onClick={handleBuyNow}>
+                            <ShoppingCart className="mr-2 h-5 w-5" /> Buy Now
+                        </Button>
+                         <Button size="lg" variant="outline" className="w-full">
                             <Star className="mr-2 h-5 w-5" /> Add to Favorites
                         </Button>
                         <Button size="lg" variant="outline" className="w-full">
