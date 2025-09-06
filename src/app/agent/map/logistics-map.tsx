@@ -55,7 +55,7 @@ export function LogisticsMap({ batches, selectedBatchId, onSelectBatch }: Logist
       </style>
       <Image
         data-ai-hint="map tamil nadu"
-        src="https://images.pexels.com/photos/208535/pexels-photo-208535.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+        src="https://images.pexels.com/photos/16839369/pexels-photo-16839369/free-photo-of-a-map-of-the-world-with-a-red-arrow-pointing-to-the-bottom.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
         alt="Map of Tamil Nadu"
         fill
         className="object-cover opacity-30"
