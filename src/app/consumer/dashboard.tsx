@@ -58,6 +58,7 @@ const MOCK_DATA: {[key: string]: MockProduct} = {
           color: 'bg-accent',
           data: {
               'Quality': 'Grade A',
+              'Transportation Cost': 'Rs.2 / kg',
               'Price from Agent': 'Rs.39 / kg',
           },
           hash: '0x7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f1a2b3c4d5e6f'
@@ -100,6 +101,7 @@ const MOCK_DATA: {[key: string]: MockProduct} = {
           color: 'bg-accent',
           data: {
               'Quality': 'Grade B',
+              'Transportation Cost': 'Rs.1 / kg',
               'Price from Agent': 'Rs.30 / kg',
           },
           hash: '0x8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f1a2b3c4d5e6f7g'
@@ -142,6 +144,7 @@ const MOCK_DATA: {[key: string]: MockProduct} = {
           color: 'bg-accent',
           data: {
               'Quality': 'Grade A',
+              'Transportation Cost': 'Rs.1 / piece',
               'Price from Agent': 'Rs.26 / piece',
           },
           hash: '0x9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f1a2b3c4d5e6f7g8h'
@@ -184,6 +187,7 @@ const MOCK_DATA: {[key: string]: MockProduct} = {
           color: 'bg-accent',
           data: {
               'Quality': 'Grade A',
+              'Transportation Cost': 'Rs.2 / kg',
               'Price from Agent': 'Rs.40 / kg',
           },
           hash: '0x0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f1a2b3c4d5e6f7g8h9i'
@@ -268,6 +272,7 @@ const MOCK_DATA: {[key: string]: MockProduct} = {
           color: 'bg-accent',
           data: {
               'Quality': 'Export Grade',
+              'Transportation Cost': 'Rs.1 / kg',
               'Price from Agent': 'Rs.45 / kg',
           },
           hash: '0x2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f1a2b3c4d5e6f7g8h9i0j1k'
@@ -373,17 +378,15 @@ export default function ConsumerDashboard() {
 
         <Dialog open={isTimelineModalOpen} onOpenChange={setTimelineModalOpen}>
             <DialogContent className="max-w-4xl">
-                 {selectedProduct && (
-                    <>
-                        <DialogHeader>
-                            <DialogTitle className="font-headline text-2xl">Product Details</DialogTitle>
-                             <DialogDescription>
-                                Complete journey from farm to you, verified by GreenLedger.
-                            </DialogDescription>
-                        </DialogHeader>
-                        <ProductTimeline product={selectedProduct.details} events={selectedProduct.history} onReset={() => setTimelineModalOpen(false)} />
-                    </>
-                 )}
+                 <DialogHeader>
+                    <DialogTitle className="font-headline text-2xl">Product Details</DialogTitle>
+                        <DialogDescription>
+                        Complete journey from farm to you, verified by GreenLedger.
+                    </DialogDescription>
+                </DialogHeader>
+                {selectedProduct && (
+                    <ProductTimeline product={selectedProduct.details} events={selectedProduct.history} onReset={() => setTimelineModalOpen(false)} />
+                )}
             </DialogContent>
         </Dialog>
     </div>

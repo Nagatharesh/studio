@@ -9,6 +9,7 @@ export type Batch = {
   status: 'FARMED' | 'IN_WAREHOUSE' | 'VERIFIED';
   quality?: string;
   price?: string;
+  transportationCost?: string;
   warehouseConditions?: string;
   agent?: string;
   dateVerified?: string;
@@ -36,3 +37,4 @@ export type ProductDetails = {
     rating: number;
     reviews: number;
 };
+

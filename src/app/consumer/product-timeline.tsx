@@ -4,7 +4,7 @@
 import type { TimelineEvent, ProductDetails } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ClipboardCopy, Check, RefreshCw, Star, Leaf, MessageSquare, ShoppingCart, MapPin, DollarSign } from 'lucide-react';
+import { ClipboardCopy, Check, RefreshCw, Star, Leaf, MessageSquare, ShoppingCart, MapPin, DollarSign, Truck } from 'lucide-react';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
@@ -98,10 +98,9 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
     }));
 
   const priceHistory = events
-    .map(event => Object.entries(event.data)
-        .find(([key]) => key.toLowerCase().includes('price from')))
-    .filter((item): item is [string, string] => !!item)
-    .map(item => ({ label: item[0], value: item[1] }));
+    .flatMap(event => Object.entries(event.data))
+    .filter(([key]) => key.toLowerCase().includes('price from') || key.toLowerCase().includes('transportation cost'))
+    .map(([label, value]) => ({ label, value }));
 
 
   return (
@@ -187,7 +186,10 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
                 <CardContent className="p-4 space-y-3">
                     {priceHistory.map((item, index) => (
                        <div key={index} className="flex justify-between items-center text-sm">
-                            <span className="text-muted-foreground">{item.label}:</span>
+                            <span className="text-muted-foreground flex items-center gap-2">
+                                {item.label.toLowerCase().includes('transport') && <Truck className="w-4 h-4" />}
+                                {item.label}:
+                            </span>
                             <span className="font-semibold">{item.value}</span>
                         </div>
                     ))}

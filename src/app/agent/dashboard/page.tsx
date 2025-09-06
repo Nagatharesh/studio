@@ -45,6 +45,7 @@ const MOCK_BATCHES: Batch[] = [
     dateFarmed: '2023-03-18',
     status: 'VERIFIED',
     quality: 'Grade A',
+    transportationCost: 'Rs.2 / kg',
     price: 'Rs.40 / kg',
     warehouseConditions: 'Temp: 20°C, Humidity: 65%',
     agent: 'Simulated Agent Rajan',
@@ -75,11 +76,11 @@ export default function AgentDashboardPage() {
     const batch = batches.find(b => b.id === batchId);
     const agentPrice = agentPrices[batchId];
 
-    if (!batch?.quality || !agentPrice || !batch?.warehouseConditions) {
+    if (!batch?.quality || !agentPrice || !batch?.warehouseConditions || !batch?.transportationCost) {
       toast({
         variant: 'destructive',
         title: 'Missing Information',
-        description: 'Please fill all fields, including agent price, before approving.',
+        description: 'Please fill all fields, including agent price and transportation cost, before approving.',
       });
       return;
     }
@@ -139,6 +140,10 @@ export default function AgentDashboardPage() {
                         <Input id={`quality-${batch.id}`} value={batch.quality || ''} onChange={(e) => handleUpdate(batch.id, 'quality', e.target.value)} placeholder="e.g., Grade A" disabled={batch.status === 'VERIFIED'} />
                     </div>
                     <div className="space-y-2">
+                        <Label htmlFor={`transport-${batch.id}`}>Transportation Cost (per kg)</Label>
+                        <Input id={`transport-${batch.id}`} value={batch.transportationCost || ''} onChange={(e) => handleUpdate(batch.id, 'transportationCost', e.target.value)} placeholder="e.g., Rs.2 / kg" disabled={batch.status === 'VERIFIED'} />
+                    </div>
+                    <div className="space-y-2">
                         <Label htmlFor={`price-${batch.id}`}>Set Agent Price (per kg)</Label>
                         <Input id={`price-${batch.id}`} value={agentPrices[batch.id] || ''} onChange={(e) => setAgentPrices({...agentPrices, [batch.id]: e.target.value})} placeholder="e.g., Rs.85 / kg" disabled={batch.status === 'VERIFIED'} />
                     </div>
@@ -175,21 +180,19 @@ export default function AgentDashboardPage() {
 
         <Dialog open={isMapOpen} onOpenChange={setMapOpen}>
             <DialogContent className="max-w-3xl">
+                <DialogHeader>
+                    <DialogTitle className="font-headline flex items-center gap-2">
+                        <MapPin className="text-accent w-6 h-6"/>
+                        {selectedBatch && `Location for ${selectedBatch.cropType} - ${selectedBatch.id}`}
+                    </DialogTitle>
+                    <DialogDescription>
+                        This map shows the current location of the selected batch.
+                    </DialogDescription>
+                </DialogHeader>
                 {selectedBatch && (
-                    <>
-                    <DialogHeader>
-                        <DialogTitle className="font-headline flex items-center gap-2">
-                            <MapPin className="text-accent w-6 h-6"/>
-                            Location for {selectedBatch.cropType} - {selectedBatch.id}
-                        </DialogTitle>
-                        <DialogDescription>
-                           This map shows the current location of the selected batch.
-                        </DialogDescription>
-                    </DialogHeader>
                     <div className="aspect-video">
                        <SingleBatchMapView batch={selectedBatch} />
                     </div>
-                    </>
                 )}
             </DialogContent>
         </Dialog>
