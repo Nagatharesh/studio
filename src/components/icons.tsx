@@ -1,4 +1,4 @@
-import { Sprout, Building2, ShoppingCart, Tractor, Leaf } from 'lucide-react';
+import { Sprout, Building2, ShoppingCart, Tractor, Leaf, Warehouse as WarehouseIcon } from 'lucide-react';
 
 export const FarmerIcon = ({ className }: { className?: string }) => (
   <Sprout className={className} />
@@ -12,6 +12,9 @@ export const ConsumerIcon = ({ className }: { className?: string }) => (
 export const LeafIcon = ({ className }: { className?: string }) => (
     <Leaf className={className} />
 );
+export const Warehouse = ({ className }: { className?: string }) => (
+    <WarehouseIcon className={className} />
+)
 
 export const AppLogo = ({ className }: { className?: string }) => (
     <div className={`flex items-center gap-2 ${className}`}>
