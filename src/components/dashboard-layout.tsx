@@ -14,11 +14,9 @@ const roleConfig = {
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const currentRole = Object.entries(roleConfig).find(([path]) =>
-    pathname.startsWith(path)
-  );
-
-  const roleInfo = currentRole ? currentRole[1] : null;
+  const currentRoleKey = Object.keys(roleConfig).find((path) => pathname.startsWith(path)) as keyof typeof roleConfig | undefined;
+  
+  const roleInfo = currentRoleKey ? roleConfig[currentRoleKey] : null;
 
   return (
     <div className="min-h-screen bg-background">

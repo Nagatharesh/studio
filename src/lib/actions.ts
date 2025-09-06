@@ -14,6 +14,11 @@ import {
   type CheckWarehouseAvailabilityInput,
   type CheckWarehouseAvailabilityOutput,
 } from '@/ai/flows/check-warehouse-availability';
+import {
+    getForumResponse,
+    type GetForumResponseInput,
+    type GetForumResponseOutput
+} from '@/ai/flows/get-forum-response';
 import { z } from 'zod';
 
 const cropSuggestionSchema = z.object({
@@ -40,7 +45,7 @@ export async function getCropSuggestions(
 }
 
 const diseaseDetectionSchema = z.object({
-  photoDataUri: z.string().url('Must be a valid data URI.'),
+  photoDataUri: z.string().startsWith('data:image', {message: 'Must be a valid data URI.'}),
 });
 
 export async function getDiseaseDiagnosis(
@@ -48,7 +53,8 @@ export async function getDiseaseDiagnosis(
 ): Promise<{ diagnosis?: DetectDiseaseOutput; error?: string }> {
   const validation = diseaseDetectionSchema.safeParse(data);
   if (!validation.success) {
-    return { error: 'Invalid image data.' };
+    const issues = validation.error.issues.map((i) => i.message).join(' ');
+    return { error: `Invalid input: ${issues}` };
   }
 
   try {
@@ -60,7 +66,7 @@ export async function getDiseaseDiagnosis(
   }
 }
 
-const warehouseAvailabilitySchema = z.object({
+const warehouseAvailabilitySchema =.object({
   location: z.string().min(3, 'Location must be at least 3 characters.'),
 });
 
@@ -80,4 +86,27 @@ export async function checkWarehouseSpace(
     console.error(e);
     return { error: 'An unexpected error occurred while checking availability.' };
   }
+}
+
+
+const forumResponseSchema = z.object({
+    message: z.string().min(5, 'Message must be at least 5 characters.'),
+});
+
+export async function getForumResponse(
+    data: GetForumResponseInput
+): Promise<{ response?: GetForumResponseOutput; error?: string }> {
+    const validation = forumResponseSchema.safeParse(data);
+    if (!validation.success) {
+        const issues = validation.error.issues.map((i) => i.message).join(' ');
+        return { error: `Invalid input: ${issues}` };
+    }
+
+    try {
+        const result = await getForumResponse(data);
+        return { response: result };
+    } catch (e) {
+        console.error(e);
+        return { error: 'An unexpected error occurred while fetching the response.' };
+    }
 }
