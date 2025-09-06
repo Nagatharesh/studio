@@ -1,11 +1,14 @@
 'use client';
 
-import type { TimelineEvent } from '@/lib/types';
+import type { TimelineEvent, ProductDetails } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Scan, ClipboardCopy, Check, RefreshCw } from 'lucide-react';
+import { Scan, ClipboardCopy, Check, RefreshCw, Star, Leaf } from 'lucide-react';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
+import Image from 'next/image';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
 
 function TimelineItem({ event, isLast }: { event: TimelineEvent, isLast: boolean }) {
     const [copied, setCopied] = useState(false);
@@ -20,24 +23,22 @@ function TimelineItem({ event, isLast }: { event: TimelineEvent, isLast: boolean
 
   return (
     <div className="flex gap-4">
-      {/* Icon and line */}
       <div className="flex flex-col items-center">
-        <div className={`w-12 h-12 rounded-full flex items-center justify-center ${event.color}`}>
-          <event.icon className="w-6 h-6 text-white" />
+        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${event.color}`}>
+          <event.icon className="w-5 h-5 text-white" />
         </div>
         {!isLast && <div className="w-0.5 flex-grow bg-border mt-2"></div>}
       </div>
 
-      {/* Content */}
-      <div className="flex-1 pb-12">
+      <div className="flex-1 pb-10">
         <p className="text-sm text-muted-foreground -mt-1 mb-1">{event.timestamp}</p>
-        <h3 className="font-headline text-xl font-semibold">{event.title}</h3>
-        <p className="text-muted-foreground mt-1">{event.description}</p>
+        <h3 className="font-headline text-lg font-semibold">{event.title}</h3>
+        <p className="text-muted-foreground mt-1 text-sm">{event.description}</p>
         
-        <Card className="mt-4 bg-card/50">
-            <CardContent className="p-4 space-y-2">
+        <Card className="mt-3 bg-card/50 text-sm">
+            <CardContent className="p-3 space-y-1">
                 {Object.entries(event.data).map(([key, value]) => (
-                    <div key={key} className="flex justify-between text-sm">
+                    <div key={key} className="flex justify-between">
                         <span className="font-semibold text-muted-foreground">{key}:</span>
                         <span className="text-right">{value}</span>
                     </div>
@@ -46,8 +47,8 @@ function TimelineItem({ event, isLast }: { event: TimelineEvent, isLast: boolean
         </Card>
         <div className="mt-2 text-xs text-muted-foreground flex items-center justify-between">
             <p className="truncate pr-4">Hash: {event.hash}</p>
-            <Button variant="ghost" size="icon" className="w-7 h-7" onClick={copyHash}>
-                {copied ? <Check className="w-4 h-4 text-green-500"/> : <ClipboardCopy className="w-4 h-4"/>}
+            <Button variant="ghost" size="icon" className="w-6 h-6" onClick={copyHash}>
+                {copied ? <Check className="w-3.5 h-3.5 text-green-500"/> : <ClipboardCopy className="w-3.5 h-3.5"/>}
             </Button>
         </div>
       </div>
@@ -55,15 +56,15 @@ function TimelineItem({ event, isLast }: { event: TimelineEvent, isLast: boolean
   );
 }
 
-export function ProductTimeline({ events, onReset }: { events: TimelineEvent[], onReset: () => void }) {
+export function ProductTimeline({ product, events, onReset }: { product: ProductDetails, events: TimelineEvent[], onReset: () => void }) {
   return (
     <Card>
       <CardHeader>
         <div className="flex justify-between items-center">
             <div>
-                <CardTitle className="font-headline text-2xl">Product Journey</CardTitle>
+                <CardTitle className="font-headline text-2xl">Product Details</CardTitle>
                 <CardDescription>
-                    Tracing {events[0].data['Product'] || 'the product'} from farm to you.
+                    Complete journey from farm to you, verified by AgriChain.
                 </CardDescription>
             </div>
             <Button variant="outline" onClick={onReset}>
@@ -73,10 +74,56 @@ export function ProductTimeline({ events, onReset }: { events: TimelineEvent[], 
         </div>
       </CardHeader>
       <CardContent>
+        <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
+            {/* Left Column: Image & Details */}
+            <div className="space-y-6">
+                <Card className="overflow-hidden">
+                    <Image 
+                        data-ai-hint="turmeric product"
+                        src={product.image}
+                        alt={product.name}
+                        width={600}
+                        height={400}
+                        className="w-full object-cover"
+                    />
+                </Card>
+                 <div className="space-y-2">
+                    <h1 className="font-headline text-2xl font-bold">{product.name}</h1>
+                    <p className="text-muted-foreground">Sold by: <span className="font-semibold text-foreground">{product.farmer}</span></p>
+                </div>
+            </div>
+
+            {/* Right Column: Actions & Quick Info */}
+            <div className="space-y-6">
+                 <Card>
+                    <CardContent className="p-6 space-y-4">
+                        <div className="flex justify-between items-center">
+                            <span className="text-3xl font-bold font-headline text-consumer">{product.price}</span>
+                            <Badge variant="outline" className="text-base py-1 px-3 border-green-600 bg-green-50 text-green-700">
+                                <Leaf className="mr-2 h-4 w-4" /> Organic
+                            </Badge>
+                        </div>
+                        <Separator />
+                        <div className="space-y-2">
+                            <p className="font-semibold">Quality Grade: <span className="font-normal text-muted-foreground">{product.quality} (Verified by Agent)</span></p>
+                            <p className="font-semibold">Origin: <span className="font-normal text-muted-foreground">{events[0].data['Origin']}</span></p>
+                        </div>
+                         <Button size="lg" className="w-full bg-consumer hover:bg-consumer/90">
+                            <Star className="mr-2 h-5 w-5" /> Add to Favorites
+                        </Button>
+                    </CardContent>
+                </Card>
+            </div>
+        </div>
+
+        <Separator className="my-8" />
+        
+        {/* Bottom Section: Timeline */}
         <div>
-          {events.map((event, index) => (
-            <TimelineItem key={event.id} event={event} isLast={index === events.length - 1} />
-          ))}
+            <h2 className="font-headline text-xl font-semibold mb-4">Blockchain-Verified Journey</h2>
+             {events.map((event, index) => (
+                <TimelineItem key={event.id} event={event} isLast={index === events.length - 1} />
+            ))}
         </div>
       </CardContent>
     </Card>

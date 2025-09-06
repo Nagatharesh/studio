@@ -24,3 +24,11 @@ export type TimelineEvent = {
   data: Record<string, string>;
   hash: string;
 };
+
+export type ProductDetails = {
+    name: string;
+    image: string;
+    price: string;
+    quality: string;
+    farmer: string;
+};

@@ -3,10 +3,11 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { QrCode, ScanLine, Info } from 'lucide-react';
+import { QrCode, ScanLine, Info, Leaf } from 'lucide-react';
 import type { TimelineEvent } from '@/lib/types';
 import { ProductTimeline } from './product-timeline';
 import { FarmerIcon, AgentIcon, ConsumerIcon } from '@/components/icons';
+import Image from 'next/image';
 
 const MOCK_PRODUCT_HISTORY: TimelineEvent[] = [
     {
@@ -20,6 +21,7 @@ const MOCK_PRODUCT_HISTORY: TimelineEvent[] = [
             'Batch ID': 'BATCH-1678886400000',
             'Origin': 'Erode, Tamil Nadu',
             'Soil Info': 'Red Loam, pH 6.5',
+            'Product': 'Turmeric Powder',
         },
         hash: '0x1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f'
     },
@@ -32,7 +34,7 @@ const MOCK_PRODUCT_HISTORY: TimelineEvent[] = [
         color: 'bg-accent',
         data: {
             'Quality': 'Grade A',
-            'Price': '₹3,200/ton',
+            'Price Paid to Farmer': '₹3,200/ton',
             'Warehouse': 'Temp: 20°C, Humidity: 65%',
         },
         hash: '0x7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f1a2b3c4d5e6f'
@@ -45,12 +47,21 @@ const MOCK_PRODUCT_HISTORY: TimelineEvent[] = [
         icon: ConsumerIcon,
         color: 'bg-consumer',
         data: {
+            'Retail Price': '₹55 / 100g',
             'Status': 'Available in stores',
-            'Product': 'Turmeric',
         },
         hash: '0x3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f1a2b3c4d5e6f7g8h9i0j1k2l'
     },
 ];
+
+const MOCK_PRODUCT_DETAILS = {
+    name: "Organically Grown Turmeric Powder",
+    image: "https://picsum.photos/600/400",
+    price: "₹55 / 100g",
+    quality: "Grade A",
+    farmer: "Tamil Farms",
+};
+
 
 export default function ConsumerDashboard() {
   const [scannedData, setScannedData] = useState<TimelineEvent[] | null>(null);
@@ -70,7 +81,7 @@ export default function ConsumerDashboard() {
   }
 
   if (scannedData) {
-    return <ProductTimeline events={scannedData} onReset={handleReset} />;
+    return <ProductTimeline product={MOCK_PRODUCT_DETAILS} events={scannedData} onReset={handleReset} />;
   }
 
   return (
