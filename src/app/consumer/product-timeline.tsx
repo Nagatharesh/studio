@@ -4,13 +4,12 @@
 import type { TimelineEvent, ProductDetails } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ClipboardCopy, Check, RefreshCw, Star, Leaf, MessageSquare, ShoppingCart, MapPin } from 'lucide-react';
+import { ClipboardCopy, Check, RefreshCw, Star, Leaf, MessageSquare, ShoppingCart, MapPin, DollarSign } from 'lucide-react';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { ProductCard } from './components/product-card';
 import { MapView } from './components/map-view';
 import { FarmerIcon, AgentIcon, ConsumerIcon } from '@/components/icons';
 
@@ -97,6 +96,12 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
       { name: 'Coimbatore Retail', role: 'Consumer' }
   ];
 
+  const priceHistory = [
+    { label: "Price from Farmer", value: events[1].data['Farmer Sale Price'] },
+    { label: "Price from Agent", value: events[1].data['Agent Sale Price'] },
+    { label: "Price from Retailer", value: events[2].data['Retailer Sale Price'] },
+  ]
+
   return (
     <div className="max-h-[85vh] overflow-y-auto p-1 pr-4">
     <Card className="border-0 shadow-none">
@@ -176,6 +181,28 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
                 </Card>
             </div>
         </div>
+
+        <Separator className="my-8" />
+        
+        <div>
+            <h2 className="font-headline text-xl font-semibold mb-4 flex items-center gap-2"><DollarSign className="w-5 h-5 text-green-600"/> Price History</h2>
+            <Card className="bg-muted/50">
+                <CardContent className="p-4 space-y-3">
+                    {priceHistory.map((item, index) => (
+                        <div key={index} className="flex justify-between items-center text-sm">
+                            <span className="text-muted-foreground">{item.label}:</span>
+                            <span className="font-semibold">{item.value}</span>
+                        </div>
+                    ))}
+                    <Separator />
+                     <div className="flex justify-between items-center text-base">
+                        <span className="font-bold">Final Price:</span>
+                        <span className="font-bold text-lg text-consumer">{product.price}</span>
+                    </div>
+                </CardContent>
+            </Card>
+        </div>
+
 
         <Separator className="my-8" />
         
