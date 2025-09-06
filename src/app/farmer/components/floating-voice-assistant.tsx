@@ -45,7 +45,7 @@ export function FloatingVoiceAssistant() {
     const recognition = new SpeechRecognition();
     recognition.continuous = true;
     recognition.interimResults = true;
-    recognition.lang = 'en-IN'; // Set to English
+    recognition.lang = 'en-IN'; // Listen for English
 
     recognition.onresult = (event: any) => {
       let interimTranscript = '';

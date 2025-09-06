@@ -15,7 +15,7 @@ import { z } from 'genkit';
 import wav from 'wav';
 
 const GetVoiceAssistanceInputSchema = z.object({
-  query: z.string().describe('The farmer\'s question in text format.'),
+  query: z.string().describe('The farmer\'s question in text format, spoken in English.'),
 });
 export type GetVoiceAssistanceInput = z.infer<
   typeof GetVoiceAssistanceInputSchema
@@ -48,8 +48,7 @@ Your role is to provide helpful, encouraging, and concise advice in the Tamil la
 A farmer has asked the following question in English:
 "{{{query}}}"
 
-First, translate this question into Tamil.
-Then, based on the translated question, provide a helpful and supportive response IN TAMIL.
+Provide a helpful and supportive response to this question IN TAMIL.
 `,
 });
 
@@ -88,7 +87,7 @@ const getVoiceAssistanceFlow = ai.defineFlow(
     outputSchema: GetVoiceAssistanceOutputSchema,
   },
   async (input) => {
-    // 1. Generate the text response in Tamil
+    // 1. Generate the text response in Tamil from the English query
     const { output: textOutput } = await tamilResponsePrompt(input);
     if (!textOutput?.response) {
       throw new Error('Failed to generate a text response.');
