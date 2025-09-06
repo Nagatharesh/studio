@@ -76,7 +76,7 @@ const similarProducts = [
     },
     {
       name: 'Crisp Okra (Lady\'s Finger)',
-      image: 'https://picsum-photos/300/300?random=3',
+      image: 'https://picsum.photos/300/300?random=3',
       price: '₹50 / kg',
       farmer: 'Erode Growers',
       rating: 4.5,
