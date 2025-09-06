@@ -10,7 +10,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
   DialogFooter,
 } from '@/components/ui/dialog';
 import {
@@ -76,7 +75,7 @@ export default function FarmerDashboard() {
       cropType: values.cropType,
       location: values.location,
       soilProperties: values.soilProperties,
-      farmer: 'Simulated Farmer Joe',
+      farmer: 'Simulated Tamil Farmer',
       dateFarmed: new Date().toISOString().split('T')[0],
       status: 'FARMED',
       transactionHash: `0x${[...Array(64)].map(() => Math.floor(Math.random() * 16).toString(16)).join('')}`,
@@ -129,7 +128,7 @@ export default function FarmerDashboard() {
                       <FormItem>
                         <FormLabel>Location</FormLabel>
                         <FormControl>
-                          <Input placeholder="e.g., Napa Valley, CA" {...field} />
+                          <Input placeholder="e.g., Coimbatore, Tamil Nadu" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -142,7 +141,7 @@ export default function FarmerDashboard() {
                       <FormItem>
                         <FormLabel>Soil Properties</FormLabel>
                         <FormControl>
-                          <Input placeholder="e.g., Loamy, pH 6.5" {...field} />
+                          <Input placeholder="e.g., Red Loam, pH 6.5" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -191,7 +190,7 @@ export default function FarmerDashboard() {
                     <FormItem>
                       <FormLabel>Crop Type</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., Corn, Wheat, Tomato" {...field} />
+                        <Input placeholder="e.g., Rice, Sugarcane, Turmeric" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

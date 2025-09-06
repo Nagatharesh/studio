@@ -13,36 +13,36 @@ import { useToast } from '@/hooks/use-toast';
 const MOCK_BATCHES: Batch[] = [
   {
     id: 'BATCH-1678886400000',
-    cropType: 'Organic Tomatoes',
-    location: 'Salinas Valley, CA',
-    soilProperties: 'Sandy Loam, pH 6.8',
-    farmer: 'GreenField Farms',
+    cropType: 'Turmeric',
+    location: 'Erode, Tamil Nadu',
+    soilProperties: 'Red Loam, pH 6.5',
+    farmer: 'Tamil Farms',
     dateFarmed: '2023-03-15',
     status: 'IN_WAREHOUSE',
     transactionHash: '0x1a2b3c...',
   },
   {
     id: 'BATCH-1678972800000',
-    cropType: 'Corn',
-    location: 'Central Valley, IA',
-    soilProperties: 'Silty Clay, pH 6.2',
-    farmer: 'Golden Crops Inc.',
+    cropType: 'Rice',
+    location: 'Thanjavur, Tamil Nadu',
+    soilProperties: 'Alluvial Soil, pH 6.8',
+    farmer: 'Cauvery Delta Farmers',
     dateFarmed: '2023-03-16',
     status: 'IN_WAREHOUSE',
     transactionHash: '0x4d5e6f...',
   },
   {
     id: 'BATCH-1678999900000',
-    cropType: 'Wheat',
-    location: 'Plains, KS',
+    cropType: 'Sugarcane',
+    location: 'Cuddalore, Tamil Nadu',
     soilProperties: 'Clay Loam, pH 7.0',
-    farmer: 'Heartland Agriculture',
+    farmer: 'Coromandel Sugars',
     dateFarmed: '2023-03-18',
     status: 'VERIFIED',
     quality: 'Grade A',
-    price: '$250/ton',
-    warehouseConditions: 'Temp: 15°C, Humidity: 60%',
-    agent: 'Simulated Agent Smith',
+    price: '₹3,200/ton',
+    warehouseConditions: 'Temp: 20°C, Humidity: 65%',
+    agent: 'Simulated Agent Rajan',
     dateVerified: '2023-03-20',
     transactionHash: '0x7g8h9i...',
   },
@@ -78,7 +78,7 @@ export default function AgentDashboard() {
         b.id === batchId ? {
             ...b,
             status: 'VERIFIED',
-            agent: 'Simulated Agent Smith',
+            agent: 'Simulated Agent Rajan',
             dateVerified: new Date().toISOString().split('T')[0],
             transactionHash: `0x${[...Array(64)].map(() => Math.floor(Math.random() * 16).toString(16)).join('')}`,
         } : b
@@ -119,15 +119,15 @@ export default function AgentDashboard() {
                     <h4 className="font-semibold flex items-center gap-2"><FilePenLine className="w-4 h-4 text-accent"/>Verification Details</h4>
                     <div className="space-y-2">
                         <Label htmlFor={`quality-${batch.id}`}>Quality Check</Label>
-                        <Input id={`quality-${batch.id}`} value={batch.quality || ''} onChange={(e) => handleUpdate(batch.id, 'quality', e.target.value)} placeholder="e.g., Grade A, Organic Certified" disabled={batch.status === 'VERIFIED'} />
+                        <Input id={`quality-${batch.id}`} value={batch.quality || ''} onChange={(e) => handleUpdate(batch.id, 'quality', e.target.value)} placeholder="e.g., Grade A" disabled={batch.status === 'VERIFIED'} />
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor={`price-${batch.id}`}>Pricing</Label>
-                        <Input id={`price-${batch.id}`} value={batch.price || ''} onChange={(e) => handleUpdate(batch.id, 'price', e.target.value)} placeholder="e.g., $200/ton" disabled={batch.status === 'VERIFIED'} />
+                        <Input id={`price-${batch.id}`} value={batch.price || ''} onChange={(e) => handleUpdate(batch.id, 'price', e.target.value)} placeholder="e.g., ₹3,200/ton" disabled={batch.status === 'VERIFIED'} />
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor={`warehouse-${batch.id}`}>Warehouse Conditions</Label>
-                        <Input id={`warehouse-${batch.id}`} value={batch.warehouseConditions || ''} onChange={(e) => handleUpdate(batch.id, 'warehouseConditions', e.target.value)} placeholder="e.g., Temp: 15°C, Humidity: 60%" disabled={batch.status === 'VERIFIED'} />
+                        <Input id={`warehouse-${batch.id}`} value={batch.warehouseConditions || ''} onChange={(e) => handleUpdate(batch.id, 'warehouseConditions', e.target.value)} placeholder="e.g., Temp: 20°C, Humidity: 65%" disabled={batch.status === 'VERIFIED'} />
                     </div>
                 </div>
               </CardContent>

@@ -12,28 +12,28 @@ const MOCK_PRODUCT_HISTORY: TimelineEvent[] = [
     {
         id: '1',
         title: 'Farmed & Harvested',
-        description: 'Organic Tomatoes were harvested by GreenField Farms.',
+        description: 'Turmeric was harvested by Tamil Farms.',
         timestamp: '2023-03-15',
         icon: FarmerIcon,
         color: 'bg-primary',
         data: {
             'Batch ID': 'BATCH-1678886400000',
-            'Origin': 'Salinas Valley, CA',
-            'Soil Info': 'Sandy Loam, pH 6.8',
+            'Origin': 'Erode, Tamil Nadu',
+            'Soil Info': 'Red Loam, pH 6.5',
         },
         hash: '0x1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f'
     },
     {
         id: '2',
         title: 'Agent Verified',
-        description: 'Batch quality and pricing confirmed by Agent Smith.',
+        description: 'Batch quality and pricing confirmed by Agent Rajan.',
         timestamp: '2023-03-20',
         icon: AgentIcon,
         color: 'bg-accent',
         data: {
             'Quality': 'Grade A',
-            'Price': '$250/ton',
-            'Warehouse': 'Temp: 15°C, Humidity: 60%',
+            'Price': '₹3,200/ton',
+            'Warehouse': 'Temp: 20°C, Humidity: 65%',
         },
         hash: '0x7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f1a2b3c4d5e6f'
     },
@@ -46,7 +46,7 @@ const MOCK_PRODUCT_HISTORY: TimelineEvent[] = [
         color: 'bg-consumer',
         data: {
             'Status': 'Available in stores',
-            'Product': 'Organic Tomatoes',
+            'Product': 'Turmeric',
         },
         hash: '0x3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f1a2b3c4d5e6f7g8h9i0j1k2l'
     },

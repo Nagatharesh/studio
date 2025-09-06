@@ -1,7 +1,7 @@
-import { Leaf, Building2, ShoppingCart, Tractor } from 'lucide-react';
+import { Sprout, Building2, ShoppingCart, Tractor } from 'lucide-react';
 
 export const FarmerIcon = ({ className }: { className?: string }) => (
-  <Leaf className={className} />
+  <Sprout className={className} />
 );
 export const AgentIcon = ({ className }: { className?: string }) => (
   <Building2 className={className} />
