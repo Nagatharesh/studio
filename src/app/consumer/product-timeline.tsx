@@ -96,12 +96,12 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
   
   const getProductHint = (name: string) => {
     const lowerCaseName = name.toLowerCase();
-    if (lowerCaseName.includes('tomato')) return 'tomatoes';
+    if (lowerCaseName.includes('tomato')) return 'vine tomatoes';
     if (lowerCaseName.includes('potato')) return 'potatoes';
-    if (lowerCaseName.includes('cauliflower')) return 'cauliflower';
-    if (lowerCaseName.includes('brinjal') || lowerCaseName.includes('eggplant')) return 'brinjal eggplant';
+    if (lowerCaseName.includes('cauliflower')) return 'cauliflower head';
+    if (lowerCaseName.includes('brinjal') || lowerCaseName.includes('eggplant')) return 'eggplant';
     if (lowerCaseName.includes('spinach') || lowerCaseName.includes('greens')) return 'spinach greens';
-    if (lowerCaseName.includes('onion')) return 'onions';
+    if (lowerCaseName.includes('onion')) return 'red onions';
     return 'vegetable product';
   }
 
