@@ -50,12 +50,12 @@ const prompt = ai.definePrompt({
   prompt: `You are a warehouse logistics coordinator for a large agricultural network in Tamil Nadu.
 Your task is to check warehouse availability based on the provided location.
 
-Follow these rules exactly:
-- If the location is "Erode", you must set the warehouseName to "Erode Central Warehouse", set availability to "Full", and set suggestion to "Coimbatore Storage".
-- If the location is "Thanjavur", you must set the warehouseName to "Thanjavur Delta Warehouse" and set availability to "Limited Space".
-- For ANY OTHER location, you must create a plausible warehouse name by appending "AgriStorage" to the location (e.g., "Madurai" becomes "Madurai AgriStorage"), and you must set its availability to "Available".
+You must follow these rules exactly and provide output in the specified JSON format.
+- If the provided location is "Erode", you must respond with: warehouseName="Erode Central Warehouse", availability="Full", and suggestion="Coimbatore Storage".
+- If the provided location is "Thanjavur", you must respond with: warehouseName="Thanjavur Delta Warehouse", availability="Limited Space", and no suggestion.
+- For ANY OTHER location provided, you must create a plausible warehouse name by taking the location name and appending "AgriStorage" (e.g., if the location is "Madurai", the warehouseName becomes "Madurai AgriStorage"). For these locations, you must set the availability to "Available" and provide no suggestion.
 
-The user has provided the following location:
+The user has requested the status for the following location:
 Location: {{{location}}}
 `,
 });

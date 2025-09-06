@@ -54,9 +54,9 @@ export async function getCropSuggestions(
   try {
     const result = await suggestBestCrops(data);
     return { suggestions: result.suggestedCrops };
-  } catch (e) {
+  } catch (e: any) {
     console.error(e);
-    return { error: 'An unexpected error occurred while fetching suggestions.' };
+    return { error: e.message || 'An unexpected error occurred while fetching suggestions.' };
   }
 }
 
@@ -76,9 +76,9 @@ export async function getDiseaseDiagnosis(
   try {
     const result = await detectDisease(data);
     return { diagnosis: result };
-  } catch (e) {
+  } catch (e: any) {
     console.error(e);
-    return { error: 'An unexpected error occurred during diagnosis.' };
+    return { error: e.message || 'An unexpected error occurred during diagnosis.' };
   }
 }
 
@@ -98,9 +98,9 @@ export async function checkWarehouseSpace(
   try {
     const result = await checkWarehouseAvailability(data);
     return { status: result };
-  } catch (e) {
+  } catch (e: any) {
     console.error(e);
-    return { error: 'An unexpected error occurred while checking availability.' };
+    return { error: e.message || 'An unexpected error occurred while checking availability.' };
   }
 }
 
@@ -121,9 +121,9 @@ export async function getForumResponse(
     try {
         const result = await getForumResponseFlow(data);
         return { response: result };
-    } catch (e) {
+    } catch (e: any) {
         console.error(e);
-        return { error: 'An unexpected error occurred while fetching the response.' };
+        return { error: e.message || 'An unexpected error occurred while fetching the response.' };
     }
 }
 
@@ -143,9 +143,9 @@ export async function getMarketPricePrediction(
     try {
         const result = await predictMarketPrice(data);
         return { prediction: result };
-    } catch (e) {
+    } catch (e: any) {
         console.error(e);
-        return { error: 'An unexpected error occurred while fetching the prediction.' };
+        return { error: e.message || 'An unexpected error occurred while fetching the prediction.' };
     }
 }
 
@@ -165,9 +165,9 @@ export async function getWeatherForecast(
     try {
         const result = await getWeatherForecastFlow(data);
         return { forecast: result };
-    } catch (e) {
+    } catch (e: any) {
         console.error(e);
-        return { error: 'An unexpected error occurred while fetching the forecast.' };
+        return { error: e.message || 'An unexpected error occurred while fetching the forecast.' };
     }
 }
 
@@ -187,8 +187,8 @@ export async function getCarbonCreditInfo(
     try {
         const result = await getCarbonCreditInfoFlow(data);
         return { info: result };
-    } catch (e) {
+    } catch (e: any) {
         console.error(e);
-        return { error: 'An unexpected error occurred while fetching carbon credit info.' };
+        return { error: e.message || 'An unexpected error occurred while fetching carbon credit info.' };
     }
 }
