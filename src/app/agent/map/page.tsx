@@ -50,6 +50,16 @@ const MOCK_BATCHES: Batch[] = [
     status: 'IN_WAREHOUSE',
     transactionHash: '0x8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f1a2b3c4d5e6f',
   },
+  {
+    id: 'BATCH-1679100000000',
+    cropType: 'Mangoes',
+    location: 'Madurai',
+    soilProperties: 'Sandy Loam, pH 6.7',
+    farmer: 'Madurai Orchards',
+    dateFarmed: '2023-03-21',
+    status: 'VERIFIED',
+    transactionHash: '0x9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6a7b8c9d0e1f2a3b4c5d6e7f8g9h0i',
+  }
 ];
 
 

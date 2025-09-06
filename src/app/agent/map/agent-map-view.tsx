@@ -9,6 +9,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import Image from 'next/image';
 
 interface AgentMapViewProps {
   batches: Batch[];
@@ -34,23 +35,19 @@ export function AgentMapView({ batches }: AgentMapViewProps) {
   return (
     <TooltipProvider>
     <div className="relative w-full h-[500px] bg-muted/30 rounded-lg overflow-hidden border">
-      {/* Background grid */}
-      <svg width="100%" height="100%" className="absolute inset-0">
-        <defs>
-          <pattern id="grid-pattern" width="32" height="32" patternUnits="userSpaceOnUse">
-            <path d="M 32 0 L 0 0 0 32" fill="none" stroke="hsl(var(--border))" strokeWidth="0.5"></path>
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#grid-pattern)"></rect>
-         <text x="50%" y="50" textAnchor="middle" className="font-headline text-lg fill-muted-foreground/50">Tamil Nadu Region</text>
-      </svg>
+      <Image
+        data-ai-hint="map tamil nadu"
+        src="https://images.pexels.com/photos/16839369/pexels-photo-16839369/free-photo-of-a-map-of-the-world-with-a-red-arrow-pointing-to-the-bottom.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+        alt="Map of Tamil Nadu"
+        fill
+        className="object-cover opacity-30"
+      />
       
-
       {/* Batch markers */}
       {batches.map((batch) => {
         const Icon = statusStyles[batch.status]?.icon || Sprout;
         const color = statusStyles[batch.status]?.color || 'bg-gray-400 text-white';
-        const position = locationPositions[batch.location] || locationPositions['Default'];
+        const position = locationPositions[batch.location.split(',')[0]] || locationPositions['Default'];
         
         return (
           <Tooltip key={batch.id}>
