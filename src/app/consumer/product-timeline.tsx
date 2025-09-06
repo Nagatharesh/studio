@@ -59,32 +59,44 @@ function TimelineItem({ event, isLast }: { event: TimelineEvent, isLast: boolean
 
 const similarProducts = [
     {
-      name: 'Fresh Red Onions',
-      image: 'https://picsum.photos/300/300?random=1',
-      price: '₹40 / kg',
-      farmer: 'Cauvery Delta Farmers',
+      name: 'Himalayan Potatoes',
+      image: 'https://picsum.photos/seed/potatoes/600/400',
+      price: '₹30 / kg',
+      farmer: 'Nilgiri Growers',
       rating: 4.6,
-      reviews: 89,
+      reviews: 110,
     },
     {
-      name: 'Vine-Ripened Tomatoes',
-      image: 'https://picsum.photos/300/300?random=2',
-      price: '₹35 / kg',
-      farmer: 'Madurai AgriStorage',
-      rating: 4.7,
-      reviews: 152,
+      name: 'Fresh Cauliflower',
+      image: 'https://picsum.photos/seed/cauliflower/600/400',
+      price: '₹25 / piece',
+      farmer: 'Ooty Farms',
+      rating: 4.8,
+      reviews: 98,
     },
     {
-      name: 'Crisp Okra (Lady\'s Finger)',
-      image: 'https://picsum.photos/300/300?random=3',
-      price: '₹50 / kg',
-      farmer: 'Erode Growers',
-      rating: 4.5,
-      reviews: 74,
+      name: 'Organic Spinach Greens',
+      image: 'https://picsum.photos/seed/spinach/600/400',
+      price: '₹20 / bunch',
+      farmer: 'Cauvery Delta Farmers',
+      rating: 4.9,
+      reviews: 180,
     },
   ];
 
 export function ProductTimeline({ product, events, onReset }: { product: ProductDetails, events: TimelineEvent[], onReset: () => void }) {
+  
+  const getProductHint = (name: string) => {
+    const lowerCaseName = name.toLowerCase();
+    if (lowerCaseName.includes('tomato')) return 'tomatoes';
+    if (lowerCaseName.includes('potato')) return 'potatoes';
+    if (lowerCaseName.includes('cauliflower')) return 'cauliflower';
+    if (lowerCaseName.includes('brinjal') || lowerCaseName.includes('eggplant')) return 'brinjal eggplant';
+    if (lowerCaseName.includes('spinach') || lowerCaseName.includes('greens')) return 'spinach greens';
+    if (lowerCaseName.includes('onion')) return 'onions';
+    return 'vegetable product';
+  }
+
   return (
     <Card>
       <CardHeader>
@@ -106,14 +118,15 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
             {/* Left Column: Image & Details */}
             <div className="space-y-4">
                 <Card className="overflow-hidden">
-                    <Image 
-                        data-ai-hint="turmeric product"
-                        src={product.image}
-                        alt={product.name}
-                        width={600}
-                        height={400}
-                        className="w-full object-cover"
-                    />
+                    <div className="aspect-video relative">
+                        <Image 
+                            data-ai-hint={getProductHint(product.name)}
+                            src={product.image}
+                            alt={product.name}
+                            fill
+                            className="w-full object-cover"
+                        />
+                    </div>
                 </Card>
                  <div className="space-y-2">
                     <h1 className="font-headline text-2xl font-bold">{product.name}</h1>

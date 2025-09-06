@@ -11,12 +11,23 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: { product: ProductCardProps['product'] }) {
+  const getProductHint = (name: string) => {
+    const lowerCaseName = name.toLowerCase();
+    if (lowerCaseName.includes('tomato')) return 'tomatoes';
+    if (lowerCaseName.includes('potato')) return 'potatoes';
+    if (lowerCaseName.includes('cauliflower')) return 'cauliflower';
+    if (lowerCaseName.includes('brinjal') || lowerCaseName.includes('eggplant')) return 'brinjal eggplant';
+    if (lowerCaseName.includes('spinach') || lowerCaseName.includes('greens')) return 'spinach greens';
+    if (lowerCaseName.includes('onion')) return 'onions';
+    return 'vegetable product';
+  }
+
   return (
     <Card className="group overflow-hidden">
       <CardContent className="p-0">
-        <div className="relative aspect-square">
+        <div className="relative aspect-video">
           <Image
-            data-ai-hint="vegetable product"
+            data-ai-hint={getProductHint(product.name)}
             src={product.image}
             alt={product.name}
             fill
