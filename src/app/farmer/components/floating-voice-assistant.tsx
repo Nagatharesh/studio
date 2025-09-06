@@ -85,9 +85,7 @@ export function FloatingVoiceAssistant() {
     if (isRecording) {
       recognitionRef.current?.stop();
       setIsRecording(false);
-      if (transcript.trim()) {
-        handleGetAssistance(transcript);
-      }
+      // Logic to send transcript is now handled after recognition 'end' event
     } else {
       setTranscript('');
       setAudioSrc(null);
