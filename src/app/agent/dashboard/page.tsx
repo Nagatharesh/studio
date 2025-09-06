@@ -43,7 +43,7 @@ const MOCK_BATCHES: Batch[] = [
     dateFarmed: '2023-03-18',
     status: 'VERIFIED',
     quality: 'Grade A',
-    price: '₹3,200/ton',
+    price: '₹3,500/ton',
     warehouseConditions: 'Temp: 20°C, Humidity: 65%',
     agent: 'Simulated Agent Rajan',
     dateVerified: '2023-03-20',
@@ -132,8 +132,8 @@ export default function AgentDashboardPage() {
                         <Input id={`quality-${batch.id}`} value={batch.quality || ''} onChange={(e) => handleUpdate(batch.id, 'quality', e.target.value)} placeholder="e.g., Grade A" disabled={batch.status === 'VERIFIED'} />
                     </div>
                     <div className="space-y-2">
-                        <Label htmlFor={`price-${batch.id}`}>Pricing</Label>
-                        <Input id={`price-${batch.id}`} value={batch.price || ''} onChange={(e) => handleUpdate(batch.id, 'price', e.target.value)} placeholder="e.g., ₹3,200/ton" disabled={batch.status === 'VERIFIED'} />
+                        <Label htmlFor={`price-${batch.id}`}>Pricing (Tamil Nadu Market)</Label>
+                        <Input id={`price-${batch.id}`} value={batch.price || ''} onChange={(e) => handleUpdate(batch.id, 'price', e.target.value)} placeholder="e.g., ₹8,000/quintal" disabled={batch.status === 'VERIFIED'} />
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor={`warehouse-${batch.id}`}>Warehouse Conditions</Label>

@@ -20,8 +20,8 @@ export function ProductCard({ product }: { product: ProductCardProps['product'] 
     if (lowerCaseName.includes('potato')) return 'potatoes';
     if (lowerCaseName.includes('cauliflower')) return 'cauliflower head';
     if (lowerCaseName.includes('brinjal') || lowerCaseName.includes('eggplant')) return 'eggplant';
-    if (lowerCaseName.includes('spinach') || lowerCaseName.includes('greens')) return 'spinach greens';
-    if (lowerCaseName.includes('onion')) return 'red onions';
+    if (lowerCaseName.includes('palak') || lowerCaseName.includes('spinach') || lowerCaseName.includes('greens')) return 'spinach greens';
+    if (lowerCaseName.includes('onion') || lowerCaseName.includes('shallots')) return 'red onions';
     return 'vegetable product';
   }
 
