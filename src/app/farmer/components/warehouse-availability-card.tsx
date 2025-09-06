@@ -32,6 +32,7 @@ export function WarehouseAvailabilityCard() {
         setIsChecking(false);
         if (result.error) {
             toast({ variant: 'destructive', title: 'Check Failed', description: result.error });
+            setStatus(null);
         } else if (result.status) {
             setStatus(result.status);
             toast({ title: 'Availability Checked!', description: `Status for ${result.status.warehouseName} updated.` });
