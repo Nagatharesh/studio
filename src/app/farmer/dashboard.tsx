@@ -66,7 +66,7 @@ export default function FarmerDashboard() {
       toast({ variant: 'destructive', title: 'Error', description: result.error });
     } else {
       setSuggestions(result.suggestions || []);
-      toast({ title: 'Success!', description: 'Received crop suggestions.' });
+      toast({ title: 'Success!', description: 'Received crop suggestions from AI.' });
     }
   };
 
@@ -91,15 +91,32 @@ export default function FarmerDashboard() {
     setSuggestions([]);
   };
 
-  const downloadQrCode = (batchId: string) => {
-    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(batchId)}`;
-    const link = document.createElement('a');
-    link.href = qrUrl;
-    link.target = '_blank';
-    link.download = `${batchId}-qrcode.png`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const downloadQrCode = async (batchId: string) => {
+    try {
+      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(
+        batchId
+      )}`;
+      const response = await fetch(qrUrl);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${batchId}-qrcode.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Failed to download QR code:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Download Failed',
+        description: 'Could not download the QR code.',
+      });
+    }
   };
 
   return (
@@ -116,7 +133,7 @@ export default function FarmerDashboard() {
             <DialogHeader>
               <DialogTitle className="font-headline text-2xl">Add New Crop Batch</DialogTitle>
               <DialogDescription>
-                Fill in the details to create a new batch and get AI-powered suggestions.
+                Fill in the details for your new harvest. Use the AI assistant to get crop suggestions based on your soil and location.
               </DialogDescription>
             </DialogHeader>
             <Form {...form}>
@@ -129,7 +146,7 @@ export default function FarmerDashboard() {
                       <FormItem>
                         <FormLabel>Location</FormLabel>
                         <FormControl>
-                          <Input placeholder="e.g., Coimbatore, Tamil Nadu" {...field} />
+                          <Input placeholder="e.g., Erode, Tamil Nadu" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -155,7 +172,7 @@ export default function FarmerDashboard() {
                     <div className="flex justify-between items-center">
                       <div className="flex items-center gap-2">
                          <Cpu className="w-6 h-6 text-primary" />
-                         <CardTitle className="font-headline text-lg">Crop Suggestions</CardTitle>
+                         <CardTitle className="font-headline text-lg">AI Crop Suggestions</CardTitle>
                       </div>
                       <Button type="button" size="sm" onClick={handleGetSuggestions} disabled={isSuggesting}>
                         {isSuggesting ? (
@@ -178,7 +195,7 @@ export default function FarmerDashboard() {
                       </div>
                     ) : (
                       <p className="text-sm text-muted-foreground">
-                        Enter location and soil info to see AI-powered suggestions here.
+                        Enter location and soil info to get AI-powered suggestions.
                       </p>
                     )}
                   </CardContent>
@@ -191,7 +208,7 @@ export default function FarmerDashboard() {
                     <FormItem>
                       <FormLabel>Crop Type</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., Rice, Sugarcane, Turmeric" {...field} />
+                        <Input placeholder="e.g., Turmeric, Rice, Sugarcane" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
