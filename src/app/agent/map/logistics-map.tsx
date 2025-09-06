@@ -61,19 +61,21 @@ export function LogisticsMap({ batches, selectedBatchId, onSelectBatch }: Logist
       
       {/* Route lines */}
       <svg width="100%" height="100%" className="absolute inset-0" style={{ zIndex: 1 }}>
-        {batches.filter(b => b.status === 'IN_WAREHOUSE').map(batch => {
-            const startPos = locationPositions[batch.location] || locationPositions['Default'];
-            return (
-                <path 
-                    key={`line-${batch.id}`}
-                    d={`M ${startPos.left} ${startPos.top} C ${startPos.left} ${warehousePosition.top}, ${warehousePosition.left} ${startPos.top}, ${warehousePosition.left} ${warehousePosition.top}`}
-                    stroke="hsl(var(--accent) / 0.6)" 
-                    strokeWidth="2.5"
-                    fill="none" 
-                    strokeDasharray="5"
-                    className="animate-path-draw"
-                />
-            )
+        {batches
+            .filter(b => b.id === selectedBatchId && b.status === 'IN_WAREHOUSE')
+            .map(batch => {
+                const startPos = locationPositions[batch.location.split(',')[0]] || locationPositions['Default'];
+                return (
+                    <path 
+                        key={`line-${batch.id}`}
+                        d={`M ${startPos.left} ${startPos.top} C ${startPos.left} ${warehousePosition.top}, ${warehousePosition.left} ${startPos.top}, ${warehousePosition.left} ${warehousePosition.top}`}
+                        stroke="hsl(var(--accent) / 0.8)" 
+                        strokeWidth="3"
+                        fill="none" 
+                        strokeDasharray="8"
+                        className="animate-path-draw"
+                    />
+                )
         })}
       </svg>
       
