@@ -1,15 +1,17 @@
+
 'use client';
 
 import type { TimelineEvent, ProductDetails } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ClipboardCopy, Check, RefreshCw, Star, Leaf, MessageSquare, ShoppingCart } from 'lucide-react';
+import { ClipboardCopy, Check, RefreshCw, Star, Leaf, MessageSquare, ShoppingCart, MapPin } from 'lucide-react';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { ProductCard } from './components/product-card';
+import { MapView } from './components/map-view';
 
 function TimelineItem({ event, isLast }: { event: TimelineEvent, isLast: boolean }) {
     const [copied, setCopied] = useState(false);
@@ -105,6 +107,12 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
     return 'vegetable product';
   }
 
+  const locations = [
+      { name: events[0].data['Origin'], role: 'Farmer' },
+      { name: 'Erode Warehouse', role: 'Agent' },
+      { name: 'Coimbatore Retail', role: 'Consumer' }
+  ];
+
   return (
     <Card>
       <CardHeader>
@@ -123,7 +131,7 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
       </CardHeader>
       <CardContent>
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-            {/* Left Column: Image & Details */}
+            {/* Left Column: Image & Map */}
             <div className="space-y-4">
                 <Card className="overflow-hidden">
                     <div className="aspect-video relative">
@@ -136,19 +144,8 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
                         />
                     </div>
                 </Card>
-                 <div className="space-y-2">
-                    <h1 className="font-headline text-2xl font-bold">{product.name}</h1>
-                    <p className="text-muted-foreground">Sold by: <span className="font-semibold text-foreground">{product.farmer}</span></p>
-                    <div className="flex items-center gap-2 text-sm">
-                        <div className="flex items-center gap-0.5">
-                            {[...Array(5)].map((_, i) => (
-                                <Star key={i} className={`w-4 h-4 ${product.rating > i ? 'text-yellow-400 fill-yellow-400' : 'text-muted-foreground/50'}`}/>
-                            ))}
-                        </div>
-                        <span className="font-semibold">{product.rating}</span>
-                        <span className="text-muted-foreground">({product.reviews} ratings)</span>
-                    </div>
-                </div>
+                <h3 className="font-headline text-lg font-semibold flex items-center gap-2"><MapPin className="w-5 h-5 text-primary"/> Product Journey Map</h3>
+                <MapView locations={locations} />
             </div>
 
             {/* Right Column: Actions & Quick Info */}
@@ -160,6 +157,19 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
                             <Badge variant="outline" className="text-base py-1 px-3 border-green-600 bg-green-50 text-green-700">
                                 <Leaf className="mr-2 h-4 w-4" /> Organic
                             </Badge>
+                        </div>
+                         <div className="space-y-2">
+                            <h1 className="font-headline text-2xl font-bold">{product.name}</h1>
+                            <p className="text-muted-foreground">Sold by: <span className="font-semibold text-foreground">{product.farmer}</span></p>
+                             <div className="flex items-center gap-2 text-sm">
+                                <div className="flex items-center gap-0.5">
+                                    {[...Array(5)].map((_, i) => (
+                                        <Star key={i} className={`w-4 h-4 ${product.rating > i ? 'text-yellow-400 fill-yellow-400' : 'text-muted-foreground/50'}`}/>
+                                    ))}
+                                </div>
+                                <span className="font-semibold">{product.rating}</span>
+                                <span className="text-muted-foreground">({product.reviews} ratings)</span>
+                            </div>
                         </div>
                         <Separator />
                         <div className="space-y-2">
