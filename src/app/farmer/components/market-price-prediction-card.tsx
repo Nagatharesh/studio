@@ -33,6 +33,7 @@ export function MarketPricePredictionCard() {
         setIsPredicting(false);
         if (result.error) {
             toast({ variant: 'destructive', title: 'Prediction Failed', description: result.error });
+            setPrediction(null);
         } else if (result.prediction) {
             setPrediction(result.prediction);
             toast({ title: 'Prediction Complete!', description: `Market forecast for ${cropName} is ready.` });
