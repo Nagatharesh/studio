@@ -33,7 +33,7 @@ export async function getCarbonCreditInfo(
 
 const prompt = ai.definePrompt({
   name: 'getCarbonCreditInfoPrompt',
-  model: googleAI.model('gemini-2.5-flash-preview-001'),
+  model: googleAI.model('gemini-1.5-flash-preview-0514'),
   input: { schema: GetCarbonCreditInfoInputSchema },
   output: { schema: GetCarbonCreditInfoOutputSchema },
   prompt: `You are an agricultural sustainability advisor. 

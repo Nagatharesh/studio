@@ -37,7 +37,7 @@ export async function suggestBestCrops(input: SuggestBestCropsInput): Promise<Su
 
 const prompt = ai.definePrompt({
   name: 'suggestBestCropsPrompt',
-  model: googleAI.model('gemini-2.5-flash-preview-001'),
+  model: googleAI.model('gemini-1.5-flash-preview-0514'),
   input: {schema: SuggestBestCropsInputSchema},
   output: {schema: SuggestBestCropsOutputSchema},
   prompt: `You are an expert agricultural advisor. Based on the farmer's location and soil properties, suggest the best crops to plant.

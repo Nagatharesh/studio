@@ -34,7 +34,7 @@ export async function getWeatherForecast(
 
 const prompt = ai.definePrompt({
   name: 'getWeatherForecastPrompt',
-  model: googleAI.model('gemini-2.5-flash-preview-001'),
+  model: googleAI.model('gemini-1.5-flash-preview-0514'),
   input: { schema: GetWeatherForecastInputSchema },
   output: { schema: GetWeatherForecastOutputSchema },
   prompt: `You are a helpful agricultural weather assistant for Tamil Nadu.

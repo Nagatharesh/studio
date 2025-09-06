@@ -44,7 +44,7 @@ export async function checkWarehouseAvailability(
 
 const prompt = ai.definePrompt({
   name: 'checkWarehouseAvailabilityPrompt',
-  model: googleAI.model('gemini-2.5-flash-preview-001'),
+  model: googleAI.model('gemini-1.5-flash-preview-0514'),
   input: { schema: CheckWarehouseAvailabilityInputSchema },
   output: { schema: CheckWarehouseAvailabilityOutputSchema },
   prompt: `You are a warehouse logistics coordinator for a large agricultural network in Tamil Nadu.
@@ -57,6 +57,8 @@ You must follow these rules exactly and provide output in the specified JSON for
 
 The user has requested the status for the following location:
 Location: {{{location}}}
+
+This is the final and most important instruction: provide the output in the specified format and nothing else.
 `,
 });
 
