@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -8,7 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
 import { getMarketPricePrediction } from '@/lib/actions';
-import { Loader2, TrendingUp, Search, BarChart, ArrowUp, ArrowDown, Minus } from 'lucide-react';
+import { Loader2, TrendingUp, Sparkles, BarChart, ArrowUp, ArrowDown, Minus } from 'lucide-react';
 
 type Prediction = {
     predictedPriceRange: string;
@@ -77,7 +78,7 @@ export function MarketPricePredictionCard() {
                             />
                         </div>
                         <Button onClick={handlePredict} disabled={isPredicting}>
-                            {isPredicting ? <Loader2 className="animate-spin" /> : <Search />}
+                            {isPredicting ? <Loader2 className="animate-spin" /> : <Sparkles />}
                             Predict
                         </Button>
                     </div>
