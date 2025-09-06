@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -44,7 +45,7 @@ export async function predictMarketPrice(
 
 const prompt = ai.definePrompt({
   name: 'predictMarketPricePrompt',
-  model: googleAI.model('gemini-1.5-flash-preview-0514'),
+  model: googleAI.model('gemini-1.5-flash'),
   input: { schema: PredictMarketPriceInputSchema },
   output: { schema: PredictMarketPriceOutputSchema },
   prompt: `You are an expert agricultural market analyst for Tamil Nadu.

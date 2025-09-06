@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -35,7 +36,7 @@ export async function detectDisease(input: DetectDiseaseInput): Promise<DetectDi
 
 const prompt = ai.definePrompt({
   name: 'detectDiseasePrompt',
-  model: googleAI.model('gemini-1.5-flash-preview-0514'),
+  model: googleAI.model('gemini-1.5-flash'),
   input: {schema: DetectDiseaseInputSchema},
   output: {schema: DetectDiseaseOutputSchema},
   prompt: `You are an expert plant pathologist. Analyze the provided image of a crop leaf. 
