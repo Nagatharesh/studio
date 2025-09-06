@@ -1,12 +1,15 @@
+
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
 import { getWeatherForecast } from '@/lib/actions';
-import { Loader2, Sparkles, Thermometer, Sun, Cloud, CloudRain } from 'lucide-react';
+import { Loader2, Sparkles, Thermometer, Sun, Cloud, CloudRain, Search } from 'lucide-react';
 
 type Forecast = {
     forecast: string;
@@ -16,26 +19,27 @@ type Forecast = {
 
 export function WeatherPredictionCard() {
     const [forecast, setForecast] = useState<Forecast | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [location, setLocation] = useState('Erode'); // Default location
+    const [isLoading, setIsLoading] = useState(false);
+    const [location, setLocation] = useState('');
     const { toast } = useToast();
 
     const fetchWeather = async () => {
+        if (!location) {
+            toast({ variant: "destructive", title: "Location Required", description: "Please enter a location to get the forecast." });
+            return;
+        }
         setIsLoading(true);
+        setForecast(null);
         const result = await getWeatherForecast({ location });
         setIsLoading(false);
         if (result.error) {
             toast({ variant: 'destructive', title: 'Weather Error', description: result.error });
             setForecast(null);
         } else if (result.forecast) {
+            toast({ title: 'Forecast Loaded!', description: `Weather for ${location} is now displayed.` });
             setForecast(result.forecast);
         }
     }
-
-    useEffect(() => {
-        fetchWeather();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     const getWeatherIcon = (forecast: string = '') => {
         const lowerForecast = forecast.toLowerCase();
@@ -47,6 +51,11 @@ export function WeatherPredictionCard() {
         }
         return <Sun className="w-8 h-8 text-yellow-500" />;
     }
+    
+    const handleReset = () => {
+        setLocation('');
+        setForecast(null);
+    }
 
     return (
         <Card>
@@ -55,17 +64,40 @@ export function WeatherPredictionCard() {
                     <Thermometer className="w-7 h-7 text-primary"/>
                     <div>
                         <CardTitle className="font-headline text-xl">AI Weather Forecast</CardTitle>
-                        <CardDescription>3-day outlook for {location}.</CardDescription>
+                        <CardDescription>Get a 3-day outlook for any location.</CardDescription>
                     </div>
                 </div>
             </CardHeader>
             <CardContent className="space-y-4">
-                {isLoading ? (
-                    <div className="flex items-center justify-center h-24">
-                        <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
+                {!forecast ? (
+                     <div className="space-y-2">
+                        <div className="flex items-end gap-2">
+                            <div className="flex-grow space-y-1">
+                                <Label htmlFor="weather-location">Location</Label>
+                                <Input 
+                                    id="weather-location" 
+                                    value={location}
+                                    onChange={(e) => setLocation(e.target.value)}
+                                    placeholder="e.g., Thanjavur"
+                                    disabled={isLoading}
+                                />
+                            </div>
+                            <Button onClick={fetchWeather} disabled={isLoading}>
+                                {isLoading ? <Loader2 className="animate-spin" /> : <Search />}
+                                Get Forecast
+                            </Button>
+                        </div>
+                         {isLoading && (
+                            <div className="flex items-center justify-center h-24">
+                                <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
+                            </div>
+                        )}
                     </div>
-                ) : forecast ? (
+                ) : (
                     <div className="space-y-3">
+                        <div>
+                             <p className="text-sm font-semibold text-muted-foreground">3-Day Forecast for {location}</p>
+                        </div>
                         <div className="p-4 bg-primary/5 rounded-lg border border-primary/20 text-center">
                             <div className="flex items-center justify-center gap-4">
                                 {getWeatherIcon(forecast.forecast)}
@@ -83,10 +115,10 @@ export function WeatherPredictionCard() {
                                 {forecast.recommendation}
                             </AlertDescription>
                         </Alert>
-                    </div>
-                ) : (
-                     <div className="text-center text-muted-foreground p-4">
-                        <p>Could not load weather forecast.</p>
+
+                         <Button variant="outline" size="sm" onClick={handleReset} className="w-full">
+                           Check Another Location
+                        </Button>
                     </div>
                 )}
             </CardContent>
