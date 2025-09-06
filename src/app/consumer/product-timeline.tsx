@@ -99,8 +99,8 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
   const priceHistory = events
     .map(event => Object.entries(event.data)
         .find(([key]) => key.toLowerCase().includes('price from')))
-    .filter(item => !!item)
-    .map(item => ({ label: item![0], value: item![1] }));
+    .filter((item): item is [string, string] => !!item)
+    .map(item => ({ label: item[0], value: item[1] }));
 
 
   return (
@@ -190,7 +190,7 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
             <Card className="bg-muted/50">
                 <CardContent className="p-4 space-y-3">
                     {priceHistory.map((item, index) => (
-                       item.value && <div key={index} className="flex justify-between items-center text-sm">
+                       <div key={index} className="flex justify-between items-center text-sm">
                             <span className="text-muted-foreground">{item.label}:</span>
                             <span className="font-semibold">{item.value}</span>
                         </div>

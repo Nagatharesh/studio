@@ -20,6 +20,7 @@ const MOCK_BATCHES: Batch[] = [
     farmer: 'Tamil Farms',
     dateFarmed: '2023-03-15',
     status: 'IN_WAREHOUSE',
+    price: 'Rs.81 / kg',
     transactionHash: '0x1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f',
   },
   {
@@ -30,6 +31,7 @@ const MOCK_BATCHES: Batch[] = [
     farmer: 'Cauvery Delta Farmers',
     dateFarmed: '2023-03-16',
     status: 'IN_WAREHOUSE',
+    price: 'Rs.52 / kg',
     transactionHash: '0x4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f',
   },
   {
@@ -41,7 +43,7 @@ const MOCK_BATCHES: Batch[] = [
     dateFarmed: '2023-03-18',
     status: 'VERIFIED',
     quality: 'Grade A',
-    price: 'Rs.3.50 / kg',
+    price: 'Rs.40 / kg',
     warehouseConditions: 'Temp: 20°C, Humidity: 65%',
     agent: 'Simulated Agent Rajan',
     dateVerified: '2023-03-20',
@@ -55,6 +57,7 @@ const MOCK_BATCHES: Batch[] = [
     farmer: 'Madurai Orchards',
     dateFarmed: '2023-03-21',
     status: 'VERIFIED',
+    price: 'Rs.60 / kg',
     transactionHash: '0x9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6a7b8c9d0e1f2a3b4c5d6e7f8g9h0i',
   }
 ];
