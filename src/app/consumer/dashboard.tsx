@@ -59,7 +59,7 @@ const MOCK_PRODUCTS = [
     },
      {
       name: 'Small Onions (Shallots)',
-      image: 'https://images.pexels.com/photos/2225499/pexels-photo-2225499.jpeg?auto=compress&cs=tinysrgb&w=600',
+      image: 'https://images.unsplash.com/photo-1600807644626-fb3c8c8ba40d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxNXx8c21hbGwlMjBvbmlvbnN8ZW58MHx8fHwxNzU3MTU5Nzc2fDA&ixlib=rb-4.1.0&q=80&w=1080',
       price: '₹50 / kg',
       farmer: 'Erode Growers',
       rating: 4.6,
