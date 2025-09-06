@@ -3,7 +3,7 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'AgriChain',
+  title: 'GreenLedger',
   description: 'Farm-to-fork transparency with blockchain.',
 };
 

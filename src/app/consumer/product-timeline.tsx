@@ -75,7 +75,7 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
   const handleBuyNow = () => {
     toast({
         title: "Purchase Successful!",
-        description: `You have purchased ${product.name}. Thank you for your trust in AgriChain.`,
+        description: `You have purchased ${product.name}. Thank you for your trust in GreenLedger.`,
     });
   }
   
@@ -110,7 +110,7 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
             <div>
                 <CardTitle className="font-headline text-2xl">Product Details</CardTitle>
                 <CardDescription>
-                    Complete journey from farm to you, verified by AgriChain.
+                    Complete journey from farm to you, verified by GreenLedger.
                 </CardDescription>
             </div>
             <Button variant="outline" onClick={onReset}>

@@ -28,7 +28,7 @@ export default function LoginPage() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
       <div className="text-center mb-12">
-        <h1 className="font-headline text-5xl font-bold text-primary">AgriChain</h1>
+        <h1 className="font-headline text-5xl font-bold text-primary">GreenLedger</h1>
         <p className="text-muted-foreground mt-2 text-lg">
           Farm-to-fork transparency, powered by simulated blockchain.
         </p>
