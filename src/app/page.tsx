@@ -41,13 +41,13 @@ export default function LoginPage() {
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {roles.map((role) => (
-              <Link href={role.href} key={role.name} passHref legacyBehavior>
-                <a
-                  className={`flex flex-col items-center justify-center p-8 text-center transition-transform transform hover:-translate-y-2 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-lg cursor-pointer border-2 ${role.color}`}
-                >
-                  <role.icon className="w-16 h-16 mb-4" />
-                  <h3 className="font-headline text-xl font-semibold">{role.name}</h3>
-                </a>
+              <Link
+                href={role.href}
+                key={role.name}
+                className={`flex flex-col items-center justify-center p-8 text-center transition-transform transform hover:-translate-y-2 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-lg cursor-pointer border-2 ${role.color}`}
+              >
+                <role.icon className="w-16 h-16 mb-4" />
+                <h3 className="font-headline text-xl font-semibold">{role.name}</h3>
               </Link>
             ))}
           </div>
