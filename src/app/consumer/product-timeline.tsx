@@ -90,11 +90,12 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
     return 'vegetable product';
   }
 
-  const locations = [
-      { name: events.find(e => e.icon === 'Farmer')?.data['Origin'] || 'Unknown Farm', role: 'Farmer' },
-      { name: 'Central Warehouse', role: 'Agent' },
-      { name: 'Local Retailer', role: 'Consumer' }
-  ];
+  const locations = events
+    .filter(e => e.icon === 'Farmer' || e.icon === 'Agent')
+    .map(e => ({
+        name: e.icon === 'Farmer' ? e.data['Origin']?.split(',')[0] || 'Unknown Farm' : 'Central Warehouse',
+        role: e.icon as 'Farmer' | 'Agent'
+    }));
 
   const priceHistory = events
     .map(event => Object.entries(event.data)
@@ -106,19 +107,14 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
   return (
     <div className="max-h-[85vh] overflow-y-auto p-1 pr-4">
     <Card className="border-0 shadow-none">
-      <CardHeader>
-        <div className="flex justify-between items-center">
-            <div>
-                <CardTitle className="font-headline text-2xl">Product Details</CardTitle>
-                <CardDescription>
-                    Complete journey from farm to you, verified by GreenLedger.
-                </CardDescription>
-            </div>
-            <Button variant="outline" onClick={onReset}>
-                <RefreshCw className="mr-2 h-4 w-4" />
-                Scan/View Another
-            </Button>
+       <CardHeader className="flex flex-row justify-between items-center sticky top-0 bg-background/95 z-10 py-4 -mx-1 px-1">
+        <div className="flex-1">
+            {/* The title is now in the parent Dialog */}
         </div>
+        <Button variant="outline" onClick={onReset}>
+            <RefreshCw className="mr-2 h-4 w-4" />
+            Scan/View Another
+        </Button>
       </CardHeader>
       <CardContent>
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12">

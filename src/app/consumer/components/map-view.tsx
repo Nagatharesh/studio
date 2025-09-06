@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 interface Location {
   name: string;
-  role: 'Farmer' | 'Agent' | 'Consumer';
+  role: 'Farmer' | 'Agent';
 }
 
 interface MapViewProps {
@@ -16,13 +16,11 @@ interface MapViewProps {
 const roleStyles = {
   Farmer: { icon: Sprout, color: 'bg-primary' },
   Agent: { icon: Building2, color: 'bg-accent' },
-  Consumer: { icon: ShoppingCart, color: 'bg-consumer' },
 };
 
 const positionMap: { [key: number]: { top: string; left: string } } = {
-  0: { top: '20%', left: '15%' },
-  1: { top: '50%', left: '50%' },
-  2: { top: '30%', left: '85%' },
+  0: { top: '30%', left: '20%' },
+  1: { top: '70%', left: '80%' },
 };
 
 export function MapView({ locations }: MapViewProps) {
@@ -37,37 +35,40 @@ export function MapView({ locations }: MapViewProps) {
       />
       
       {/* Connection path */}
-      <svg width="100%" height="100%" className="absolute inset-0" style={{ zIndex: 1 }}>
-        <defs>
-            <style>
-                {`
-                    @keyframes draw {
-                        to {
-                            stroke-dashoffset: 0;
+      {locations.length > 1 && (
+        <svg width="100%" height="100%" className="absolute inset-0" style={{ zIndex: 1 }}>
+            <defs>
+                <style>
+                    {`
+                        @keyframes draw {
+                            to {
+                                stroke-dashoffset: 0;
+                            }
                         }
-                    }
-                    .animate-path-draw {
-                        stroke-dashoffset: 1000;
-                        animation: draw 3s ease-out forwards;
-                    }
-                `}
-            </style>
-        </defs>
-        <path 
-            d="M 15% 20% C 35% 35%, 35% 65%, 50% 50% S 65% 35%, 85% 30%" 
-            stroke="hsl(var(--foreground) / 0.5)" 
-            strokeWidth="3" 
-            fill="none" 
-            strokeDasharray="8"
-            className="animate-path-draw"
-        />
-      </svg>
+                        .animate-path-draw {
+                            stroke-dashoffset: 1000;
+                            animation: draw 2s ease-out forwards;
+                        }
+                    `}
+                </style>
+            </defs>
+            <path 
+                d={`M ${positionMap[0].left} ${positionMap[0].top} Q 50% 50%, ${positionMap[1].left} ${positionMap[1].top}`} 
+                stroke="hsl(var(--foreground) / 0.5)" 
+                strokeWidth="3" 
+                fill="none" 
+                strokeDasharray="8"
+                className="animate-path-draw"
+            />
+        </svg>
+      )}
 
       {/* Location markers */}
       {locations.map((loc, index) => {
         const Icon = roleStyles[loc.role].icon;
         const color = roleStyles[loc.role].color;
         const position = positionMap[index];
+        if (!position) return null;
         return (
           <div
             key={index}

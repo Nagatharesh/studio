@@ -27,7 +27,7 @@ const MOCK_DATA: {[key: string]: MockProduct} = {
       id: 'PROD-TOM-001',
       name: 'Vine-Ripened Tomatoes',
       image: 'https://images.pexels.com/photos/1327838/pexels-photo-1327838.jpeg?auto=compress&cs=tinysrgb&w=600',
-      price: 'Rs.95 / kg',
+      price: 'Rs.88 / kg',
       quality: 'Grade A',
       farmer: 'Madurai AgriStorage',
       rating: 4.7,
@@ -62,19 +62,6 @@ const MOCK_DATA: {[key: string]: MockProduct} = {
           },
           hash: '0x7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f1a2b3c4d5e6f'
       },
-      {
-          id: '3',
-          title: 'Ready for Consumer',
-          description: 'Product available at your local retailer.',
-          timestamp: '2023-03-22',
-          icon: 'Consumer',
-          color: 'bg-consumer',
-          data: {
-              'Price from Retailer': 'Rs.95 / kg',
-              'Status': 'Available in stores',
-          },
-          hash: '0x3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f1a2b3c4d5e6f7g8h9i0j1k2l'
-      },
     ]
   },
   'potatoes': {
@@ -82,7 +69,7 @@ const MOCK_DATA: {[key: string]: MockProduct} = {
       id: 'PROD-POT-002',
       name: 'Ooty Potatoes',
       image: 'https://images.pexels.com/photos/144248/potatoes-vegetables-erdfrucht-bio-144248.jpeg?auto=compress&cs=tinysrgb&w=600',
-      price: 'Rs.35 / kg',
+      price: 'Rs.30 / kg',
       quality: 'Grade B',
       farmer: 'Nilgiri Growers',
       rating: 4.6,
@@ -117,19 +104,6 @@ const MOCK_DATA: {[key: string]: MockProduct} = {
           },
           hash: '0x8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f1a2b3c4d5e6f7g'
       },
-      {
-          id: '3',
-          title: 'Ready for Consumer',
-          description: 'Product available at your local retailer.',
-          timestamp: '2023-04-07',
-          icon: 'Consumer',
-          color: 'bg-consumer',
-          data: {
-              'Price from Retailer': 'Rs.35 / kg',
-              'Status': 'Available in stores',
-          },
-          hash: '0x4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f1a2b3c4d5e6f7g8h9i0j1k2l3m'
-      },
     ]
   },
   'cauliflower': {
@@ -137,7 +111,7 @@ const MOCK_DATA: {[key: string]: MockProduct} = {
       id: 'PROD-CAU-003',
       name: 'Fresh Cauliflower',
       image: 'https://images.unsplash.com/photo-1566842600175-97dca489844f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjYXVsaWZsb3dlcnxlbnwwfHx8fDE3NTcxNTk3MTR8MA&ixlib=rb-4.1.0&q=80&w=1080',
-      price: 'Rs.30 / piece',
+      price: 'Rs.26 / piece',
       quality: 'Grade A',
       farmer: 'Ooty Farms',
       rating: 4.8,
@@ -172,19 +146,6 @@ const MOCK_DATA: {[key: string]: MockProduct} = {
           },
           hash: '0x9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f1a2b3c4d5e6f7g8h'
       },
-      {
-          id: '3',
-          title: 'Ready for Consumer',
-          description: 'Product available at your local retailer.',
-          timestamp: '2023-05-14',
-          icon: 'Consumer',
-          color: 'bg-consumer',
-          data: {
-              'Price from Retailer': 'Rs.30 / piece',
-              'Status': 'Available in stores',
-          },
-          hash: '0x5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f1a2b3c4d5e6f7g8h9i0j1k2l3m4n'
-      },
     ]
   },
   'eggplant': {
@@ -192,7 +153,7 @@ const MOCK_DATA: {[key: string]: MockProduct} = {
       id: 'PROD-EGG-004',
       name: 'Glossy Brinjal (Eggplant)',
       image: 'https://images.pexels.com/photos/128420/pexels-photo-128420.jpeg?auto=compress&cs=tinysrgb&w=600',
-      price: 'Rs.45 / kg',
+      price: 'Rs.40 / kg',
       quality: 'Grade A',
       farmer: 'Kovai Fields',
       rating: 4.5,
@@ -227,19 +188,6 @@ const MOCK_DATA: {[key: string]: MockProduct} = {
           },
           hash: '0x0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f1a2b3c4d5e6f7g8h9i'
       },
-      {
-          id: '3',
-          title: 'Ready for Consumer',
-          description: 'Product available at your local retailer.',
-          timestamp: '2023-06-05',
-          icon: 'Consumer',
-          color: 'bg-consumer',
-          data: {
-              'Price from Retailer': 'Rs.45 / kg',
-              'Status': 'Available in stores',
-          },
-          hash: '0x6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o'
-      },
     ]
   },
   'spinach': {
@@ -270,18 +218,18 @@ const MOCK_DATA: {[key: string]: MockProduct} = {
         hash: '0x5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f1a2b3c4d'
       },
       {
-          id: '2',
-          title: 'Ready for Consumer',
-          description: 'Product available at your local retailer.',
-          timestamp: '2023-07-02',
-          icon: 'Consumer',
-          color: 'bg-consumer',
-          data: {
-              'Price from Retailer': 'Rs.25 / bundle',
-              'Status': 'Available in stores',
-          },
-          hash: '0x1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f1a2b3c4d5e6f7g8h9i0j'
-      },
+        id: '2',
+        title: 'Ready for Consumer',
+        description: 'Product available for purchase.',
+        timestamp: '2023-07-02',
+        icon: 'Consumer',
+        color: 'bg-consumer',
+        data: {
+            'Final Price': 'Rs.25 / bundle',
+            'Status': 'Available',
+        },
+        hash: '0x1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f1a2b3c4d5e6f7g8h9i0j'
+    },
     ]
   },
   'onions': {
@@ -289,7 +237,7 @@ const MOCK_DATA: {[key: string]: MockProduct} = {
       id: 'PROD-ONI-006',
       name: 'Small Onions (Shallots)',
       image: 'https://images.unsplash.com/photo-1600807644626-fb3c8c8ba40d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxNXx8c21hbGwlMjBvbmlvbnN8ZW58MHx8fHwxNzU3MTU5Nzc2fDA&ixlib=rb-4.1.0&q=80&w=1080',
-      price: 'Rs.50 / kg',
+      price: 'Rs.45 / kg',
       quality: 'Export Grade',
       farmer: 'Erode Growers',
       rating: 4.6,
@@ -323,19 +271,6 @@ const MOCK_DATA: {[key: string]: MockProduct} = {
               'Price from Agent': 'Rs.45 / kg',
           },
           hash: '0x2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f1a2b3c4d5e6f7g8h9i0j1k'
-      },
-      {
-          id: '3',
-          title: 'Ready for Consumer',
-          description: 'Product available at your local retailer.',
-          timestamp: '2023-08-14',
-          icon: 'Consumer',
-          color: 'bg-consumer',
-          data: {
-              'Price from Retailer': 'Rs.50 / kg',
-              'Status': 'Available in stores',
-          },
-          hash: '0x7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p'
       },
     ]
   },
@@ -438,7 +373,17 @@ export default function ConsumerDashboard() {
 
         <Dialog open={isTimelineModalOpen} onOpenChange={setTimelineModalOpen}>
             <DialogContent className="max-w-4xl">
-                 {selectedProduct && <ProductTimeline product={selectedProduct.details} events={selectedProduct.history} onReset={() => setTimelineModalOpen(false)} />}
+                 {selectedProduct && (
+                    <>
+                        <DialogHeader>
+                            <DialogTitle className="font-headline text-2xl">Product Details</DialogTitle>
+                             <DialogDescription>
+                                Complete journey from farm to you, verified by GreenLedger.
+                            </DialogDescription>
+                        </DialogHeader>
+                        <ProductTimeline product={selectedProduct.details} events={selectedProduct.history} onReset={() => setTimelineModalOpen(false)} />
+                    </>
+                 )}
             </DialogContent>
         </Dialog>
     </div>

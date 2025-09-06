@@ -28,7 +28,6 @@ const statusStyles = {
   IN_WAREHOUSE: { icon: Warehouse, color: 'bg-accent text-accent-foreground' },
   VERIFIED: { icon: CheckCircle, color: 'bg-green-500 text-white' },
   FARMED: { icon: Sprout, color: 'bg-primary text-primary-foreground' },
-  RETAIL: { icon: CheckCircle, color: 'bg-green-500 text-white' }
 };
 
 export function SingleBatchMapView({ batch }: SingleBatchMapViewProps) {

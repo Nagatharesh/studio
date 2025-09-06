@@ -6,7 +6,7 @@ export type Batch = {
   soilProperties: string;
   farmer: string;
   dateFarmed: string;
-  status: 'FARMED' | 'IN_WAREHOUSE' | 'VERIFIED' | 'RETAIL';
+  status: 'FARMED' | 'IN_WAREHOUSE' | 'VERIFIED';
   quality?: string;
   price?: string;
   warehouseConditions?: string;

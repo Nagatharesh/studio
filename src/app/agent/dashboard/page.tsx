@@ -158,7 +158,7 @@ export default function AgentDashboardPage() {
                     </Button>
                 ) : (
                     <div className="text-center p-2 bg-muted rounded-md">
-                        <p className="font-semibold">Forwarded to Retail at {batch.price}</p>
+                        <p className="font-semibold">Ready for Consumer at {batch.price}</p>
                     </div>
                 )}
               </CardFooter>
