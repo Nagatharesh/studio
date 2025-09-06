@@ -7,6 +7,65 @@ import { QrCode, ScanLine } from 'lucide-react';
 import type { TimelineEvent, ProductDetails } from '@/lib/types';
 import { ProductTimeline } from './product-timeline';
 import { FarmerIcon, AgentIcon, ConsumerIcon } from '@/components/icons';
+import { ProductCard } from './components/product-card';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+
+const MOCK_PRODUCTS = [
+    {
+      name: 'Organically Grown Turmeric Powder',
+      image: 'https://picsum.photos/600/400?random=10',
+      price: '₹55 / 100g',
+      farmer: 'Tamil Farms',
+      rating: 4.8,
+      reviews: 124,
+    },
+    {
+      name: 'Fresh Red Onions',
+      image: 'https://picsum.photos/600/400?random=1',
+      price: '₹40 / kg',
+      farmer: 'Cauvery Delta Farmers',
+      rating: 4.6,
+      reviews: 89,
+    },
+    {
+      name: 'Vine-Ripened Tomatoes',
+      image: 'https://picsum.photos/600/400?random=2',
+      price: '₹35 / kg',
+      farmer: 'Madurai AgriStorage',
+      rating: 4.7,
+      reviews: 152,
+    },
+    {
+      name: 'Crisp Okra (Lady\'s Finger)',
+      image: 'https://picsum.photos/600/400?random=3',
+      price: '₹50 / kg',
+      farmer: 'Erode Growers',
+      rating: 4.5,
+      reviews: 74,
+    },
+    {
+      name: 'Aromatic Basmati Rice',
+      image: 'https://picsum.photos/600/400?random=4',
+      price: '₹120 / kg',
+      farmer: 'Thanjavur Delta Farmers',
+      rating: 4.9,
+      reviews: 210,
+    },
+     {
+      name: 'Sweet Sugarcane Juice',
+      image: 'https://picsum.photos/600/400?random=5',
+      price: '₹30 / glass',
+      farmer: 'Coromandel Sugars',
+      rating: 4.7,
+      reviews: 95,
+    },
+  ];
 
 const MOCK_PRODUCT_HISTORY: TimelineEvent[] = [
     {
@@ -65,59 +124,92 @@ const MOCK_PRODUCT_DETAILS: ProductDetails = {
 
 
 export default function ConsumerDashboard() {
-  const [scannedData, setScannedData] = useState<TimelineEvent[] | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<ProductDetails | null>(null);
   const [isScanning, setIsScanning] = useState(false);
+  const [isScanModalOpen, setScanModalOpen] = useState(false);
 
   const handleScan = () => {
     setIsScanning(true);
     // Simulate scanning delay
     setTimeout(() => {
-      setScannedData(MOCK_PRODUCT_HISTORY);
+      setSelectedProduct(MOCK_PRODUCT_DETAILS);
       setIsScanning(false);
+      setScanModalOpen(false);
     }, 1500);
   };
 
   const handleReset = () => {
-    setScannedData(null);
+    setSelectedProduct(null);
   }
 
-  if (scannedData) {
-    return <ProductTimeline product={MOCK_PRODUCT_DETAILS} events={scannedData} onReset={handleReset} />;
+  const handleProductClick = (product: Omit<ProductDetails, 'quality'>) => {
+    setSelectedProduct({
+        ...MOCK_PRODUCT_DETAILS,
+        ...product
+    });
+  }
+
+  if (selectedProduct) {
+    return <ProductTimeline product={selectedProduct} events={MOCK_PRODUCT_HISTORY} onReset={handleReset} />;
   }
 
   return (
-    <Card className="overflow-hidden">
-      <CardContent className="p-10 flex flex-col items-center justify-center text-center">
-        <div className="relative w-48 h-48 flex items-center justify-center mb-6">
-            <QrCode className="w-full h-full text-muted-foreground/20" />
-            {isScanning && <ScanLine className="absolute w-full h-1 bg-consumer/70 animate-pulse" style={{ animation: 'scan 1.5s ease-in-out infinite' }}/>}
+    <div className="relative">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {MOCK_PRODUCTS.map((product) => (
+                <div key={product.name} onClick={() => handleProductClick(product)} className="cursor-pointer">
+                    <ProductCard product={product} />
+                </div>
+            ))}
         </div>
-        <style jsx>{`
-            @keyframes scan {
-                0% { top: 0; }
-                50% { top: 100%; }
-                100% { top: 0; }
-            }
-        `}</style>
         
-        <h2 className="font-headline text-2xl font-semibold">Ready to Scan</h2>
-        <p className="text-muted-foreground mt-2 max-w-sm">
-          Click the button below to simulate scanning a product's QR code and trace its journey.
-        </p>
-        <Button onClick={handleScan} className="mt-8 bg-consumer hover:bg-consumer/90" size="lg" disabled={isScanning}>
-          {isScanning ? (
-            <>
-              <ScanLine className="mr-2 h-5 w-5 animate-pulse" />
-              Scanning...
-            </>
-          ) : (
-            <>
-              <QrCode className="mr-2 h-5 w-5" />
-              Scan Product QR Code
-            </>
-          )}
+        <Button
+            onClick={() => setScanModalOpen(true)}
+            className="fixed bottom-8 right-8 h-16 w-16 rounded-full shadow-lg bg-consumer hover:bg-consumer/90 flex items-center justify-center z-50"
+        >
+            <QrCode className="h-8 w-8" />
+            <span className="sr-only">Scan QR Code</span>
         </Button>
-      </CardContent>
-    </Card>
+
+        <Dialog open={isScanModalOpen} onOpenChange={setScanModalOpen}>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle className="font-headline text-2xl text-center">Scan Product QR Code</DialogTitle>
+                    <DialogDescription className="text-center">
+                        Hold the product's QR code in front of the camera to see its journey.
+                    </DialogDescription>
+                </DialogHeader>
+                <Card className="overflow-hidden border-0 shadow-none">
+                    <CardContent className="p-4 flex flex-col items-center justify-center text-center">
+                        <div className="relative w-48 h-48 flex items-center justify-center mb-6">
+                            <QrCode className="w-full h-full text-muted-foreground/20" />
+                            {isScanning && <ScanLine className="absolute w-full h-1 bg-consumer/70 animate-pulse" style={{ animation: 'scan 1.5s ease-in-out infinite' }}/>}
+                        </div>
+                        <style jsx>{`
+                            @keyframes scan {
+                                0% { top: 0; }
+                                50% { top: 100%; }
+                                100% { top: 0; }
+                            }
+                        `}</style>
+                        
+                        <Button onClick={handleScan} className="bg-consumer hover:bg-consumer/90" size="lg" disabled={isScanning}>
+                        {isScanning ? (
+                            <>
+                            <ScanLine className="mr-2 h-5 w-5 animate-pulse" />
+                            Scanning...
+                            </>
+                        ) : (
+                            <>
+                            <QrCode className="mr-2 h-5 w-5" />
+                            Simulate Scan
+                            </>
+                        )}
+                        </Button>
+                    </CardContent>
+                </Card>
+            </DialogContent>
+        </Dialog>
+    </div>
   );
 }
