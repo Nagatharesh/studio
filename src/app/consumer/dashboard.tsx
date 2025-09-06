@@ -19,7 +19,7 @@ import {
 const MOCK_PRODUCTS = [
     {
       name: 'Vine-Ripened Tomatoes',
-      image: 'https://picsum.photos/seed/tomato/600/400',
+      image: 'https://images.pexels.com/photos/1327838/pexels-photo-1327838.jpeg?auto=compress&cs=tinysrgb&w=600',
       price: '₹35 / kg',
       farmer: 'Madurai AgriStorage',
       rating: 4.7,
@@ -27,7 +27,7 @@ const MOCK_PRODUCTS = [
     },
     {
       name: 'Himalayan Potatoes',
-      image: 'https://picsum.photos/seed/potatoes/600/400',
+      image: 'https://images.pexels.com/photos/144248/potatoes-vegetables-erdfrucht-bio-144248.jpeg?auto=compress&cs=tinysrgb&w=600',
       price: '₹30 / kg',
       farmer: 'Nilgiri Growers',
       rating: 4.6,
@@ -35,7 +35,7 @@ const MOCK_PRODUCTS = [
     },
     {
       name: 'Fresh Cauliflower',
-      image: 'https://picsum.photos/seed/cauliflower/600/400',
+      image: 'https://images.pexels.com/photos/162875/cauliflower-white-healthy-vegetables-162875.jpeg?auto=compress&cs=tinysrgb&w=600',
       price: '₹25 / piece',
       farmer: 'Ooty Farms',
       rating: 4.8,
@@ -43,7 +43,7 @@ const MOCK_PRODUCTS = [
     },
     {
       name: 'Glossy Brinjal (Eggplant)',
-      image: 'https://picsum.photos/seed/eggplant/600/400',
+      image: 'https://images.pexels.com/photos/128420/pexels-photo-128420.jpeg?auto=compress&cs=tinysrgb&w=600',
       price: '₹40 / kg',
       farmer: 'Kovai Fields',
       rating: 4.5,
@@ -51,7 +51,7 @@ const MOCK_PRODUCTS = [
     },
     {
       name: 'Organic Spinach Greens',
-      image: 'https://picsum.photos/seed/spinach/600/400',
+      image: 'https://images.pexels.com/photos/2325843/pexels-photo-2325843.jpeg?auto=compress&cs=tinysrgb&w=600',
       price: '₹20 / bunch',
       farmer: 'Cauvery Delta Farmers',
       rating: 4.9,
@@ -59,7 +59,7 @@ const MOCK_PRODUCTS = [
     },
      {
       name: 'Fresh Red Onions',
-      image: 'https://picsum.photos/seed/onions/600/400',
+      image: 'https://images.pexels.com/photos/2225499/pexels-photo-2225499.jpeg?auto=compress&cs=tinysrgb&w=600',
       price: '₹40 / kg',
       farmer: 'Erode Growers',
       rating: 4.6,
@@ -114,7 +114,7 @@ const MOCK_PRODUCT_HISTORY: TimelineEvent[] = [
 
 const MOCK_PRODUCT_DETAILS: ProductDetails = {
     name: "Vine-Ripened Tomatoes",
-    image: "https://picsum.photos/seed/tomato/600/400",
+    image: 'https://images.pexels.com/photos/1327838/pexels-photo-1327838.jpeg?auto=compress&cs=tinysrgb&w=600',
     price: "₹35 / kg",
     quality: "Grade A",
     farmer: "Madurai AgriStorage",
