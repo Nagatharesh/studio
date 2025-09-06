@@ -6,8 +6,8 @@ export const FarmerIcon = ({ className }: { className?: string }) => (
 export const AgentIcon = ({ className }: { className?: string }) => (
   <Building2 className={className} />
 );
-export const ConsumerIcon = ({ className_ }: { className_?: string }) => (
-  <ShoppingCart className={className_} />
+export const ConsumerIcon = ({ className }: { className?: string }) => (
+  <ShoppingCart className={className} />
 );
 export const LeafIcon = ({ className }: { className?: string }) => (
     <Leaf className={className} />
