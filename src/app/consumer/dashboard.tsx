@@ -27,7 +27,7 @@ const MOCK_PRODUCTS = [
     },
     {
       name: 'Himalayan Potatoes',
-      image: 'https://picsum.photos/seed/potato/600/400',
+      image: 'https://picsum.photos/seed/potatoes/600/400',
       price: '₹30 / kg',
       farmer: 'Nilgiri Growers',
       rating: 4.6,
@@ -51,7 +51,7 @@ const MOCK_PRODUCTS = [
     },
     {
       name: 'Organic Spinach Greens',
-      image: 'https://picsum.photos/seed/greens/600/400',
+      image: 'https://picsum.photos/seed/spinach-greens/600/400',
       price: '₹20 / bunch',
       farmer: 'Cauvery Delta Farmers',
       rating: 4.9,
@@ -59,7 +59,7 @@ const MOCK_PRODUCTS = [
     },
      {
       name: 'Fresh Red Onions',
-      image: 'https://picsum.photos/seed/onions-red/600/400',
+      image: 'https://picsum.photos/seed/red-onions/600/400',
       price: '₹40 / kg',
       farmer: 'Erode Growers',
       rating: 4.6,
