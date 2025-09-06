@@ -94,7 +94,7 @@ export default function AgentDashboardPage() {
       });
   };
 
-  const handleCardClick = (batch: Batch) => {
+  const handleViewOnMap = (batch: Batch) => {
     setSelectedBatch(batch);
     setMapOpen(true);
   }
@@ -105,7 +105,7 @@ export default function AgentDashboardPage() {
       {batches.length > 0 ? (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {batches.map((batch) => (
-            <Card key={batch.id} className="flex flex-col cursor-pointer hover:shadow-lg transition-shadow" onClick={() => handleCardClick(batch)}>
+            <Card key={batch.id} className="flex flex-col">
               <CardHeader>
                 <div className="flex justify-between items-start">
                     <div>
@@ -129,25 +129,28 @@ export default function AgentDashboardPage() {
                     <h4 className="font-semibold flex items-center gap-2"><FilePenLine className="w-4 h-4 text-accent"/>Verification Details</h4>
                     <div className="space-y-2">
                         <Label htmlFor={`quality-${batch.id}`}>Quality Check</Label>
-                        <Input id={`quality-${batch.id}`} value={batch.quality || ''} onChange={(e) => {e.stopPropagation(); handleUpdate(batch.id, 'quality', e.target.value)}} onClick={(e) => e.stopPropagation()} placeholder="e.g., Grade A" disabled={batch.status === 'VERIFIED'} />
+                        <Input id={`quality-${batch.id}`} value={batch.quality || ''} onChange={(e) => handleUpdate(batch.id, 'quality', e.target.value)} placeholder="e.g., Grade A" disabled={batch.status === 'VERIFIED'} />
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor={`price-${batch.id}`}>Pricing</Label>
-                        <Input id={`price-${batch.id}`} value={batch.price || ''} onChange={(e) => {e.stopPropagation(); handleUpdate(batch.id, 'price', e.target.value)}} onClick={(e) => e.stopPropagation()} placeholder="e.g., ₹3,200/ton" disabled={batch.status === 'VERIFIED'} />
+                        <Input id={`price-${batch.id}`} value={batch.price || ''} onChange={(e) => handleUpdate(batch.id, 'price', e.target.value)} placeholder="e.g., ₹3,200/ton" disabled={batch.status === 'VERIFIED'} />
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor={`warehouse-${batch.id}`}>Warehouse Conditions</Label>
-                        <Input id={`warehouse-${batch.id}`} value={batch.warehouseConditions || ''} onChange={(e) => {e.stopPropagation(); handleUpdate(batch.id, 'warehouseConditions', e.target.value)}} onClick={(e) => e.stopPropagation()} placeholder="e.g., Temp: 20°C, Humidity: 65%" disabled={batch.status === 'VERIFIED'} />
+                        <Input id={`warehouse-${batch.id}`} value={batch.warehouseConditions || ''} onChange={(e) => handleUpdate(batch.id, 'warehouseConditions', e.target.value)} placeholder="e.g., Temp: 20°C, Humidity: 65%" disabled={batch.status === 'VERIFIED'} />
                     </div>
                 </div>
               </CardContent>
               <CardFooter className="flex-col items-stretch gap-2">
+                 <Button variant="outline" className="w-full" onClick={() => handleViewOnMap(batch)}>
+                    <MapPin className="mr-2 h-4 w-4" /> View on Map
+                 </Button>
                  {batch.status === 'IN_WAREHOUSE' ? (
-                    <Button className="w-full bg-accent hover:bg-accent/90" onClick={(e) => {e.stopPropagation(); handleApprove(batch.id)}}>
+                    <Button className="w-full bg-accent hover:bg-accent/90" onClick={() => handleApprove(batch.id)}>
                         <CheckCircle className="mr-2 h-4 w-4" /> Approve & Sign
                     </Button>
                 ) : (
-                    <Button className="w-full" disabled onClick={(e) => e.stopPropagation()}>
+                    <Button className="w-full" disabled>
                         <Truck className="mr-2 h-4 w-4" /> Forwarded to Retail
                     </Button>
                 )}
