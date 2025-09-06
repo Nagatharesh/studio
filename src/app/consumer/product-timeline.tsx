@@ -114,6 +114,7 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
   ];
 
   return (
+    <div className="container mx-auto py-8">
     <Card>
       <CardHeader>
         <div className="flex justify-between items-center">
@@ -132,7 +133,7 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
       <CardContent>
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
             {/* Left Column: Image & Map */}
-            <div className="space-y-4">
+            <div className="space-y-6">
                 <Card className="overflow-hidden">
                     <div className="aspect-video relative">
                         <Image 
@@ -144,8 +145,10 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
                         />
                     </div>
                 </Card>
-                <h3 className="font-headline text-lg font-semibold flex items-center gap-2"><MapPin className="w-5 h-5 text-primary"/> Product Journey Map</h3>
-                <MapView locations={locations} />
+                 <div>
+                    <h3 className="font-headline text-lg font-semibold flex items-center gap-2 mb-4"><MapPin className="w-5 h-5 text-primary"/> Product Journey Map</h3>
+                    <MapView locations={locations} />
+                </div>
             </div>
 
             {/* Right Column: Actions & Quick Info */}
@@ -213,5 +216,6 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
         </div>
       </CardContent>
     </Card>
+    </div>
   );
 }
