@@ -20,7 +20,7 @@ const MOCK_PRODUCTS = [
     {
       name: 'Vine-Ripened Tomatoes',
       image: 'https://images.pexels.com/photos/1327838/pexels-photo-1327838.jpeg?auto=compress&cs=tinysrgb&w=600',
-      price: 'Rs.40 / kg',
+      price: 'Rs.95 / kg',
       farmer: 'Madurai AgriStorage',
       rating: 4.7,
       reviews: 152,
@@ -115,7 +115,7 @@ const MOCK_PRODUCT_HISTORY: TimelineEvent[] = [
 const MOCK_PRODUCT_DETAILS: ProductDetails = {
     name: "Vine-Ripened Tomatoes",
     image: 'https://images.pexels.com/photos/1327838/pexels-photo-1327838.jpeg?auto=compress&cs=tinysrgb&w=600',
-    price: "Rs.40 / kg",
+    price: "Rs.95 / kg",
     quality: "Grade A",
     farmer: "Madurai AgriStorage",
     rating: 4.7,

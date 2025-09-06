@@ -43,7 +43,7 @@ const MOCK_BATCHES: Batch[] = [
     dateFarmed: '2023-03-18',
     status: 'VERIFIED',
     quality: 'Grade A',
-    price: 'Rs.3.50 / kg',
+    price: 'Rs.40 / kg',
     warehouseConditions: 'Temp: 20°C, Humidity: 65%',
     agent: 'Simulated Agent Rajan',
     dateVerified: '2023-03-20',
