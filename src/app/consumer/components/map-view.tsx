@@ -38,6 +38,21 @@ export function MapView({ locations }: MapViewProps) {
       
       {/* Connection path */}
       <svg width="100%" height="100%" className="absolute inset-0" style={{ zIndex: 1 }}>
+        <defs>
+            <style>
+                {`
+                    @keyframes draw {
+                        to {
+                            stroke-dashoffset: 0;
+                        }
+                    }
+                    .animate-path-draw {
+                        stroke-dashoffset: 1000;
+                        animation: draw 3s ease-out forwards;
+                    }
+                `}
+            </style>
+        </defs>
         <path 
             d="M 15% 20% C 35% 35%, 35% 65%, 50% 50% S 65% 35%, 85% 30%" 
             stroke="hsl(var(--foreground) / 0.5)" 
@@ -47,17 +62,6 @@ export function MapView({ locations }: MapViewProps) {
             className="animate-path-draw"
         />
       </svg>
-      <style jsx>{`
-        @keyframes draw {
-          to {
-            stroke-dashoffset: 0;
-          }
-        }
-        .animate-path-draw {
-          stroke-dashoffset: 1000;
-          animation: draw 3s ease-out forwards;
-        }
-      `}</style>
 
       {/* Location markers */}
       {locations.map((loc, index) => {
