@@ -60,7 +60,7 @@ function TimelineItem({ event, isLast }: { event: TimelineEvent, isLast: boolean
 const similarProducts = [
     {
       name: 'Himalayan Potatoes',
-      image: 'https://storage.googleapis.com/maker-studio-project-files-prod/f7375a76-e137-4a49-9286-9d338f0d9128/images/a297a73a-f1d2-4325-9610-3883a4939213.jpeg',
+      image: 'https://picsum.photos/seed/potatoes/600/400',
       price: '₹30 / kg',
       farmer: 'Nilgiri Growers',
       rating: 4.6,
@@ -68,7 +68,7 @@ const similarProducts = [
     },
     {
       name: 'Fresh Cauliflower',
-      image: 'https://storage.googleapis.com/maker-studio-project-files-prod/f7375a76-e137-4a49-9286-9d338f0d9128/images/a59a7f34-8c3c-4d30-97a1-f274751f9a2e.jpeg',
+      image: 'https://picsum.photos/seed/cauliflower/600/400',
       price: '₹25 / piece',
       farmer: 'Ooty Farms',
       rating: 4.8,
@@ -76,7 +76,7 @@ const similarProducts = [
     },
     {
       name: 'Organic Spinach Greens',
-      image: 'https://storage.googleapis.com/maker-studio-project-files-prod/f7375a76-e137-4a49-9286-9d338f0d9128/images/bf304925-5079-4503-b655-c2621d3a54e9.jpeg',
+      image: 'https://picsum.photos/seed/spinach/600/400',
       price: '₹20 / bunch',
       farmer: 'Cauvery Delta Farmers',
       rating: 4.9,
