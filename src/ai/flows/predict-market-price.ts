@@ -24,7 +24,7 @@ export type PredictMarketPriceInput = z.infer<
 const PredictMarketPriceOutputSchema = z.object({
   predictedPriceRange: z
     .string()
-    .describe('The predicted price range, e.g., "₹7,800 - ₹8,500 / quintal".'),
+    .describe('The predicted price range, e.g., "Rs.7,800 - Rs.8,500 / quintal".'),
   trend: z
     .string()
     .describe('The market trend, e.g., "Stable", "Likely to Increase", "Likely to Decrease".'),
@@ -51,7 +51,7 @@ const prompt = ai.definePrompt({
   prompt: `You are an expert agricultural market analyst for Tamil Nadu.
 Your task is to predict the market price for a given crop.
 
-For the given crop, generate a realistic but randomized predicted price range in Rupees per quintal suitable for the Tamil Nadu market.
+For the given crop, generate a realistic but randomized predicted price range in Rupees per quintal suitable for the Tamil Nadu market. Use "Rs." as the currency symbol (e.g., "Rs.8,000 - Rs.8,500 / quintal").
 Also, provide a randomized market trend (e.g., "Stable", "Likely to Increase", "Likely to Decrease") and a brief, corresponding recommendation for the farmer.
 Do not use the same values every time; introduce variability for a more dynamic prototype.
 

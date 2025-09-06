@@ -29,6 +29,7 @@ export function MarketPricePredictionCard() {
             return;
         }
         setIsPredicting(true);
+        setPrediction(null);
         const result = await getMarketPricePrediction({ cropName });
         setIsPredicting(false);
         if (result.error) {
