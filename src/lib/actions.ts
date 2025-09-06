@@ -15,7 +15,7 @@ import {
   type CheckWarehouseAvailabilityOutput,
 } from '@/ai/flows/check-warehouse-availability';
 import {
-    getForumResponse,
+    getForumResponse as getForumResponseFlow,
     type GetForumResponseInput,
     type GetForumResponseOutput
 } from '@/ai/flows/get-forum-response';
@@ -66,7 +66,7 @@ export async function getDiseaseDiagnosis(
   }
 }
 
-const warehouseAvailabilitySchema =.object({
+const warehouseAvailabilitySchema = z.object({
   location: z.string().min(3, 'Location must be at least 3 characters.'),
 });
 
@@ -103,7 +103,7 @@ export async function getForumResponse(
     }
 
     try {
-        const result = await getForumResponse(data);
+        const result = await getForumResponseFlow(data);
         return { response: result };
     } catch (e) {
         console.error(e);
