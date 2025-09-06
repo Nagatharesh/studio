@@ -28,14 +28,13 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import { getCropSuggestions } from '@/lib/actions';
 import type { Batch } from '@/lib/types';
-import { PlusCircle, Cpu, Loader2, Sparkles, Download, QrCode, DollarSign } from 'lucide-react';
+import { PlusCircle, Cpu, Loader2, Sparkles, Download, QrCode } from 'lucide-react';
 import Image from 'next/image';
 import { DiseaseDetectionCard } from './components/disease-detection-card';
 import { WarehouseAvailabilityCard } from './components/warehouse-availability-card';
 import { MarketPricePredictionCard } from './components/market-price-prediction-card';
 import { WeatherPredictionCard } from './components/weather-prediction-card';
 import { CarbonCreditsCard } from './components/carbon-credits-card';
-import { VoiceAssistantCard } from './components/voice-assistant-card';
 
 const addCropSchema = z.object({
   cropType: z.string().min(2, { message: 'Crop type is required.' }),
@@ -295,7 +294,6 @@ export default function FarmerDashboard() {
       </div>
 
       <div className="space-y-6">
-        <VoiceAssistantCard />
         <WeatherPredictionCard />
         <CarbonCreditsCard batches={batches} />
         <DiseaseDetectionCard />

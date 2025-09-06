@@ -1,9 +1,11 @@
+
 'use client';
 
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { DashboardLayout } from '@/components/dashboard-layout';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { FloatingVoiceAssistant } from './components/floating-voice-assistant';
 
 export default function FarmerLayout({
   children,
@@ -36,6 +38,7 @@ export default function FarmerLayout({
             {children}
         </TabsContent>
       </Tabs>
+      <FloatingVoiceAssistant />
     </DashboardLayout>
   );
 }
