@@ -40,6 +40,19 @@ export function LogisticsMap({ batches, selectedBatchId, onSelectBatch }: Logist
   return (
     <TooltipProvider>
     <div className="relative w-full h-full bg-muted/30 rounded-lg overflow-hidden border">
+      <style>
+        {`
+            @keyframes draw {
+                to {
+                    stroke-dashoffset: 0;
+                }
+            }
+            .animate-path-draw {
+                stroke-dashoffset: 1000;
+                animation: draw 3s ease-out forwards;
+            }
+        `}
+      </style>
       <Image
         data-ai-hint="map tamil nadu"
         src="https://images.pexels.com/photos/208535/pexels-photo-208535.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
@@ -50,21 +63,6 @@ export function LogisticsMap({ batches, selectedBatchId, onSelectBatch }: Logist
       
       {/* Route lines */}
       <svg width="100%" height="100%" className="absolute inset-0" style={{ zIndex: 1 }}>
-        <defs>
-            <style>
-                {`
-                    @keyframes draw {
-                        to {
-                            stroke-dashoffset: 0;
-                        }
-                    }
-                    .animate-path-draw {
-                        stroke-dashoffset: 1000;
-                        animation: draw 3s ease-out forwards;
-                    }
-                `}
-            </style>
-        </defs>
         {batches.filter(b => b.status === 'IN_WAREHOUSE').map(batch => {
             const startPos = locationPositions[batch.location] || locationPositions['Default'];
             return (
