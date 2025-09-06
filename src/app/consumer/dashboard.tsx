@@ -19,7 +19,7 @@ import {
 const MOCK_PRODUCTS = [
     {
       name: 'Vine-Ripened Tomatoes',
-      image: 'https://picsum.photos/seed/tomato/600/400',
+      image: 'https://storage.googleapis.com/maker-studio-project-files-prod/f7375a76-e137-4a49-9286-9d338f0d9128/images/edbc4b41-e945-4228-9a4f-5619114d23fd.jpeg',
       price: '₹35 / kg',
       farmer: 'Madurai AgriStorage',
       rating: 4.7,
@@ -114,7 +114,7 @@ const MOCK_PRODUCT_HISTORY: TimelineEvent[] = [
 
 const MOCK_PRODUCT_DETAILS: ProductDetails = {
     name: "Vine-Ripened Tomatoes",
-    image: "https://picsum.photos/seed/tomato/600/400",
+    image: "https://storage.googleapis.com/maker-studio-project-files-prod/f7375a76-e137-4a49-9286-9d338f0d9128/images/edbc4b41-e945-4228-9a4f-5619114d23fd.jpeg",
     price: "₹35 / kg",
     quality: "Grade A",
     farmer: "Madurai AgriStorage",
