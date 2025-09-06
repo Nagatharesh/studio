@@ -26,10 +26,10 @@ export default function AgentLayout({
 
        <Tabs value={pathname} className="mt-6">
         <TabsList>
-            <Link href="/agent/dashboard" passHref>
+            <Link href="/agent/dashboard">
                 <TabsTrigger value="/agent/dashboard">Incoming Batches</TabsTrigger>
             </Link>
-            <Link href="/agent/map" passHref>
+            <Link href="/agent/map">
                 <TabsTrigger value="/agent/map">Logistics Map</TabsTrigger>
             </Link>
         </TabsList>

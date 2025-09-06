@@ -1,7 +1,14 @@
-import { AgentMapView } from './agent-map-view';
+
+'use client';
+
+import { useState } from 'react';
+import { LogisticsMap } from './logistics-map';
 import type { Batch } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Truck } from 'lucide-react';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Badge } from '@/components/ui/badge';
+import { Truck, Sprout, Warehouse, CheckCircle } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 
 const MOCK_BATCHES: Batch[] = [
@@ -62,21 +69,65 @@ const MOCK_BATCHES: Batch[] = [
   }
 ];
 
+const statusStyles = {
+  IN_WAREHOUSE: { icon: Warehouse, color: 'bg-accent text-accent-foreground' },
+  VERIFIED: { icon: CheckCircle, color: 'bg-green-500 text-white' },
+  FARMED: { icon: Sprout, color: 'bg-primary text-primary-foreground' },
+};
+
 
 export default function AgentMapPage() {
+    const [selectedBatchId, setSelectedBatchId] = useState<string | null>(MOCK_BATCHES[0].id);
+
+    const getStatusInfo = (status: Batch['status']) => {
+        return statusStyles[status] || { icon: Sprout, color: 'bg-gray-400' };
+    }
+
     return (
-        <Card>
+        <Card className="h-[75vh] flex flex-col">
             <CardHeader>
                 <div className="flex items-center gap-3">
                     <Truck className="w-6 h-6 text-accent" />
                     <div>
                         <CardTitle className="font-headline text-xl">Live Logistics Overview</CardTitle>
-                        <CardDescription>Real-time locations of incoming and verified batches.</CardDescription>
+                        <CardDescription>Real-time locations and routes of incoming and verified batches.</CardDescription>
                     </div>
                 </div>
             </CardHeader>
-            <CardContent>
-                <AgentMapView batches={MOCK_BATCHES} />
+            <CardContent className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4 overflow-hidden">
+                <div className="md:col-span-2 h-full">
+                    <LogisticsMap batches={MOCK_BATCHES} selectedBatchId={selectedBatchId} onSelectBatch={setSelectedBatchId} />
+                </div>
+                <div className="flex flex-col gap-2 h-full">
+                    <h3 className="font-semibold text-base">Active Batches</h3>
+                    <ScrollArea className="flex-1 border rounded-md">
+                        <div className="p-2 space-y-2">
+                        {MOCK_BATCHES.map((batch) => {
+                            const statusInfo = getStatusInfo(batch.status);
+                            return (
+                                <div 
+                                    key={batch.id} 
+                                    className={cn(
+                                        "p-3 rounded-lg border cursor-pointer transition-all",
+                                        selectedBatchId === batch.id ? 'bg-muted ring-2 ring-accent' : 'hover:bg-muted/50'
+                                    )}
+                                    onClick={() => setSelectedBatchId(batch.id)}
+                                >
+                                    <div className="flex justify-between items-center">
+                                        <p className="font-semibold text-sm">{batch.cropType}</p>
+                                        <Badge variant={batch.status === 'VERIFIED' ? 'default' : 'secondary'} className={batch.status === 'VERIFIED' ? 'bg-accent text-accent-foreground' : ''}>
+                                             <statusInfo.icon className="mr-1.5 h-3 w-3"/>
+                                            {batch.status.replace('_', ' ')}
+                                        </Badge>
+                                    </div>
+                                    <p className="text-xs text-muted-foreground mt-1">{batch.id}</p>
+                                    <p className="text-xs text-muted-foreground">From: {batch.location}</p>
+                                </div>
+                            )
+                        })}
+                        </div>
+                    </ScrollArea>
+                </div>
             </CardContent>
         </Card>
     )
