@@ -10,6 +10,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import {googleAI} from '@genkit-ai/googleai';
 
 const DetectDiseaseInputSchema = z.object({
   photoDataUri: z
@@ -34,6 +35,7 @@ export async function detectDisease(input: DetectDiseaseInput): Promise<DetectDi
 
 const prompt = ai.definePrompt({
   name: 'detectDiseasePrompt',
+  model: googleAI.model('gemini-2.5-flash-preview-001'),
   input: {schema: DetectDiseaseInputSchema},
   output: {schema: DetectDiseaseOutputSchema},
   prompt: `You are an expert plant pathologist. Analyze the provided image of a crop leaf. 

@@ -10,6 +10,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import {googleAI} from '@genkit-ai/googleai';
 
 const SuggestBestCropsInputSchema = z.object({
   location: z
@@ -36,6 +37,7 @@ export async function suggestBestCrops(input: SuggestBestCropsInput): Promise<Su
 
 const prompt = ai.definePrompt({
   name: 'suggestBestCropsPrompt',
+  model: googleAI.model('gemini-2.5-flash-preview-001'),
   input: {schema: SuggestBestCropsInputSchema},
   output: {schema: SuggestBestCropsOutputSchema},
   prompt: `You are an expert agricultural advisor. Based on the farmer's location and soil properties, suggest the best crops to plant.

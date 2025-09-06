@@ -10,6 +10,7 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
+import {googleAI} from '@genkit-ai/googleai';
 
 const CheckWarehouseAvailabilityInputSchema = z.object({
   location: z.string().describe('The location of the warehouse to check.'),
@@ -42,6 +43,7 @@ export async function checkWarehouseAvailability(
 
 const prompt = ai.definePrompt({
   name: 'checkWarehouseAvailabilityPrompt',
+  model: googleAI.model('gemini-2.5-flash-preview-001'),
   input: { schema: CheckWarehouseAvailabilityInputSchema },
   output: { schema: CheckWarehouseAvailabilityOutputSchema },
   prompt: `You are a warehouse logistics coordinator for a large agricultural network in Tamil Nadu.

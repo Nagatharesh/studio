@@ -10,6 +10,7 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
+import {googleAI} from '@genkit-ai/googleai';
 
 const GetForumResponseInputSchema = z.object({
   message: z.string().describe('The user message in the forum.'),
@@ -29,6 +30,7 @@ export async function getForumResponse(input: GetForumResponseInput): Promise<Ge
 
 const prompt = ai.definePrompt({
   name: 'getForumResponsePrompt',
+  model: googleAI.model('gemini-2.5-flash-preview-001'),
   input: { schema: GetForumResponseInputSchema },
   output: { schema: GetForumResponseOutputSchema },
   prompt: `You are an expert agricultural officer bot in a community forum for farmers in Tamil Nadu.
