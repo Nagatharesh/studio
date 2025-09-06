@@ -1,0 +1,157 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
+import type { Batch } from '@/lib/types';
+import { CheckCircle, Truck, Building, FilePenLine } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+
+const MOCK_BATCHES: Batch[] = [
+  {
+    id: 'BATCH-1678886400000',
+    cropType: 'Organic Tomatoes',
+    location: 'Salinas Valley, CA',
+    soilProperties: 'Sandy Loam, pH 6.8',
+    farmer: 'GreenField Farms',
+    dateFarmed: '2023-03-15',
+    status: 'IN_WAREHOUSE',
+    transactionHash: '0x1a2b3c...',
+  },
+  {
+    id: 'BATCH-1678972800000',
+    cropType: 'Corn',
+    location: 'Central Valley, IA',
+    soilProperties: 'Silty Clay, pH 6.2',
+    farmer: 'Golden Crops Inc.',
+    dateFarmed: '2023-03-16',
+    status: 'IN_WAREHOUSE',
+    transactionHash: '0x4d5e6f...',
+  },
+  {
+    id: 'BATCH-1678999900000',
+    cropType: 'Wheat',
+    location: 'Plains, KS',
+    soilProperties: 'Clay Loam, pH 7.0',
+    farmer: 'Heartland Agriculture',
+    dateFarmed: '2023-03-18',
+    status: 'VERIFIED',
+    quality: 'Grade A',
+    price: '$250/ton',
+    warehouseConditions: 'Temp: 15°C, Humidity: 60%',
+    agent: 'Simulated Agent Smith',
+    dateVerified: '2023-03-20',
+    transactionHash: '0x7g8h9i...',
+  },
+];
+
+export default function AgentDashboard() {
+  const [batches, setBatches] = useState<Batch[]>([]);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    // Simulate fetching data
+    setBatches(MOCK_BATCHES);
+  }, []);
+
+  const handleUpdate = (batchId: string, field: keyof Batch, value: string) => {
+    setBatches(
+      batches.map((b) => (b.id === batchId ? { ...b, [field]: value } : b))
+    );
+  };
+  
+  const handleApprove = (batchId: string) => {
+    const batch = batches.find(b => b.id === batchId);
+    if (!batch?.quality || !batch?.price || !batch?.warehouseConditions) {
+      toast({
+        variant: 'destructive',
+        title: 'Missing Information',
+        description: 'Please fill all fields before approving.',
+      });
+      return;
+    }
+
+    setBatches(batches.map(b => 
+        b.id === batchId ? {
+            ...b,
+            status: 'VERIFIED',
+            agent: 'Simulated Agent Smith',
+            dateVerified: new Date().toISOString().split('T')[0],
+            transactionHash: `0x${[...Array(64)].map(() => Math.floor(Math.random() * 16).toString(16)).join('')}`,
+        } : b
+    ));
+    toast({
+        title: 'Batch Approved!',
+        description: `${batchId} has been verified and updated on the ledger.`,
+      });
+  };
+
+  return (
+    <div>
+      <h2 className="font-headline text-2xl font-semibold mb-6">Incoming Batches</h2>
+      {batches.length > 0 ? (
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {batches.map((batch) => (
+            <Card key={batch.id} className="flex flex-col">
+              <CardHeader>
+                <div className="flex justify-between items-start">
+                    <div>
+                        <CardTitle className="font-headline">{batch.cropType}</CardTitle>
+                        <CardDescription>{batch.id}</CardDescription>
+                    </div>
+                    <Badge variant={batch.status === 'VERIFIED' ? 'default' : 'secondary'} className={batch.status === 'VERIFIED' ? 'bg-accent text-accent-foreground' : ''}>
+                        {batch.status === 'IN_WAREHOUSE' && <Building className="mr-2 h-3 w-3"/>}
+                        {batch.status === 'VERIFIED' && <CheckCircle className="mr-2 h-3 w-3"/>}
+                        {batch.status.replace('_', ' ')}
+                    </Badge>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4 flex-grow">
+                <div className="text-sm space-y-1 text-muted-foreground">
+                    <p><strong>Farmer:</strong> {batch.farmer}</p>
+                    <p><strong>Location:</strong> {batch.location}</p>
+                    <p><strong>Farmed Date:</strong> {batch.dateFarmed}</p>
+                </div>
+                <div className="space-y-4 pt-4 border-t">
+                    <h4 className="font-semibold flex items-center gap-2"><FilePenLine className="w-4 h-4 text-accent"/>Verification Details</h4>
+                    <div className="space-y-2">
+                        <Label htmlFor={`quality-${batch.id}`}>Quality Check</Label>
+                        <Input id={`quality-${batch.id}`} value={batch.quality || ''} onChange={(e) => handleUpdate(batch.id, 'quality', e.target.value)} placeholder="e.g., Grade A, Organic Certified" disabled={batch.status === 'VERIFIED'} />
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor={`price-${batch.id}`}>Pricing</Label>
+                        <Input id={`price-${batch.id}`} value={batch.price || ''} onChange={(e) => handleUpdate(batch.id, 'price', e.target.value)} placeholder="e.g., $200/ton" disabled={batch.status === 'VERIFIED'} />
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor={`warehouse-${batch.id}`}>Warehouse Conditions</Label>
+                        <Input id={`warehouse-${batch.id}`} value={batch.warehouseConditions || ''} onChange={(e) => handleUpdate(batch.id, 'warehouseConditions', e.target.value)} placeholder="e.g., Temp: 15°C, Humidity: 60%" disabled={batch.status === 'VERIFIED'} />
+                    </div>
+                </div>
+              </CardContent>
+              <CardFooter>
+                {batch.status === 'IN_WAREHOUSE' ? (
+                    <Button className="w-full bg-accent hover:bg-accent/90" onClick={() => handleApprove(batch.id)}>
+                        <CheckCircle className="mr-2 h-4 w-4" /> Approve & Sign
+                    </Button>
+                ) : (
+                    <Button className="w-full" disabled>
+                        <Truck className="mr-2 h-4 w-4" /> Forwarded to Retail
+                    </Button>
+                )}
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
+      ) : (
+        <Card className="mt-6 flex flex-col items-center justify-center py-20 text-center bg-muted/50 border-dashed">
+            <Building className="w-16 h-16 text-muted-foreground mb-4"/>
+            <h3 className="font-headline text-xl font-semibold">No Incoming Batches</h3>
+            <p className="text-muted-foreground mt-1">Batches from farmers will appear here for verification.</p>
+        </Card>
+      )}
+    </div>
+  );
+}

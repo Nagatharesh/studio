@@ -1,0 +1,26 @@
+export type Batch = {
+  id: string;
+  cropType: string;
+  location: string;
+  soilProperties: string;
+  farmer: string;
+  dateFarmed: string;
+  status: 'FARMED' | 'IN_WAREHOUSE' | 'VERIFIED' | 'RETAIL';
+  quality?: string;
+  price?: string;
+  warehouseConditions?: string;
+  agent?: string;
+  dateVerified?: string;
+  transactionHash: string;
+};
+
+export type TimelineEvent = {
+  id: string;
+  title: string;
+  description: string;
+  timestamp: string;
+  icon: React.ComponentType<{ className?: string }>;
+  color: string;
+  data: Record<string, string>;
+  hash: string;
+};
