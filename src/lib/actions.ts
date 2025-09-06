@@ -204,7 +204,7 @@ const voiceAssistanceSchema = z.object({
 
 export async function getVoiceAssistance(
   data: GetVoiceAssistanceInput
-): Promise<{ audioDataUri?: string; error?: string }> {
+): Promise<{ response?: GetVoiceAssistanceOutput; error?: string }> {
   const validation = voiceAssistanceSchema.safeParse(data);
   if (!validation.success) {
     const issues = validation.error.issues.map((i) => i.message).join(' ');
@@ -213,7 +213,7 @@ export async function getVoiceAssistance(
 
   try {
     const result = await getVoiceAssistanceFlow(data);
-    return { audioDataUri: result.audioDataUri };
+    return { response: result };
   } catch (e: any) {
     console.error(e);
     return { error: e.message || 'An unexpected error occurred while fetching the voice response.' };

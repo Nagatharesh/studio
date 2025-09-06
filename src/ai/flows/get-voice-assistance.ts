@@ -25,6 +25,9 @@ const GetVoiceAssistanceOutputSchema = z.object({
   audioDataUri: z
     .string()
     .describe('The base64 encoded WAV audio data URI of the response.'),
+  textResponse: z
+    .string()
+    .describe('The text of the response in Tamil.'),
 });
 export type GetVoiceAssistanceOutput = z.infer<
   typeof GetVoiceAssistanceOutputSchema
@@ -122,6 +125,7 @@ const getVoiceAssistanceFlow = ai.defineFlow(
 
     return {
       audioDataUri: `data:audio/wav;base64,${wavBase64}`,
+      textResponse: tamilResponse,
     };
   }
 );
