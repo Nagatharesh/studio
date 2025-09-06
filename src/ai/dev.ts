@@ -8,3 +8,4 @@ import '@/ai/flows/get-forum-response.ts';
 import '@/ai/flows/predict-market-price.ts';
 import '@/ai/flows/get-weather-forecast.ts';
 import '@/ai/flows/get-carbon-credit-info.ts';
+import '@/ai/flows/get-voice-assistance.ts';

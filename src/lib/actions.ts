@@ -35,6 +35,11 @@ import {
     type GetCarbonCreditInfoInput,
     type GetCarbonCreditInfoOutput
 } from '@/ai/flows/get-carbon-credit-info';
+import {
+    getVoiceAssistance as getVoiceAssistanceFlow,
+    type GetVoiceAssistanceInput,
+    type GetVoiceAssistanceOutput,
+} from '@/ai/flows/get-voice-assistance';
 import { z } from 'zod';
 
 const cropSuggestionSchema = z.object({
@@ -191,4 +196,26 @@ export async function getCarbonCreditInfo(
         console.error(e);
         return { error: e.message || 'An unexpected error occurred while fetching carbon credit info.' };
     }
+}
+
+const voiceAssistanceSchema = z.object({
+  query: z.string().min(2, 'Query must be at least 2 characters.'),
+});
+
+export async function getVoiceAssistance(
+  data: GetVoiceAssistanceInput
+): Promise<{ audioDataUri?: string; error?: string }> {
+  const validation = voiceAssistanceSchema.safeParse(data);
+  if (!validation.success) {
+    const issues = validation.error.issues.map((i) => i.message).join(' ');
+    return { error: `Invalid input: ${issues}` };
+  }
+
+  try {
+    const result = await getVoiceAssistanceFlow(data);
+    return { audioDataUri: result.audioDataUri };
+  } catch (e: any) {
+    console.error(e);
+    return { error: e.message || 'An unexpected error occurred while fetching the voice response.' };
+  }
 }

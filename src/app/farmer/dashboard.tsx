@@ -35,6 +35,7 @@ import { WarehouseAvailabilityCard } from './components/warehouse-availability-c
 import { MarketPricePredictionCard } from './components/market-price-prediction-card';
 import { WeatherPredictionCard } from './components/weather-prediction-card';
 import { CarbonCreditsCard } from './components/carbon-credits-card';
+import { VoiceAssistantCard } from './components/voice-assistant-card';
 
 const addCropSchema = z.object({
   cropType: z.string().min(2, { message: 'Crop type is required.' }),
@@ -294,6 +295,7 @@ export default function FarmerDashboard() {
       </div>
 
       <div className="space-y-6">
+        <VoiceAssistantCard />
         <WeatherPredictionCard />
         <CarbonCreditsCard batches={batches} />
         <DiseaseDetectionCard />
