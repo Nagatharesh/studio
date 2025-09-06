@@ -27,7 +27,7 @@ const MOCK_DATA: {[key: string]: MockProduct} = {
       id: 'PROD-TOM-001',
       name: 'Vine-Ripened Tomatoes',
       image: 'https://images.pexels.com/photos/1327838/pexels-photo-1327838.jpeg?auto=compress&cs=tinysrgb&w=600',
-      price: 'Rs.88 / kg',
+      price: 'Rs.39 / kg',
       quality: 'Grade A',
       farmer: 'Madurai AgriStorage',
       rating: 4.7,
@@ -45,7 +45,7 @@ const MOCK_DATA: {[key: string]: MockProduct} = {
             'Batch ID': 'BATCH-TOM-001',
             'Origin': 'Madurai, Tamil Nadu',
             'Soil Info': 'Red Loam, pH 6.5',
-            'Price from Farmer': 'Rs.81 / kg',
+            'Price from Farmer': 'Rs.32 / kg',
         },
         hash: '0x1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f'
       },
@@ -58,7 +58,7 @@ const MOCK_DATA: {[key: string]: MockProduct} = {
           color: 'bg-accent',
           data: {
               'Quality': 'Grade A',
-              'Price from Agent': 'Rs.88 / kg',
+              'Price from Agent': 'Rs.39 / kg',
           },
           hash: '0x7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f1a2b3c4d5e6f'
       },
@@ -389,3 +389,5 @@ export default function ConsumerDashboard() {
     </div>
   );
 }
+
+    
