@@ -35,7 +35,7 @@ const MOCK_PRODUCTS = [
     },
     {
       name: 'Fresh Cauliflower',
-      image: 'https://images.pexels.com/photos/162875/cauliflower-white-healthy-vegetables-162875.jpeg?auto=compress&cs=tinysrgb&w=600',
+      image: 'https://images.unsplash.com/photo-1566842600175-97dca489844f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjYXVsaWZsb3dlcnxlbnwwfHx8fDE3NTcxNTk3MTR8MA&ixlib=rb-4.1.0&q=80&w=1080',
       price: '₹30 / piece',
       farmer: 'Ooty Farms',
       rating: 4.8,
