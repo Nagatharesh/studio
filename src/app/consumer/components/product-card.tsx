@@ -1,3 +1,4 @@
+
 'use client';
 
 import Image from 'next/image';
@@ -26,6 +27,7 @@ export function ProductCard({ product }: ProductCardProps) {
   }
 
   const handleBuyNow = (e: React.MouseEvent) => {
+    e.preventDefault();
     e.stopPropagation();
     toast({
         title: "Purchase Successful!",
@@ -34,8 +36,8 @@ export function ProductCard({ product }: ProductCardProps) {
   }
 
   return (
-    <Card className="group overflow-hidden">
-      <CardContent className="p-0">
+    <Card className="group overflow-hidden h-full flex flex-col">
+      <CardContent className="p-0 flex flex-col flex-grow">
         <div className="relative aspect-video">
           <Image
             data-ai-hint={getProductHint(product.name)}
@@ -45,9 +47,10 @@ export function ProductCard({ product }: ProductCardProps) {
             className="object-cover transition-transform group-hover:scale-105"
           />
         </div>
-        <div className="p-4 space-y-2">
+        <div className="p-4 space-y-2 flex flex-col flex-grow">
           <h3 className="font-headline font-semibold text-base truncate">{product.name}</h3>
           <p className="text-sm text-muted-foreground">by {product.farmer}</p>
+          <div className="flex-grow"></div>
           <div className="flex items-center justify-between text-sm">
             <div className="flex items-center gap-1">
                 <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />

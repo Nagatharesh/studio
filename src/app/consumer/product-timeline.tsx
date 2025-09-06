@@ -2,9 +2,9 @@
 'use client';
 
 import type { TimelineEvent, ProductDetails } from '@/lib/types';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ClipboardCopy, Check, RefreshCw, Star, Leaf, MessageSquare, ShoppingCart, MapPin, DollarSign, Truck } from 'lucide-react';
+import { ClipboardCopy, Check, ArrowLeft, Star, Leaf, MessageSquare, ShoppingCart, MapPin, DollarSign, Truck } from 'lucide-react';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
@@ -12,6 +12,7 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { MapView } from './components/map-view';
 import { FarmerIcon, AgentIcon, ConsumerIcon } from '@/components/icons';
+import Link from 'next/link';
 
 
 function TimelineItem({ event, isLast }: { event: TimelineEvent, isLast: boolean }) {
@@ -69,7 +70,7 @@ function TimelineItem({ event, isLast }: { event: TimelineEvent, isLast: boolean
   );
 }
 
-export function ProductTimeline({ product, events, onReset }: { product: ProductDetails, events: TimelineEvent[], onReset: () => void }) {
+export function ProductTimeline({ product, events }: { product: ProductDetails, events: TimelineEvent[] }) {
   const { toast } = useToast();
 
   const handleBuyNow = () => {
@@ -104,16 +105,16 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
 
 
   return (
-    <div className="max-h-[85vh] overflow-y-auto p-1 pr-4">
-    <Card className="border-0 shadow-none">
-       <CardHeader className="flex flex-row justify-between items-center sticky top-0 bg-background/95 z-10 py-4 -mx-1 px-1">
+    <Card>
+       <CardHeader className="flex flex-row justify-between items-center sticky top-0 bg-background/95 z-10 py-4">
         <div className="flex-1">
-            {/* The title is now in the parent Dialog */}
+             <Button variant="outline" asChild>
+                <Link href="/consumer">
+                    <ArrowLeft className="mr-2 h-4 w-4" />
+                    Back to Marketplace
+                </Link>
+            </Button>
         </div>
-        <Button variant="outline" onClick={onReset}>
-            <RefreshCw className="mr-2 h-4 w-4" />
-            Scan/View Another
-        </Button>
       </CardHeader>
       <CardContent>
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
@@ -214,6 +215,5 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
         </div>
       </CardContent>
     </Card>
-    </div>
   );
 }
