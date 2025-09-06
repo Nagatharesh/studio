@@ -27,7 +27,7 @@ const MOCK_PRODUCTS = [
     },
     {
       name: 'Himalayan Potatoes',
-      image: 'https://picsum.photos/seed/potatoes/600/400',
+      image: 'https://storage.googleapis.com/maker-studio-project-files-prod/f7375a76-e137-4a49-9286-9d338f0d9128/images/a297a73a-f1d2-4325-9610-3883a4939213.jpeg',
       price: '₹30 / kg',
       farmer: 'Nilgiri Growers',
       rating: 4.6,
@@ -35,7 +35,7 @@ const MOCK_PRODUCTS = [
     },
     {
       name: 'Fresh Cauliflower',
-      image: 'https://picsum.photos/seed/cauliflower-head/600/400',
+      image: 'https://storage.googleapis.com/maker-studio-project-files-prod/f7375a76-e137-4a49-9286-9d338f0d9128/images/a59a7f34-8c3c-4d30-97a1-f274751f9a2e.jpeg',
       price: '₹25 / piece',
       farmer: 'Ooty Farms',
       rating: 4.8,
@@ -43,7 +43,7 @@ const MOCK_PRODUCTS = [
     },
     {
       name: 'Glossy Brinjal (Eggplant)',
-      image: 'https://picsum.photos/seed/eggplant/600/400',
+      image: 'https://storage.googleapis.com/maker-studio-project-files-prod/f7375a76-e137-4a49-9286-9d338f0d9128/images/a8b9e6e8-2d33-4f7d-a1b4-2b634ab9a180.jpeg',
       price: '₹40 / kg',
       farmer: 'Kovai Fields',
       rating: 4.5,
@@ -51,7 +51,7 @@ const MOCK_PRODUCTS = [
     },
     {
       name: 'Organic Spinach Greens',
-      image: 'https://picsum.photos/seed/spinach-greens/600/400',
+      image: 'https://storage.googleapis.com/maker-studio-project-files-prod/f7375a76-e137-4a49-9286-9d338f0d9128/images/bf304925-5079-4503-b655-c2621d3a54e9.jpeg',
       price: '₹20 / bunch',
       farmer: 'Cauvery Delta Farmers',
       rating: 4.9,
@@ -59,7 +59,7 @@ const MOCK_PRODUCTS = [
     },
      {
       name: 'Fresh Red Onions',
-      image: 'https://picsum.photos/seed/red-onions/600/400',
+      image: 'https://storage.googleapis.com/maker-studio-project-files-prod/f7375a76-e137-4a49-9286-9d338f0d9128/images/c2d3a3d2-3b2d-4e92-8079-2475459b7937.jpeg',
       price: '₹40 / kg',
       farmer: 'Erode Growers',
       rating: 4.6,
