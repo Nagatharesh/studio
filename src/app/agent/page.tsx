@@ -1,5 +1,5 @@
-import AgentDashboard from './dashboard';
+import AgentDashboardPage from './dashboard/page';
 
 export default function AgentPage() {
-  return <AgentDashboard />;
+  return <AgentDashboardPage />;
 }

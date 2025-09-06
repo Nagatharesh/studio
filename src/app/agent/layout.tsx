@@ -17,7 +17,7 @@ export default function AgentLayout({
     if (pathname.startsWith('/agent/map')) {
       return '/agent/map';
     }
-    return '/agent';
+    return '/agent/dashboard';
   }
 
   return (
@@ -33,8 +33,8 @@ export default function AgentLayout({
 
        <Tabs value={getActiveTab()} className="mt-6">
         <TabsList>
-            <Link href="/agent" passHref>
-                <TabsTrigger value="/agent">Incoming Batches</TabsTrigger>
+            <Link href="/agent/dashboard" passHref>
+                <TabsTrigger value="/agent/dashboard">Incoming Batches</TabsTrigger>
             </Link>
             <Link href="/agent/map" passHref>
                 <TabsTrigger value="/agent/map">Logistics Map</TabsTrigger>
