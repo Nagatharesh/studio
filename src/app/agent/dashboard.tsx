@@ -19,7 +19,7 @@ const MOCK_BATCHES: Batch[] = [
     farmer: 'Tamil Farms',
     dateFarmed: '2023-03-15',
     status: 'IN_WAREHOUSE',
-    transactionHash: '0x1a2b3c...',
+    transactionHash: '0x1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f',
   },
   {
     id: 'BATCH-1678972800000',
@@ -29,7 +29,7 @@ const MOCK_BATCHES: Batch[] = [
     farmer: 'Cauvery Delta Farmers',
     dateFarmed: '2023-03-16',
     status: 'IN_WAREHOUSE',
-    transactionHash: '0x4d5e6f...',
+    transactionHash: '0x4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f',
   },
   {
     id: 'BATCH-1678999900000',
@@ -44,7 +44,7 @@ const MOCK_BATCHES: Batch[] = [
     warehouseConditions: 'Temp: 20°C, Humidity: 65%',
     agent: 'Simulated Agent Rajan',
     dateVerified: '2023-03-20',
-    transactionHash: '0x7g8h9i...',
+    transactionHash: '0x7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f1a2b3c4d5e6f',
   },
 ];
 
