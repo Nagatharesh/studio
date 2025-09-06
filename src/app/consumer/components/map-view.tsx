@@ -2,6 +2,7 @@
 'use client';
 
 import { MapPin, Sprout, Building2, ShoppingCart } from 'lucide-react';
+import Image from 'next/image';
 
 interface Location {
   name: string;
@@ -27,21 +28,19 @@ const positionMap: { [key: number]: { top: string; left: string } } = {
 export function MapView({ locations }: MapViewProps) {
   return (
     <div className="relative w-full aspect-video bg-muted/30 rounded-lg overflow-hidden border">
-      {/* Dashed line background */}
-      <svg width="100%" height="100%" className="absolute inset-0">
-        <defs>
-          <pattern id="dot-pattern" width="16" height="16" patternUnits="userSpaceOnUse">
-            <circle cx="2" cy="2" r="1" fill="hsl(var(--border))"></circle>
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#dot-pattern)"></rect>
-      </svg>
+      <Image
+        data-ai-hint="map tamil nadu"
+        src="https://images.pexels.com/photos/16839369/pexels-photo-16839369/free-photo-of-a-map-of-the-world-with-a-red-arrow-pointing-to-the-bottom.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+        alt="Map of Tamil Nadu"
+        fill
+        className="object-cover opacity-20"
+      />
       
       {/* Connection path */}
       <svg width="100%" height="100%" className="absolute inset-0" style={{ zIndex: 1 }}>
         <path 
             d="M 15% 20% C 35% 35%, 35% 65%, 50% 50% S 65% 35%, 85% 30%" 
-            stroke="hsl(var(--border))" 
+            stroke="hsl(var(--foreground) / 0.5)" 
             strokeWidth="3" 
             fill="none" 
             strokeDasharray="8"
