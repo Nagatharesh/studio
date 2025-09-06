@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -23,12 +23,11 @@ import {
 } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { getCropSuggestions } from '@/lib/actions';
+import { getCropSuggestions, getDiseaseDiagnosis } from '@/lib/actions';
 import type { Batch } from '@/lib/types';
-import { PlusCircle, Cpu, Loader2, Sparkles, Download, QrCode } from 'lucide-react';
+import { PlusCircle, Cpu, Loader2, Sparkles, Download, QrCode, Upload, Leaf, ShieldCheck, Bug } from 'lucide-react';
 import Image from 'next/image';
 
 const addCropSchema = z.object({
@@ -36,6 +35,118 @@ const addCropSchema = z.object({
   location: z.string().min(3, { message: 'Location is required.' }),
   soilProperties: z.string().min(10, { message: 'Soil properties are required.' }),
 });
+
+type Diagnosis = {
+  disease: string;
+  remedy: string;
+}
+
+function DiseaseDetectionCard() {
+    const [preview, setPreview] = useState<string | null>(null);
+    const [diagnosis, setDiagnosis] = useState<Diagnosis | null>(null);
+    const [isDiagnosing, setIsDiagnosing] = useState(false);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const { toast } = useToast();
+
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setPreview(reader.result as string);
+                setDiagnosis(null);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const handleDiagnose = async () => {
+        if (!preview) {
+            toast({ variant: "destructive", title: "No image selected", description: "Please upload an image of a crop leaf." });
+            return;
+        }
+        setIsDiagnosing(true);
+        const result = await getDiseaseDiagnosis({ photoDataUri: preview });
+        setIsDiagnosing(false);
+        if (result.error) {
+            toast({ variant: 'destructive', title: 'Diagnosis Failed', description: result.error });
+        } else if (result.diagnosis) {
+            setDiagnosis(result.diagnosis);
+            toast({ title: 'Diagnosis Complete!', description: 'AI has analyzed the leaf image.' });
+        }
+    }
+
+    const handleUploadClick = () => {
+        fileInputRef.current?.click();
+    };
+
+    const handleReset = () => {
+        setPreview(null);
+        setDiagnosis(null);
+        if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+        }
+    }
+
+    return (
+        <Card className="w-full">
+             <CardHeader>
+                <div className="flex items-center gap-3">
+                    <Leaf className="w-7 h-7 text-primary"/>
+                    <div>
+                        <CardTitle className="font-headline text-xl">AI Disease Detection</CardTitle>
+                        <CardDescription>Upload a leaf photo to detect diseases.</CardDescription>
+                    </div>
+                </div>
+            </CardHeader>
+            <CardContent>
+                <div className="flex flex-col items-center justify-center space-y-4">
+                     <input
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={handleFileChange}
+                        className="hidden"
+                        accept="image/*"
+                    />
+                    <div className="w-full h-48 border-2 border-dashed rounded-lg flex items-center justify-center bg-muted/50 overflow-hidden">
+                        {preview ? (
+                             <Image src={preview} alt="Crop leaf preview" width={200} height={200} className="w-auto h-full object-cover"/>
+                        ) : (
+                            <div className="text-center text-muted-foreground">
+                                <Upload className="mx-auto h-8 w-8 mb-2"/>
+                                <p>Image preview will appear here.</p>
+                            </div>
+                        )}
+                    </div>
+                   
+                    {preview && !diagnosis && (
+                         <Button onClick={handleDiagnose} disabled={isDiagnosing} className="w-full">
+                            {isDiagnosing ? <Loader2 className="animate-spin" /> : <Sparkles />}
+                            {isDiagnosing ? 'Analyzing...' : 'Diagnose Leaf'}
+                        </Button>
+                    )}
+
+                    {!preview &&
+                        <Button variant="outline" onClick={handleUploadClick} className="w-full">
+                            <Upload className="mr-2"/> Upload Image
+                        </Button>
+                    }
+
+                     {diagnosis && (
+                        <div className="w-full space-y-4 text-center p-4 bg-primary/5 rounded-lg border border-primary/20">
+                            <div className="flex flex-col items-center">
+                                {diagnosis.disease !== 'Healthy' ? <Bug className="w-8 h-8 text-destructive"/> : <ShieldCheck className="w-8 h-8 text-primary"/>}
+                                <h3 className="font-headline text-lg font-semibold mt-2">{diagnosis.disease}</h3>
+                            </div>
+                            <p className="text-sm text-muted-foreground">{diagnosis.remedy}</p>
+                            <Button variant="outline" size="sm" onClick={handleReset} className="w-full">Start New Diagnosis</Button>
+                        </div>
+                    )}
+                </div>
+            </CardContent>
+        </Card>
+    )
+}
 
 export default function FarmerDashboard() {
   const [batches, setBatches] = useState<Batch[]>([]);
@@ -120,153 +231,160 @@ export default function FarmerDashboard() {
   };
 
   return (
-    <div>
-      <div className="flex justify-between items-center">
-        <h2 className="font-headline text-2xl font-semibold">Your Batches</h2>
-        <Dialog open={isDialogOpen} onOpenChange={setDialogOpen}>
-          <DialogTrigger asChild>
-            <Button>
-              <PlusCircle className="mr-2 h-4 w-4" /> Add New Crop Batch
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-2xl">
-            <DialogHeader>
-              <DialogTitle className="font-headline text-2xl">Add New Crop Batch</DialogTitle>
-              <DialogDescription>
-                Fill in the details for your new harvest. Use the AI assistant to get crop suggestions based on your soil and location.
-              </DialogDescription>
-            </DialogHeader>
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="location"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Location</FormLabel>
-                        <FormControl>
-                          <Input placeholder="e.g., Erode, Tamil Nadu" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="soilProperties"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Soil Properties</FormLabel>
-                        <FormControl>
-                          <Input placeholder="e.g., Red Loam, pH 6.5" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <Card className="bg-primary/5 border-primary/20">
-                  <CardHeader>
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center gap-2">
-                         <Cpu className="w-6 h-6 text-primary" />
-                         <CardTitle className="font-headline text-lg">AI Crop Suggestions</CardTitle>
-                      </div>
-                      <Button type="button" size="sm" onClick={handleGetSuggestions} disabled={isSuggesting}>
-                        {isSuggesting ? (
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        ) : (
-                          <Sparkles className="mr-2 h-4 w-4" />
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="lg:col-span-2 space-y-6">
+        <div className="flex justify-between items-center">
+            <h2 className="font-headline text-2xl font-semibold">Your Batches</h2>
+            <Dialog open={isDialogOpen} onOpenChange={setDialogOpen}>
+            <DialogTrigger asChild>
+                <Button>
+                <PlusCircle className="mr-2 h-4 w-4" /> Add New Crop Batch
+                </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-2xl">
+                <DialogHeader>
+                <DialogTitle className="font-headline text-2xl">Add New Crop Batch</DialogTitle>
+                <DialogDescription>
+                    Fill in the details for your new harvest. Use the AI assistant to get crop suggestions based on your soil and location.
+                </DialogDescription>
+                </DialogHeader>
+                <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                        control={form.control}
+                        name="location"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Location</FormLabel>
+                            <FormControl>
+                            <Input placeholder="e.g., Erode, Tamil Nadu" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
                         )}
-                        Get Suggestions
-                      </Button>
+                    />
+                    <FormField
+                        control={form.control}
+                        name="soilProperties"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Soil Properties</FormLabel>
+                            <FormControl>
+                            <Input placeholder="e.g., Red Loam, pH 6.5" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
                     </div>
-                  </CardHeader>
-                  <CardContent>
-                    {suggestions.length > 0 ? (
-                      <div className="flex flex-wrap gap-2">
-                        {suggestions.map((s, i) => (
-                           <Button key={i} variant="outline" size="sm" onClick={() => form.setValue('cropType', s)}>
-                           {s}
-                         </Button>
-                        ))}
-                      </div>
-                    ) : (
-                      <p className="text-sm text-muted-foreground">
-                        Enter location and soil info to get AI-powered suggestions.
-                      </p>
-                    )}
-                  </CardContent>
-                </Card>
 
-                <FormField
-                  control={form.control}
-                  name="cropType"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Crop Type</FormLabel>
-                      <FormControl>
-                        <Input placeholder="e.g., Turmeric, Rice, Sugarcane" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                
-                <DialogFooter>
-                  <Button type="submit">Submit Batch</Button>
-                </DialogFooter>
-              </form>
-            </Form>
-          </DialogContent>
-        </Dialog>
+                    <Card className="bg-primary/5 border-primary/20">
+                    <CardHeader>
+                        <div className="flex justify-between items-center">
+                        <div className="flex items-center gap-2">
+                            <Cpu className="w-6 h-6 text-primary" />
+                            <CardTitle className="font-headline text-lg">AI Crop Suggestions</CardTitle>
+                        </div>
+                        <Button type="button" size="sm" onClick={handleGetSuggestions} disabled={isSuggesting}>
+                            {isSuggesting ? (
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            ) : (
+                            <Sparkles className="mr-2 h-4 w-4" />
+                            )}
+                            Get Suggestions
+                        </Button>
+                        </div>
+                    </CardHeader>
+                    <CardContent>
+                        {suggestions.length > 0 ? (
+                        <div className="flex flex-wrap gap-2">
+                            {suggestions.map((s, i) => (
+                            <Button key={i} variant="outline" size="sm" onClick={() => form.setValue('cropType', s)}>
+                            {s}
+                            </Button>
+                            ))}
+                        </div>
+                        ) : (
+                        <p className="text-sm text-muted-foreground">
+                            Enter location and soil info to get AI-powered suggestions.
+                        </p>
+                        )}
+                    </CardContent>
+                    </Card>
+
+                    <FormField
+                    control={form.control}
+                    name="cropType"
+                    render={({ field }) => (
+                        <FormItem>
+                        <FormLabel>Crop Type</FormLabel>
+                        <FormControl>
+                            <Input placeholder="e.g., Turmeric, Rice, Sugarcane" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                        </FormItem>
+                    )}
+                    />
+                    
+                    <DialogFooter>
+                    <Button type="submit">Submit Batch</Button>
+                    </DialogFooter>
+                </form>
+                </Form>
+            </DialogContent>
+            </Dialog>
+        </div>
+
+        {batches.length > 0 ? (
+            <div className="grid gap-6 md:grid-cols-2">
+            {batches.map((batch) => (
+                <Card key={batch.id} className="flex flex-col">
+                <CardHeader>
+                    <div className="flex justify-between items-start">
+                    <div>
+                        <CardTitle className="font-headline">{batch.cropType}</CardTitle>
+                        <CardDescription>{batch.id}</CardDescription>
+                    </div>
+                    <span className="text-xs font-semibold px-2 py-1 rounded-full bg-green-100 text-green-800 border border-green-200">{batch.status}</span>
+                    </div>
+                </CardHeader>
+                <CardContent className="space-y-4 flex-grow">
+                    <div className="flex items-center justify-center p-4 bg-gray-50 rounded-md">
+                        <Image
+                            data-ai-hint="qr code"
+                            src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(batch.id)}`}
+                            alt={`QR Code for ${batch.id}`}
+                            width={150}
+                            height={150}
+                        />
+                    </div>
+                    <div className="text-sm space-y-1">
+                        <p><strong>Location:</strong> {batch.location}</p>
+                        <p><strong>Farmed:</strong> {batch.dateFarmed}</p>
+                    </div>
+                </CardContent>
+                <div className="p-6 pt-0">
+                    <Button variant="outline" className="w-full" onClick={() => downloadQrCode(batch.id)}>
+                        <Download className="mr-2 h-4 w-4"/> Download QR
+                    </Button>
+                </div>
+                </Card>
+            ))}
+            </div>
+        ) : (
+            <Card className="flex flex-col items-center justify-center py-20 text-center bg-muted/50 border-dashed">
+                <QrCode className="w-16 h-16 text-muted-foreground mb-4"/>
+                <h3 className="font-headline text-xl font-semibold">No Batches Yet</h3>
+                <p className="text-muted-foreground mt-1">Click "Add New Crop Batch" to get started.</p>
+            </Card>
+        )}
       </div>
 
-      {batches.length > 0 ? (
-        <div className="grid gap-6 mt-6 md:grid-cols-2 lg:grid-cols-3">
-          {batches.map((batch) => (
-            <Card key={batch.id} className="flex flex-col">
-              <CardHeader>
-                <div className="flex justify-between items-start">
-                  <div>
-                    <CardTitle className="font-headline">{batch.cropType}</CardTitle>
-                    <CardDescription>{batch.id}</CardDescription>
-                  </div>
-                  <span className="text-xs font-semibold px-2 py-1 rounded-full bg-green-100 text-green-800 border border-green-200">{batch.status}</span>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4 flex-grow">
-                 <div className="flex items-center justify-center p-4 bg-gray-50 rounded-md">
-                    <Image
-                        data-ai-hint="qr code"
-                        src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(batch.id)}`}
-                        alt={`QR Code for ${batch.id}`}
-                        width={150}
-                        height={150}
-                    />
-                 </div>
-                 <div className="text-sm space-y-1">
-                    <p><strong>Location:</strong> {batch.location}</p>
-                    <p><strong>Farmed:</strong> {batch.dateFarmed}</p>
-                 </div>
-              </CardContent>
-              <div className="p-6 pt-0">
-                <Button variant="outline" className="w-full" onClick={() => downloadQrCode(batch.id)}>
-                    <Download className="mr-2 h-4 w-4"/> Download QR
-                </Button>
-              </div>
-            </Card>
-          ))}
-        </div>
-      ) : (
-        <Card className="mt-6 flex flex-col items-center justify-center py-20 text-center bg-muted/50 border-dashed">
-            <QrCode className="w-16 h-16 text-muted-foreground mb-4"/>
-            <h3 className="font-headline text-xl font-semibold">No Batches Yet</h3>
-            <p className="text-muted-foreground mt-1">Click "Add New Crop Batch" to get started.</p>
-        </Card>
-      )}
+      <div className="space-y-6">
+        <DiseaseDetectionCard />
+      </div>
+
     </div>
   );
 }
