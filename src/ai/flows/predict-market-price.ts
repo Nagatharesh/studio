@@ -50,12 +50,9 @@ const prompt = ai.definePrompt({
   prompt: `You are an expert agricultural market analyst for Tamil Nadu.
 Your task is to predict the market price for a given crop.
 
-For this prototype, use the following rules based on the crop name:
-- If crop is "Turmeric" or "Rice", the price is high and likely to increase. Recommend selling soon.
-- If crop is "Sugarcane" or "Cotton", the price is stable. Recommend monitoring the market.
-- For any other crop, like "Mangoes" or "Tomatoes", the price is moderate and likely to decrease due to seasonality. Recommend selling immediately.
-
-Provide a realistic price range in Rupees per quintal.
+For the given crop, generate a realistic but randomized predicted price range in Rupees per quintal suitable for the Tamil Nadu market.
+Also, provide a randomized market trend (e.g., "Stable", "Likely to Increase", "Likely to Decrease") and a brief, corresponding recommendation for the farmer.
+Do not use the same values every time; introduce variability for a more dynamic prototype.
 
 Crop Name: {{{cropName}}}
 `,
