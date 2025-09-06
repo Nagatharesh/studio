@@ -32,6 +32,8 @@ import Image from 'next/image';
 import { DiseaseDetectionCard } from './components/disease-detection-card';
 import { WarehouseAvailabilityCard } from './components/warehouse-availability-card';
 import { MarketPricePredictionCard } from './components/market-price-prediction-card';
+import { WeatherPredictionCard } from './components/weather-prediction-card';
+import { CarbonCreditsCard } from './components/carbon-credits-card';
 
 const addCropSchema = z.object({
   cropType: z.string().min(2, { message: 'Crop type is required.' }),
@@ -273,6 +275,8 @@ export default function FarmerDashboard() {
       </div>
 
       <div className="space-y-6">
+        <WeatherPredictionCard />
+        <CarbonCreditsCard batches={batches} />
         <DiseaseDetectionCard />
         <WarehouseAvailabilityCard />
         <MarketPricePredictionCard />

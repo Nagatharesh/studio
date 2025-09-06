@@ -25,6 +25,16 @@ import {
     type PredictMarketPriceInput,
     type PredictMarketPriceOutput,
 } from '@/ai/flows/predict-market-price';
+import {
+    getWeatherForecast as getWeatherForecastFlow,
+    type GetWeatherForecastInput,
+    type GetWeatherForecastOutput
+} from '@/ai/flows/get-weather-forecast';
+import {
+    getCarbonCreditInfo as getCarbonCreditInfoFlow,
+    type GetCarbonCreditInfoInput,
+    type GetCarbonCreditInfoOutput
+} from '@/ai/flows/get-carbon-credit-info';
 import { z } from 'zod';
 
 const cropSuggestionSchema = z.object({
@@ -136,5 +146,49 @@ export async function getMarketPricePrediction(
     } catch (e) {
         console.error(e);
         return { error: 'An unexpected error occurred while fetching the prediction.' };
+    }
+}
+
+const weatherForecastSchema = z.object({
+    location: z.string().min(3, 'Location must be at least 3 characters.'),
+});
+
+export async function getWeatherForecast(
+    data: GetWeatherForecastInput
+): Promise<{ forecast?: GetWeatherForecastOutput; error?: string }> {
+    const validation = weatherForecastSchema.safeParse(data);
+    if (!validation.success) {
+        const issues = validation.error.issues.map((i) => i.message).join(' ');
+        return { error: `Invalid input: ${issues}` };
+    }
+
+    try {
+        const result = await getWeatherForecastFlow(data);
+        return { forecast: result };
+    } catch (e) {
+        console.error(e);
+        return { error: 'An unexpected error occurred while fetching the forecast.' };
+    }
+}
+
+const carbonCreditInfoSchema = z.object({
+    cropTypes: z.array(z.string()),
+});
+
+export async function getCarbonCreditInfo(
+    data: GetCarbonCreditInfoInput
+): Promise<{ info?: GetCarbonCreditInfoOutput; error?: string }> {
+    const validation = carbonCreditInfoSchema.safeParse(data);
+    if (!validation.success) {
+        const issues = validation.error.issues.map((i) => i.message).join(' ');
+        return { error: `Invalid input: ${issues}` };
+    }
+
+    try {
+        const result = await getCarbonCreditInfoFlow(data);
+        return { info: result };
+    } catch (e) {
+        console.error(e);
+        return { error: 'An unexpected error occurred while fetching carbon credit info.' };
     }
 }
