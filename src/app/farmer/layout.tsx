@@ -3,7 +3,7 @@
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { DashboardLayout } from '@/components/dashboard-layout';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 
 export default function FarmerLayout({
   children,
@@ -32,7 +32,9 @@ export default function FarmerLayout({
                 <TabsTrigger value="/farmer/forum">Community Forum</TabsTrigger>
             </Link>
         </TabsList>
-        <div className="mt-6">{children}</div>
+        <TabsContent value={pathname} className="mt-6">
+            {children}
+        </TabsContent>
       </Tabs>
     </DashboardLayout>
   );
