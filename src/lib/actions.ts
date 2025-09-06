@@ -19,6 +19,11 @@ import {
     type GetForumResponseInput,
     type GetForumResponseOutput
 } from '@/ai/flows/get-forum-response';
+import {
+    predictMarketPrice,
+    type PredictMarketPriceInput,
+    type PredictMarketPriceOutput,
+} from '@/ai/flows/predict-market-price';
 import { z } from 'zod';
 
 const cropSuggestionSchema = z.object({
@@ -108,5 +113,27 @@ export async function getForumResponse(
     } catch (e) {
         console.error(e);
         return { error: 'An unexpected error occurred while fetching the response.' };
+    }
+}
+
+const marketPricePredictionSchema = z.object({
+    cropName: z.string().min(3, 'Crop name must be at least 3 characters.'),
+});
+
+export async function getMarketPricePrediction(
+    data: PredictMarketPriceInput
+): Promise<{ prediction?: PredictMarketPriceOutput; error?: string }> {
+    const validation = marketPricePredictionSchema.safeParse(data);
+    if (!validation.success) {
+        const issues = validation.error.issues.map((i) => i.message).join(' ');
+        return { error: `Invalid input: ${issues}` };
+    }
+
+    try {
+        const result = await predictMarketPrice(data);
+        return { prediction: result };
+    } catch (e) {
+        console.error(e);
+        return { error: 'An unexpected error occurred while fetching the prediction.' };
     }
 }

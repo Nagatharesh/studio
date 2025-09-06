@@ -31,6 +31,7 @@ import { PlusCircle, Cpu, Loader2, Sparkles, Download, QrCode } from 'lucide-rea
 import Image from 'next/image';
 import { DiseaseDetectionCard } from './components/disease-detection-card';
 import { WarehouseAvailabilityCard } from './components/warehouse-availability-card';
+import { MarketPricePredictionCard } from './components/market-price-prediction-card';
 
 const addCropSchema = z.object({
   cropType: z.string().min(2, { message: 'Crop type is required.' }),
@@ -274,6 +275,7 @@ export default function FarmerDashboard() {
       <div className="space-y-6">
         <DiseaseDetectionCard />
         <WarehouseAvailabilityCard />
+        <MarketPricePredictionCard />
       </div>
 
     </div>
