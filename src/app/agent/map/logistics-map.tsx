@@ -40,22 +40,20 @@ export function LogisticsMap({ batches, selectedBatchId, onSelectBatch }: Logist
   return (
     <TooltipProvider>
     <div className="relative w-full h-full bg-muted/30 rounded-lg overflow-hidden border">
-      <style>
-        {`
-            @keyframes draw {
-                to {
-                    stroke-dashoffset: 0;
-                }
-            }
-            .animate-path-draw {
-                stroke-dashoffset: 1000;
-                animation: draw 3s ease-out forwards;
-            }
-        `}
-      </style>
+      <style jsx global>{`
+        @keyframes draw {
+          to {
+            stroke-dashoffset: 0;
+          }
+        }
+        .animate-path-draw {
+          stroke-dashoffset: 1000;
+          animation: draw 3s ease-out forwards;
+        }
+      `}</style>
       <Image
         data-ai-hint="map tamil nadu"
-        src="https://images.pexels.com/photos/16839369/pexels-photo-16839369/free-photo-of-a-map-of-the-world-with-a-red-arrow-pointing-to-the-bottom.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+        src="https://images.pexels.com/photos/15632332/pexels-photo-15632332/free-photo-of-a-map-of-a-city-with-a-river-and-buildings.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
         alt="Map of Tamil Nadu"
         fill
         className="object-cover opacity-30"
