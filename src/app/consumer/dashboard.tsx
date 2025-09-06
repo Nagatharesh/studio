@@ -150,11 +150,20 @@ export default function ConsumerDashboard() {
   }
 
   if (selectedProduct) {
-    return <ProductTimeline product={selectedProduct} events={MOCK_PRODUCT_HISTORY} onReset={handleReset} />;
+    return <div className="container py-8"><ProductTimeline product={selectedProduct} events={MOCK_PRODUCT_HISTORY} onReset={handleReset} /></div>;
   }
 
   return (
-    <div className="relative">
+    <div className="relative container py-8">
+        <div className="space-y-4 mb-8">
+            <h1 className="font-headline text-3xl font-bold text-consumer">
+            Marketplace
+            </h1>
+            <p className="text-muted-foreground">
+            Browse products with verified origins or scan a QR code to trace its journey.
+            </p>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {MOCK_PRODUCTS.map((product) => (
                 <div key={product.name} onClick={() => handleProductClick(product)} className="cursor-pointer">
