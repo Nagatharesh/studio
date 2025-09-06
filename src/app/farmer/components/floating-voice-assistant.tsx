@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import {
   Sheet,
   SheetContent,
@@ -11,92 +11,33 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { getVoiceAssistance } from '@/lib/actions';
-import { Loader2, Mic, Square, BrainCircuit } from 'lucide-react';
-import { cn } from '@/lib/utils';
-
-// Check for SpeechRecognition API
-const SpeechRecognition =
-  (typeof window !== 'undefined' && window.SpeechRecognition) ||
-  (typeof window !== 'undefined' && (window as any).webkitSpeechRecognition);
+import { Loader2, Mic, BrainCircuit, Send, Volume2 } from 'lucide-react';
 
 export function FloatingVoiceAssistant() {
-  const [transcript, setTranscript] = useState('');
+  const [query, setQuery] = useState('');
   const [audioSrc, setAudioSrc] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [isRecording, setIsRecording] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false);
-  
   const audioRef = useRef<HTMLAudioElement>(null);
-  const recognitionRef = useRef<any>(null);
   const { toast } = useToast();
 
-  useEffect(() => {
-    if (!SpeechRecognition) {
+  const handleGetAssistance = async () => {
+    if (!query.trim()) {
       toast({
         variant: 'destructive',
-        title: 'Browser Not Supported',
-        description: 'Speech recognition is not supported in your browser.',
+        title: 'No question provided',
+        description: 'Please type a question to ask the assistant.',
       });
       return;
     }
-
-    const recognition = new SpeechRecognition();
-    recognition.continuous = true;
-    recognition.interimResults = true;
-    recognition.lang = 'en-IN'; // Listen for English
-
-    recognition.onresult = (event: any) => {
-      let interimTranscript = '';
-      let finalTranscript = '';
-      for (let i = event.resultIndex; i < event.results.length; ++i) {
-        if (event.results[i].isFinal) {
-          finalTranscript += event.results[i][0].transcript;
-        } else {
-          interimTranscript += event.results[i][0].transcript;
-        }
-      }
-      setTranscript(finalTranscript || interimTranscript);
-    };
-
-    recognition.onerror = (event: any) => {
-        console.error('Speech recognition error:', event.error);
-        if (event.error === 'not-allowed') {
-             toast({ variant: 'destructive', title: 'Permission Denied', description: 'Please allow microphone access.' });
-        } else {
-             toast({ variant: 'destructive', title: 'Recognition Error', description: `An error occurred: ${event.error}` });
-        }
-        setIsRecording(false);
-    };
-    
-    recognition.onend = () => {
-        setIsRecording(false);
-    };
-
-    recognitionRef.current = recognition;
-
-    return () => {
-      recognition.stop();
-    };
-  }, [toast]);
-
-  const handleGetAssistance = async (text: string) => {
-    if (!text.trim()) {
-      toast({
-        variant: 'destructive',
-        title: 'No question recorded',
-        description: 'Please say something to ask the assistant.',
-      });
-      return;
-    }
-    setIsProcessing(true);
     setIsLoading(true);
     setAudioSrc(null);
 
-    const result = await getVoiceAssistance({ query: text });
+    const result = await getVoiceAssistance({ query });
     setIsLoading(false);
-    setIsProcessing(false);
 
     if (result.error) {
       toast({
@@ -108,35 +49,13 @@ export function FloatingVoiceAssistant() {
       setAudioSrc(result.audioDataUri);
       toast({
         title: 'Response Ready!',
-        description: 'The AI assistant has responded.',
+        description: 'The AI assistant has responded in Tamil.',
       });
       setTimeout(() => {
         audioRef.current?.play().catch(e => console.error("Audio autoplay failed:", e));
       }, 100);
     }
   };
-
-  const handleToggleRecording = () => {
-    if (isRecording) {
-      recognitionRef.current?.stop();
-      setIsRecording(false);
-      if (transcript.trim()) {
-        handleGetAssistance(transcript);
-      }
-    } else {
-      setTranscript('');
-      setAudioSrc(null);
-      navigator.mediaDevices.getUserMedia({ audio: true })
-        .then(() => {
-            recognitionRef.current?.start();
-            setIsRecording(true);
-        })
-        .catch(err => {
-            toast({ variant: 'destructive', title: 'Microphone Error', description: 'Could not access the microphone. Please check permissions.' });
-        });
-    }
-  };
-
 
   return (
     <Sheet>
@@ -155,50 +74,46 @@ export function FloatingVoiceAssistant() {
              AI Voice Assistant (English to Tamil)
           </SheetTitle>
           <SheetDescription>
-            Press the microphone button to ask a question in English. The response will play automatically in Tamil.
+            Type a question in English below. The response will be spoken in Tamil.
           </SheetDescription>
         </SheetHeader>
-        <div className="py-4 space-y-4 h-full flex flex-col items-center justify-center">
-            
-            <Button 
-                onClick={handleToggleRecording} 
-                disabled={isLoading || !SpeechRecognition}
-                size="lg"
-                className={cn("h-24 w-24 rounded-full transition-all duration-300", 
-                    isRecording ? 'bg-destructive hover:bg-destructive/90' : 'bg-primary hover:bg-primary/90',
-                    (isLoading || isProcessing) && 'bg-muted-foreground'
-                )}
-            >
-                {isLoading ? (
-                    <Loader2 className="h-10 w-10 animate-spin" />
-                ) : isProcessing ? (
-                    <BrainCircuit className="h-10 w-10 animate-pulse" />
-                ) : isRecording ? (
-                    <Square className="h-10 w-10" />
-                ) : (
-                    <Mic className="h-10 w-10" />
-                )}
-            </Button>
-            
-            <p className="text-center text-muted-foreground min-h-[4em]">
-                {isRecording ? 'Listening...' : (isLoading || isProcessing) ? 'Processing...' : 'Press the button to speak'}
-            </p>
-
-            <div className="w-full p-2 border rounded-md min-h-[6em] bg-muted/50">
-                <p className="font-semibold text-sm">Your Question (English):</p>
-                <p className="italic text-muted-foreground">{transcript || "..."}</p>
+        <div className="py-4 space-y-4 h-full flex flex-col">
+            <div className="space-y-2">
+              <Label htmlFor="question-input">Your Question (in English)</Label>
+              <div className="flex items-center gap-2">
+                <Input 
+                    id="question-input"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && handleGetAssistance()}
+                    placeholder="e.g., How to treat yellow leaves?"
+                    disabled={isLoading}
+                />
+                <Button onClick={handleGetAssistance} disabled={isLoading}>
+                    {isLoading ? <Loader2 className="animate-spin" /> : <Send />}
+                </Button>
+              </div>
             </div>
             
-            <div className="flex-grow w-full flex items-center justify-center">
-            {audioSrc ? (
-              <div className="p-2 border rounded-md bg-muted w-full">
+            <div className="flex-grow w-full flex items-center justify-center border-t pt-4">
+            {isLoading ? (
+                <div className="text-center text-muted-foreground flex flex-col items-center gap-2">
+                    <BrainCircuit className="w-10 h-10 animate-pulse text-primary"/>
+                    <p>Assistant is thinking...</p>
+                </div>
+            ) : audioSrc ? (
+              <div className="p-4 border rounded-md bg-muted w-full space-y-2 text-center">
+                 <Label className="flex items-center justify-center gap-2">
+                    <Volume2 className="w-4 h-4"/> 
+                    Tamil Audio Response
+                 </Label>
                 <audio ref={audioRef} src={audioSrc} controls className="w-full">
                   Your browser does not support the audio element.
                 </audio>
               </div>
              ) : (
                 <div className="text-center text-muted-foreground p-4">
-                     {isLoading ? <p>Assistant is thinking...</p> : <p>Audio response will appear here.</p>}
+                     <p>Audio response will appear here.</p>
                 </div>
              )}
             </div>
