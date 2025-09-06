@@ -9,6 +9,11 @@ import {
   type DetectDiseaseInput,
   type DetectDiseaseOutput,
 } from '@/ai/flows/detect-disease';
+import {
+  checkWarehouseAvailability,
+  type CheckWarehouseAvailabilityInput,
+  type CheckWarehouseAvailabilityOutput,
+} from '@/ai/flows/check-warehouse-availability';
 import { z } from 'zod';
 
 const cropSuggestionSchema = z.object({
@@ -52,5 +57,27 @@ export async function getDiseaseDiagnosis(
   } catch (e) {
     console.error(e);
     return { error: 'An unexpected error occurred during diagnosis.' };
+  }
+}
+
+const warehouseAvailabilitySchema = z.object({
+  location: z.string().min(3, 'Location must be at least 3 characters.'),
+});
+
+export async function checkWarehouseSpace(
+  data: CheckWarehouseAvailabilityInput
+): Promise<{ status?: CheckWarehouseAvailabilityOutput; error?: string }> {
+  const validation = warehouseAvailabilitySchema.safeParse(data);
+  if (!validation.success) {
+    const issues = validation.error.issues.map((i) => i.message).join(' ');
+    return { error: `Invalid input: ${issues}` };
+  }
+
+  try {
+    const result = await checkWarehouseAvailability(data);
+    return { status: result };
+  } catch (e) {
+    console.error(e);
+    return { error: 'An unexpected error occurred while checking availability.' };
   }
 }
