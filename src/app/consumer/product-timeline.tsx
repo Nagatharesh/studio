@@ -12,10 +12,21 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { ProductCard } from './components/product-card';
 import { MapView } from './components/map-view';
+import { FarmerIcon, AgentIcon, ConsumerIcon } from '@/components/icons';
+
 
 function TimelineItem({ event, isLast }: { event: TimelineEvent, isLast: boolean }) {
     const [copied, setCopied] = useState(false);
     const { toast } = useToast();
+
+    const icons = {
+        Farmer: FarmerIcon,
+        Agent: AgentIcon,
+        Consumer: ConsumerIcon
+    }
+
+    const Icon = icons[event.icon] || Leaf;
+
 
     const copyHash = () => {
         navigator.clipboard.writeText(event.hash);
@@ -28,7 +39,7 @@ function TimelineItem({ event, isLast }: { event: TimelineEvent, isLast: boolean
     <div className="flex gap-4">
       <div className="flex flex-col items-center">
         <div className={`w-10 h-10 rounded-full flex items-center justify-center ${event.color}`}>
-          <event.icon className="w-5 h-5 text-white" />
+          <Icon className="w-5 h-5 text-white" />
         </div>
         {!isLast && <div className="w-0.5 flex-grow bg-border mt-2"></div>}
       </div>
@@ -59,33 +70,6 @@ function TimelineItem({ event, isLast }: { event: TimelineEvent, isLast: boolean
   );
 }
 
-const similarProducts = [
-    {
-      name: 'Himalayan Potatoes',
-      image: 'https://images.pexels.com/photos/144248/potatoes-vegetables-erdfrucht-bio-144248.jpeg?auto=compress&cs=tinysrgb&w=600',
-      price: '₹30 / kg',
-      farmer: 'Nilgiri Growers',
-      rating: 4.6,
-      reviews: 110,
-    },
-    {
-      name: 'Fresh Cauliflower',
-      image: 'https://images.pexels.com/photos/162875/cauliflower-white-healthy-vegetables-162875.jpeg?auto=compress&cs=tinysrgb&w=600',
-      price: '₹25 / piece',
-      farmer: 'Ooty Farms',
-      rating: 4.8,
-      reviews: 98,
-    },
-    {
-      name: 'Organic Spinach Greens',
-      image: 'https://images.pexels.com/photos/2325843/pexels-photo-2325843.jpeg?auto=compress&cs=tinysrgb&w=600',
-      price: '₹20 / bunch',
-      farmer: 'Cauvery Delta Farmers',
-      rating: 4.9,
-      reviews: 180,
-    },
-  ];
-
 export function ProductTimeline({ product, events, onReset }: { product: ProductDetails, events: TimelineEvent[], onReset: () => void }) {
   const { toast } = useToast();
 
@@ -114,8 +98,8 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
   ];
 
   return (
-    <div className="container mx-auto py-8">
-    <Card>
+    <div className="max-h-[85vh] overflow-y-auto p-1 pr-4">
+    <Card className="border-0 shadow-none">
       <CardHeader>
         <div className="flex justify-between items-center">
             <div>
@@ -126,7 +110,7 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
             </div>
             <Button variant="outline" onClick={onReset}>
                 <RefreshCw className="mr-2 h-4 w-4" />
-                Scan Another
+                Scan/View Another
             </Button>
         </div>
       </CardHeader>
@@ -201,18 +185,6 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
              {events.map((event, index) => (
                 <TimelineItem key={event.id} event={event} isLast={index === events.length - 1} />
             ))}
-        </div>
-
-        <Separator className="my-12" />
-
-         {/* You Might Also Like Section */}
-         <div>
-            <h2 className="font-headline text-xl font-semibold mb-4">You Might Also Like</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {similarProducts.map((p) => (
-                   <ProductCard key={p.name} product={p} />
-                ))}
-            </div>
         </div>
       </CardContent>
     </Card>

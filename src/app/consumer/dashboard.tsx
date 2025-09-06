@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -6,7 +7,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { QrCode, ScanLine } from 'lucide-react';
 import type { TimelineEvent, ProductDetails } from '@/lib/types';
 import { ProductTimeline } from './product-timeline';
-import { FarmerIcon, AgentIcon, ConsumerIcon } from '@/components/icons';
 import { ProductCard } from './components/product-card';
 import {
   Dialog,
@@ -73,7 +73,7 @@ const MOCK_PRODUCT_HISTORY: TimelineEvent[] = [
         title: 'Farmed & Harvested',
         description: 'Turmeric was harvested by Tamil Farms.',
         timestamp: '2023-03-15',
-        icon: FarmerIcon,
+        icon: 'Farmer',
         color: 'bg-primary',
         data: {
             'Batch ID': 'BATCH-1678886400000',
@@ -88,7 +88,7 @@ const MOCK_PRODUCT_HISTORY: TimelineEvent[] = [
         title: 'Agent Verified',
         description: 'Batch quality and pricing confirmed by Agent Rajan.',
         timestamp: '2023-03-20',
-        icon: AgentIcon,
+        icon: 'Agent',
         color: 'bg-accent',
         data: {
             'Quality': 'Grade A',
@@ -102,7 +102,7 @@ const MOCK_PRODUCT_HISTORY: TimelineEvent[] = [
         title: 'Ready for Consumer',
         description: 'Product available at your local retailer.',
         timestamp: '2023-03-22',
-        icon: ConsumerIcon,
+        icon: 'Consumer',
         color: 'bg-consumer',
         data: {
             'Retail Price': '₹55 / 100g',
@@ -127,6 +127,7 @@ export default function ConsumerDashboard() {
   const [selectedProduct, setSelectedProduct] = useState<ProductDetails | null>(null);
   const [isScanning, setIsScanning] = useState(false);
   const [isScanModalOpen, setScanModalOpen] = useState(false);
+  const [isTimelineModalOpen, setTimelineModalOpen] = useState(false);
 
   const handleScan = () => {
     setIsScanning(true);
@@ -135,22 +136,16 @@ export default function ConsumerDashboard() {
       setSelectedProduct(MOCK_PRODUCT_DETAILS);
       setIsScanning(false);
       setScanModalOpen(false);
+      setTimelineModalOpen(true);
     }, 1500);
   };
-
-  const handleReset = () => {
-    setSelectedProduct(null);
-  }
 
   const handleProductClick = (product: Omit<ProductDetails, 'quality'>) => {
     setSelectedProduct({
         ...MOCK_PRODUCT_DETAILS,
         ...product
     });
-  }
-
-  if (selectedProduct) {
-    return <div className="container py-8"><ProductTimeline product={selectedProduct} events={MOCK_PRODUCT_HISTORY} onReset={handleReset} /></div>;
+    setTimelineModalOpen(true);
   }
 
   return (
@@ -217,6 +212,12 @@ export default function ConsumerDashboard() {
                         </Button>
                     </CardContent>
                 </Card>
+            </DialogContent>
+        </Dialog>
+
+        <Dialog open={isTimelineModalOpen} onOpenChange={setTimelineModalOpen}>
+            <DialogContent className="max-w-4xl">
+                 {selectedProduct && <ProductTimeline product={selectedProduct} events={MOCK_PRODUCT_HISTORY} onReset={() => setTimelineModalOpen(false)} />}
             </DialogContent>
         </Dialog>
     </div>
