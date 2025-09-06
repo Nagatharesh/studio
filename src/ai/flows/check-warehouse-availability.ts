@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -43,17 +44,18 @@ export async function checkWarehouseAvailability(
 
 const prompt = ai.definePrompt({
   name: 'checkWarehouseAvailabilityPrompt',
-  model: googleAI.model('gemini-2.5-flash-preview-001'),
+  model: googleAI.model('gemini-1.5-flash-preview-0514'),
   input: { schema: CheckWarehouseAvailabilityInputSchema },
   output: { schema: CheckWarehouseAvailabilityOutputSchema },
   prompt: `You are a warehouse logistics coordinator for a large agricultural network in Tamil Nadu.
 Your task is to check warehouse availability based on the provided location.
 
-For this prototype, use the following rules:
-- If location is "Erode", the "Erode Central Warehouse" is full. Suggest "Coimbatore Storage" as an alternative.
-- If location is "Thanjavur", the "Thanjavur Delta Warehouse" has "Limited Space".
-- For any other location in Tamil Nadu, create a plausible warehouse name (e.g., "Madurai AgriStorage" for "Madurai") and report its status as "Available".
+Follow these rules exactly:
+- If the location is "Erode", you must set the warehouseName to "Erode Central Warehouse", set availability to "Full", and set suggestion to "Coimbatore Storage".
+- If the location is "Thanjavur", you must set the warehouseName to "Thanjavur Delta Warehouse" and set availability to "Limited Space".
+- For ANY OTHER location, you must create a plausible warehouse name by appending "AgriStorage" to the location (e.g., "Madurai" becomes "Madurai AgriStorage"), and you must set its availability to "Available".
 
+The user has provided the following location:
 Location: {{{location}}}
 `,
 });
