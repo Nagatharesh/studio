@@ -36,7 +36,7 @@ const MOCK_PRODUCTS = [
     {
       name: 'Fresh Cauliflower',
       image: 'https://images.unsplash.com/photo-1566842600175-97dca489844f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjYXVsaWZsb3dlcnxlbnwwfHx8fDE3NTcxNTk3MTR8MA&ixlib=rb-4.1.0&q=80&w=1080',
-      price: 'Rs.30 / kg',
+      price: 'Rs.30 / piece',
       farmer: 'Ooty Farms',
       rating: 4.8,
       reviews: 98,
@@ -52,7 +52,7 @@ const MOCK_PRODUCTS = [
     {
       name: 'Organic Palak (Spinach)',
       image: 'https://images.pexels.com/photos/2325843/pexels-photo-2325843.jpeg?auto=compress&cs=tinysrgb&w=600',
-      price: 'Rs.25 / kg',
+      price: 'Rs.25 / bundle',
       farmer: 'Cauvery Delta Farmers',
       rating: 4.9,
       reviews: 180,
