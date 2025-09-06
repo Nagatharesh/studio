@@ -27,6 +27,7 @@ export type TimelineEvent = {
 };
 
 export type ProductDetails = {
+    id: string;
     name: string;
     image: string;
     price: string;

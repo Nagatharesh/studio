@@ -8,10 +8,10 @@ import type { ProductDetails } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
 
 interface ProductCardProps {
-  product: Omit<ProductDetails, 'quality'>;
+  product: ProductDetails;
 }
 
-export function ProductCard({ product }: { product: ProductCardProps['product'] }) {
+export function ProductCard({ product }: ProductCardProps) {
   const { toast } = useToast();
   
   const getProductHint = (name: string) => {

@@ -91,16 +91,17 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
   }
 
   const locations = [
-      { name: events[0].data['Origin'], role: 'Farmer' },
-      { name: 'Erode Warehouse', role: 'Agent' },
-      { name: 'Coimbatore Retail', role: 'Consumer' }
+      { name: events.find(e => e.icon === 'Farmer')?.data['Origin'] || 'Unknown Farm', role: 'Farmer' },
+      { name: 'Central Warehouse', role: 'Agent' },
+      { name: 'Local Retailer', role: 'Consumer' }
   ];
 
-  const priceHistory = [
-    { label: "Price from Farmer", value: events[0].data['Price from Farmer'] },
-    { label: "Price from Agent", value: events[1].data['Price from Agent'] },
-    { label: "Price from Retailer", value: events[2].data['Price from Retailer'] },
-  ]
+  const priceHistory = events
+    .map(event => Object.entries(event.data)
+        .find(([key]) => key.toLowerCase().includes('price from')))
+    .filter(item => !!item)
+    .map(item => ({ label: item![0], value: item![1] }));
+
 
   return (
     <div className="max-h-[85vh] overflow-y-auto p-1 pr-4">
@@ -147,7 +148,7 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
                         <div className="flex justify-between items-center">
                             <span className="text-3xl font-bold font-headline text-consumer">{product.price}</span>
                             <Badge variant="outline" className="text-base py-1 px-3 border-green-600 bg-green-50 text-green-700">
-                                <Leaf className="mr-2 h-4 w-4" /> Organic
+                                <Leaf className="mr-2 h-4 w-4" /> {product.quality.includes('Organic') ? 'Organic' : 'Verified'}
                             </Badge>
                         </div>
                          <div className="space-y-2">
@@ -165,7 +166,7 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
                         </div>
                         <Separator />
                         <div className="space-y-2">
-                            <p className="font-semibold">Quality Grade: <span className="font-normal text-muted-foreground">{product.quality} (Verified by Agent)</span></p>
+                            <p className="font-semibold">Quality Grade: <span className="font-normal text-muted-foreground">{product.quality} (Verified)</span></p>
                             <p className="font-semibold">Origin: <span className="font-normal text-muted-foreground">{events[0].data['Origin']}</span></p>
                         </div>
                         <Button size="lg" className="w-full bg-consumer hover:bg-consumer/90" onClick={handleBuyNow}>
@@ -184,7 +185,7 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
 
         <Separator className="my-8" />
         
-        <div>
+        {priceHistory.length > 0 && <div>
             <h2 className="font-headline text-xl font-semibold mb-4 flex items-center gap-2"><DollarSign className="w-5 h-5 text-green-600"/> Price History</h2>
             <Card className="bg-muted/50">
                 <CardContent className="p-4 space-y-3">
@@ -201,7 +202,7 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
                     </div>
                 </CardContent>
             </Card>
-        </div>
+        </div>}
 
 
         <Separator className="my-8" />
