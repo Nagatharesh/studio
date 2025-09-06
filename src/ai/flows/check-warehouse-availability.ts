@@ -52,7 +52,7 @@ Your task is to check warehouse availability based on the provided location.
 For this prototype, use the following rules:
 - If location is "Erode", the "Erode Central Warehouse" is full. Suggest "Coimbatore Storage" as an alternative.
 - If location is "Thanjavur", the "Thanjavur Delta Warehouse" has "Limited Space".
-- For any other location, the main warehouse in that area is "Available". For example, if the location is "Madurai", respond for "Madurai AgriStorage".
+- For any other location in Tamil Nadu, create a plausible warehouse name (e.g., "Madurai AgriStorage" for "Madurai") and report its status as "Available".
 
 Location: {{{location}}}
 `,
