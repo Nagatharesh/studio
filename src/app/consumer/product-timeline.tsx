@@ -97,9 +97,9 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
   ];
 
   const priceHistory = [
-    { label: "Price from Farmer", value: events[1].data['Farmer Sale Price'] },
-    { label: "Price from Agent", value: events[1].data['Agent Sale Price'] },
-    { label: "Price from Retailer", value: events[2].data['Retailer Sale Price'] },
+    { label: "Price from Farmer", value: events[1].data['Price Sold by Farmer'] },
+    { label: "Price from Agent", value: events[1].data['Price Sold by Agent'] },
+    { label: "Price from Retailer", value: events[2].data['Price Sold by Retailer'] },
   ]
 
   return (

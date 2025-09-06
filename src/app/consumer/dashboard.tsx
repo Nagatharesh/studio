@@ -36,7 +36,7 @@ const MOCK_PRODUCTS = [
     {
       name: 'Fresh Cauliflower',
       image: 'https://images.unsplash.com/photo-1566842600175-97dca489844f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjYXVsaWZsb3dlcnxlbnwwfHx8fDE3NTcxNTk3MTR8MA&ixlib=rb-4.1.0&q=80&w=1080',
-      price: 'Rs.30 / piece',
+      price: 'Rs.30 / kg',
       farmer: 'Ooty Farms',
       rating: 4.8,
       reviews: 98,
@@ -52,7 +52,7 @@ const MOCK_PRODUCTS = [
     {
       name: 'Organic Palak (Spinach)',
       image: 'https://images.pexels.com/photos/2325843/pexels-photo-2325843.jpeg?auto=compress&cs=tinysrgb&w=600',
-      price: 'Rs.25 / bunch',
+      price: 'Rs.25 / kg',
       farmer: 'Cauvery Delta Farmers',
       rating: 4.9,
       reviews: 180,
@@ -91,8 +91,8 @@ const MOCK_PRODUCT_HISTORY: TimelineEvent[] = [
         color: 'bg-accent',
         data: {
             'Quality': 'Grade A',
-            'Farmer Sale Price': 'Rs.8,100/quintal',
-            'Agent Sale Price': 'Rs.8,500/quintal',
+            'Price Sold by Farmer': 'Rs.81 / kg',
+            'Price Sold by Agent': 'Rs.85 / kg',
         },
         hash: '0x7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f1a2b3c4d5e6f'
     },
@@ -104,8 +104,8 @@ const MOCK_PRODUCT_HISTORY: TimelineEvent[] = [
         icon: 'Consumer',
         color: 'bg-consumer',
         data: {
-            'Retailer Sale Price': 'Rs.9,000/quintal',
-            'Final Consumer Price': 'Rs.95 / 100g',
+            'Price Sold by Retailer': 'Rs.90 / kg',
+            'Final Consumer Price': 'Rs.95 / kg',
             'Status': 'Available in stores',
         },
         hash: '0x3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f1a2b3c4d5e6f7g8h9i0j1k2l'
