@@ -3,12 +3,13 @@
 import type { TimelineEvent, ProductDetails } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Scan, ClipboardCopy, Check, RefreshCw, Star, Leaf } from 'lucide-react';
+import { ClipboardCopy, Check, RefreshCw, Star, Leaf, MessageSquare } from 'lucide-react';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
+import { ProductCard } from './components/product-card';
 
 function TimelineItem({ event, isLast }: { event: TimelineEvent, isLast: boolean }) {
     const [copied, setCopied] = useState(false);
@@ -56,6 +57,33 @@ function TimelineItem({ event, isLast }: { event: TimelineEvent, isLast: boolean
   );
 }
 
+const similarProducts = [
+    {
+      name: 'Fresh Red Onions',
+      image: 'https://picsum.photos/300/300?random=1',
+      price: '₹40 / kg',
+      farmer: 'Cauvery Delta Farmers',
+      rating: 4.6,
+      reviews: 89,
+    },
+    {
+      name: 'Vine-Ripened Tomatoes',
+      image: 'https://picsum.photos/300/300?random=2',
+      price: '₹35 / kg',
+      farmer: 'Madurai AgriStorage',
+      rating: 4.7,
+      reviews: 152,
+    },
+    {
+      name: 'Crisp Okra (Lady\'s Finger)',
+      image: 'https://picsum-photos/300/300?random=3',
+      price: '₹50 / kg',
+      farmer: 'Erode Growers',
+      rating: 4.5,
+      reviews: 74,
+    },
+  ];
+
 export function ProductTimeline({ product, events, onReset }: { product: ProductDetails, events: TimelineEvent[], onReset: () => void }) {
   return (
     <Card>
@@ -76,7 +104,7 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
       <CardContent>
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
             {/* Left Column: Image & Details */}
-            <div className="space-y-6">
+            <div className="space-y-4">
                 <Card className="overflow-hidden">
                     <Image 
                         data-ai-hint="turmeric product"
@@ -90,6 +118,15 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
                  <div className="space-y-2">
                     <h1 className="font-headline text-2xl font-bold">{product.name}</h1>
                     <p className="text-muted-foreground">Sold by: <span className="font-semibold text-foreground">{product.farmer}</span></p>
+                    <div className="flex items-center gap-2 text-sm">
+                        <div className="flex items-center gap-0.5">
+                            {[...Array(5)].map((_, i) => (
+                                <Star key={i} className={`w-4 h-4 ${product.rating > i ? 'text-yellow-400 fill-yellow-400' : 'text-muted-foreground/50'}`}/>
+                            ))}
+                        </div>
+                        <span className="font-semibold">{product.rating}</span>
+                        <span className="text-muted-foreground">({product.reviews} ratings)</span>
+                    </div>
                 </div>
             </div>
 
@@ -111,6 +148,9 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
                          <Button size="lg" className="w-full bg-consumer hover:bg-consumer/90">
                             <Star className="mr-2 h-5 w-5" /> Add to Favorites
                         </Button>
+                        <Button size="lg" variant="outline" className="w-full">
+                            <MessageSquare className="mr-2 h-5 w-5" /> Write a Review
+                        </Button>
                     </CardContent>
                 </Card>
             </div>
@@ -124,6 +164,18 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
              {events.map((event, index) => (
                 <TimelineItem key={event.id} event={event} isLast={index === events.length - 1} />
             ))}
+        </div>
+
+        <Separator className="my-12" />
+
+         {/* You Might Also Like Section */}
+         <div>
+            <h2 className="font-headline text-xl font-semibold mb-4">You Might Also Like</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {similarProducts.map((p) => (
+                   <ProductCard key={p.name} product={p} />
+                ))}
+            </div>
         </div>
       </CardContent>
     </Card>

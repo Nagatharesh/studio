@@ -31,4 +31,6 @@ export type ProductDetails = {
     price: string;
     quality: string;
     farmer: string;
+    rating: number;
+    reviews: number;
 };

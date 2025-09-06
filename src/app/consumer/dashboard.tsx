@@ -3,11 +3,10 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { QrCode, ScanLine, Info, Leaf } from 'lucide-react';
-import type { TimelineEvent } from '@/lib/types';
+import { QrCode, ScanLine } from 'lucide-react';
+import type { TimelineEvent, ProductDetails } from '@/lib/types';
 import { ProductTimeline } from './product-timeline';
 import { FarmerIcon, AgentIcon, ConsumerIcon } from '@/components/icons';
-import Image from 'next/image';
 
 const MOCK_PRODUCT_HISTORY: TimelineEvent[] = [
     {
@@ -54,12 +53,14 @@ const MOCK_PRODUCT_HISTORY: TimelineEvent[] = [
     },
 ];
 
-const MOCK_PRODUCT_DETAILS = {
+const MOCK_PRODUCT_DETAILS: ProductDetails = {
     name: "Organically Grown Turmeric Powder",
     image: "https://picsum.photos/600/400",
     price: "₹55 / 100g",
     quality: "Grade A",
     farmer: "Tamil Farms",
+    rating: 4.8,
+    reviews: 124,
 };
 
 
