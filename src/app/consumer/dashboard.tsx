@@ -105,7 +105,6 @@ const MOCK_PRODUCT_HISTORY: TimelineEvent[] = [
         color: 'bg-consumer',
         data: {
             'Price from Retailer': 'Rs.90 / kg',
-            'Final Consumer Price': 'Rs.95 / kg',
             'Status': 'Available in stores',
         },
         hash: '0x3m4n5o6p7q8r9s0t1u2v3w4x5y6z7a8b9c0d1e2f1a2b3c4d5e6f7g8h9i0j1k2l'

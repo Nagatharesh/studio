@@ -196,7 +196,7 @@ export function ProductTimeline({ product, events, onReset }: { product: Product
                     ))}
                     <Separator />
                      <div className="flex justify-between items-center text-base">
-                        <span className="font-bold">Final Price:</span>
+                        <span className="font-bold">Final Consumer Price:</span>
                         <span className="font-bold text-lg text-consumer">{product.price}</span>
                     </div>
                 </CardContent>
