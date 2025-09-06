@@ -13,13 +13,6 @@ export default function AgentLayout({
 }) {
   const pathname = usePathname();
 
-  const getActiveTab = () => {
-    if (pathname.startsWith('/agent/map')) {
-      return '/agent/map';
-    }
-    return '/agent/dashboard';
-  }
-
   return (
     <DashboardLayout>
       <div className="space-y-4">
@@ -31,7 +24,7 @@ export default function AgentLayout({
         </p>
       </div>
 
-       <Tabs value={getActiveTab()} className="mt-6">
+       <Tabs value={pathname} className="mt-6">
         <TabsList>
             <Link href="/agent/dashboard" passHref>
                 <TabsTrigger value="/agent/dashboard">Incoming Batches</TabsTrigger>
@@ -40,7 +33,7 @@ export default function AgentLayout({
                 <TabsTrigger value="/agent/map">Logistics Map</TabsTrigger>
             </Link>
         </TabsList>
-        <TabsContent value={getActiveTab()} className="mt-6">
+        <TabsContent value={pathname} className="mt-6">
             {children}
         </TabsContent>
       </Tabs>

@@ -1,5 +1,5 @@
-import AgentDashboardPage from './dashboard/page';
+import { redirect } from 'next/navigation';
 
 export default function AgentPage() {
-  return <AgentDashboardPage />;
+  redirect('/agent/dashboard');
 }
