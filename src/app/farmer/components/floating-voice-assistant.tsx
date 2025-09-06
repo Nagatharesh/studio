@@ -45,7 +45,7 @@ export function FloatingVoiceAssistant() {
     const recognition = new SpeechRecognition();
     recognition.continuous = true;
     recognition.interimResults = true;
-    recognition.lang = 'ta-IN'; // Set to Tamil
+    recognition.lang = 'en-IN'; // Set to English
 
     recognition.onresult = (event: any) => {
       let interimTranscript = '';
@@ -81,26 +81,6 @@ export function FloatingVoiceAssistant() {
     };
   }, [toast]);
 
-  const handleToggleRecording = () => {
-    if (isRecording) {
-      recognitionRef.current?.stop();
-      setIsRecording(false);
-      // Logic to send transcript is now handled after recognition 'end' event
-    } else {
-      setTranscript('');
-      setAudioSrc(null);
-      navigator.mediaDevices.getUserMedia({ audio: true })
-        .then(() => {
-            recognitionRef.current?.start();
-            setIsRecording(true);
-        })
-        .catch(err => {
-            toast({ variant: 'destructive', title: 'Microphone Error', description: 'Could not access the microphone. Please check permissions.' });
-        });
-    }
-  };
-
-
   const handleGetAssistance = async (text: string) => {
     if (!text.trim()) {
       toast({
@@ -135,13 +115,27 @@ export function FloatingVoiceAssistant() {
       }, 100);
     }
   };
-  
-   useEffect(() => {
-    if (!isRecording && transcript.trim()) {
-      handleGetAssistance(transcript);
+
+  const handleToggleRecording = () => {
+    if (isRecording) {
+      recognitionRef.current?.stop();
+      setIsRecording(false);
+      if (transcript.trim()) {
+        handleGetAssistance(transcript);
+      }
+    } else {
+      setTranscript('');
+      setAudioSrc(null);
+      navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(() => {
+            recognitionRef.current?.start();
+            setIsRecording(true);
+        })
+        .catch(err => {
+            toast({ variant: 'destructive', title: 'Microphone Error', description: 'Could not access the microphone. Please check permissions.' });
+        });
     }
-   // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [isRecording]);
+  };
 
 
   return (
@@ -158,10 +152,10 @@ export function FloatingVoiceAssistant() {
         <SheetHeader>
           <SheetTitle className="font-headline flex items-center gap-3">
              <Mic className="w-7 h-7 text-primary" />
-             AI Voice Assistant (Tamil)
+             AI Voice Assistant (English to Tamil)
           </SheetTitle>
           <SheetDescription>
-            Press the microphone button to ask a question. The response will play automatically.
+            Press the microphone button to ask a question in English. The response will play automatically in Tamil.
           </SheetDescription>
         </SheetHeader>
         <div className="py-4 space-y-4 h-full flex flex-col items-center justify-center">
@@ -191,7 +185,7 @@ export function FloatingVoiceAssistant() {
             </p>
 
             <div className="w-full p-2 border rounded-md min-h-[6em] bg-muted/50">
-                <p className="font-semibold text-sm">Your Question:</p>
+                <p className="font-semibold text-sm">Your Question (English):</p>
                 <p className="italic text-muted-foreground">{transcript || "..."}</p>
             </div>
             
