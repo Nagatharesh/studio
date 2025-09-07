@@ -156,10 +156,10 @@ export function DiseaseDetectionCard() {
                     {preview && !diagnosis && (
                         <div className="w-full grid grid-cols-2 gap-2">
                              <Button variant="outline" onClick={handleReset} className="w-full">
-                                <RefreshCw /> Reset
+                                <RefreshCw className="mr-2 h-4 w-4"/> Reset
                             </Button>
                              <Button onClick={handleDiagnose} disabled={isDiagnosing} className="w-full">
-                                {isDiagnosing ? <Loader2 className="animate-spin" /> : <Sparkles />}
+                                {isDiagnosing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Sparkles className="mr-2 h-4 w-4" />}
                                 {isDiagnosing ? 'Analyzing...' : 'Diagnose Leaf'}
                             </Button>
                         </div>
@@ -168,10 +168,10 @@ export function DiseaseDetectionCard() {
                     {!preview && !isCameraMode &&
                         <div className="w-full grid grid-cols-2 gap-2">
                             <Button variant="outline" onClick={handleUploadClick} className="w-full">
-                                <Upload/> Upload Image
+                                <Upload className="mr-2 h-4 w-4"/> Upload Image
                             </Button>
                             <Button variant="outline" onClick={() => setIsCameraMode(true)} className="w-full">
-                                <Camera/> Use Camera
+                                <Camera className="mr-2 h-4 w-4"/> Use Camera
                             </Button>
                         </div>
                     }
@@ -182,7 +182,7 @@ export function DiseaseDetectionCard() {
                                 Cancel
                             </Button>
                             <Button onClick={handleCapture} disabled={hasCameraPermission === false}>
-                                <Camera /> Capture
+                                <Camera className="mr-2 h-4 w-4" /> Capture
                             </Button>
                         </div>
                     )}
